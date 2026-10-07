@@ -4,6 +4,6 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 .neutrality-denylist
-# Claude Code per-machine files, written through the .claude symlink
+# Claude Code per-machine files, written through the .claude link
 **/.claude/settings.local.json
 **/.claude/worktrees/

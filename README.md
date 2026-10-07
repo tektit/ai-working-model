@@ -40,8 +40,9 @@ Two jobs, one repo:
 This repo dogfoods its own starter kit: its principles are `starter/`'s,
 reached via the root `AGENTS.md`, and its agents, skills, rules and
 settings are `starter/.claude/`'s, reached via the single root
-`.claude` → `starter/.claude` symlink — see `AGENTS.md` for how this
-repo itself is organized.
+`.claude` → `starter/.claude` symlink (a junction on a Windows account
+without the symlink right, see "Working on Windows") — see `AGENTS.md`
+for how this repo itself is organized.
 
 | Path | Contents |
 |---|---|
@@ -103,6 +104,56 @@ Where a source used a deliberate, exact phrase — "pure injection",
 "the tested procedure IS the shipped procedure" — that phrase is kept
 verbatim here too. Don't rephrase it into a synonym; the exactness is
 the point (see "One word per concept" in `starter/docs/principles/engineering.md`).
+
+## Working on Windows
+
+Git checks the committed `.claude` symlink out as a one-line stub file
+unless `core.symlinks` is on, and Windows lets an account create
+symlinks only with the "Create symbolic links" right. Developer Mode
+grants it; otherwise an administrator assigns it under Local Security
+Policy → User Rights Assignment (see Git for Windows'
+[Symbolic Links](https://gitforwindows.org/Symbolic-Links) page). Pick
+the route that fits your account.
+
+**Route 1: your account can create symlinks.** Clone with symlinks on:
+
+```powershell
+git clone -c core.symlinks=true <url>
+```
+
+For an existing clone, turn it on, delete the stub file or copied
+folder at `.claude`, and check the link out again. The `.gitattributes`
+line `.claude symlink=dir` makes git create a directory link.
+
+```powershell
+git config core.symlinks true
+Remove-Item -Recurse -Force .claude
+git checkout -- .claude
+```
+
+**Route 2: your account cannot create symlinks.** Any user may create a
+directory junction instead. Delete the stub, make the junction, and
+tell git to leave `.claude` alone:
+
+```powershell
+Remove-Item -Recurse -Force .claude
+cmd /c mklink /J .claude starter\.claude
+git update-index --skip-worktree .claude
+```
+
+`git status` then stays clean. The junction is per clone and per
+worktree, so repeat these steps in each one. While skip-worktree is
+set, `git add -A` never picks up `.claude`.
+
+**Tools.** Install `uv` and the GitHub CLI, then open a new shell:
+
+```powershell
+winget install --id astral-sh.uv --scope user
+winget install --id GitHub.cli --scope user
+```
+
+`starter-check` accepts either a symlink or a junction at `.claude` and
+names the stub file if it finds one.
 
 ## Neutrality check
 

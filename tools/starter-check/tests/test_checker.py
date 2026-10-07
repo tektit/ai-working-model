@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+import shutil
+import subprocess
+import sys
 from pathlib import Path
+
+import pytest
+from conftest import needs_real_symlink
 
 from starter_check.checker import (
     check_claude_md,
@@ -40,7 +46,7 @@ def test_valid_synthetic_starter_has_no_problems(repo_root: Path) -> None:
 
 def test_check_links_catches_a_broken_link(repo_root: Path, tmp_path: Path) -> None:
     (repo_root / "starter" / "AGENTS.md").write_text(
-        "See [nope](docs/does-not-exist.md).\n"
+        "See [nope](docs/does-not-exist.md).\n", encoding="utf-8"
     )
     dest = tmp_path / "copy"
     dest.mkdir()
@@ -55,7 +61,7 @@ def test_check_no_backreferences_catches_ai_working_model_mention(
     repo_root: Path, tmp_path: Path
 ) -> None:
     (repo_root / "starter" / "AGENTS.md").write_text(
-        "Defaults come from the ai-working-model repo.\n"
+        "Defaults come from the ai-working-model repo.\n", encoding="utf-8"
     )
     dest = tmp_path / "copy"
     dest.mkdir()
@@ -70,7 +76,7 @@ def test_check_no_backreferences_catches_starter_slash_mention(
     repo_root: Path, tmp_path: Path
 ) -> None:
     (repo_root / "starter" / "AGENTS.md").write_text(
-        "Copied from starter/ into this repo.\n"
+        "Copied from starter/ into this repo.\n", encoding="utf-8"
     )
     dest = tmp_path / "copy"
     dest.mkdir()
@@ -83,7 +89,7 @@ def test_check_no_backreferences_catches_starter_slash_mention(
 
 def test_run_all_reports_an_unlinked_principle_heading(repo_root: Path) -> None:
     engineering = repo_root / "starter" / "docs" / "principles" / "engineering.md"
-    engineering.write_text(engineering.read_text() + "\n## Thin CI\n")
+    engineering.write_text(engineering.read_text() + "\n## Thin CI\n", encoding="utf-8")
 
     problems = run_all(repo_root)
 
@@ -93,7 +99,7 @@ def test_run_all_reports_an_unlinked_principle_heading(repo_root: Path) -> None:
 def _copy_with(repo_root: Path, tmp_path: Path, rel: str, content: str) -> Path:
     target = repo_root / "starter" / rel
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(content)
+    target.write_text(content, encoding="utf-8")
     dest = tmp_path / "copy"
     dest.mkdir()
     copy_starter(repo_root / "starter", dest)
@@ -171,7 +177,7 @@ def test_check_claude_md_rejects_extra_content(
     repo_root: Path, tmp_path: Path
 ) -> None:
     (repo_root / "starter" / "CLAUDE.md").write_text(
-        "@AGENTS.md\n\nExtra note.\n"
+        "@AGENTS.md\n\nExtra note.\n", encoding="utf-8"
     )
     dest = tmp_path / "copy"
     dest.mkdir()
@@ -191,14 +197,63 @@ def test_check_root_symlinks_passes_for_valid_symlinks(repo_root: Path) -> None:
     assert check_root_symlinks(repo_root, repo_root / "starter") == []
 
 
-def test_check_root_symlinks_reports_a_missing_symlink(repo_root: Path) -> None:
-    (repo_root / ".claude").unlink()
+def _remove_link(link: Path) -> None:
+    """Removes the fixture's link: a symlink unlinks, a junction rmdirs."""
+    if link.is_symlink():
+        link.unlink()
+    else:
+        link.rmdir()
+
+
+def test_check_root_symlinks_reports_a_missing_link(repo_root: Path) -> None:
+    _remove_link(repo_root / ".claude")
 
     problems = check_root_symlinks(repo_root, repo_root / "starter")
 
-    assert any("not a symlink" in p for p in problems)
+    assert len(problems) == 1
+    assert "missing" in problems[0]
+    assert "Working on Windows" in problems[0]
 
 
+def test_check_root_symlinks_reports_the_git_stub_file(repo_root: Path) -> None:
+    _remove_link(repo_root / ".claude")
+    (repo_root / ".claude").write_text("starter/.claude", encoding="utf-8")
+
+    problems = check_root_symlinks(repo_root, repo_root / "starter")
+
+    assert len(problems) == 1
+    assert "without symlink support" in problems[0]
+    assert "Working on Windows" in problems[0]
+
+
+def test_check_root_symlinks_reports_a_copied_directory(repo_root: Path) -> None:
+    _remove_link(repo_root / ".claude")
+    shutil.copytree(repo_root / "starter" / ".claude", repo_root / ".claude")
+
+    problems = check_root_symlinks(repo_root, repo_root / "starter")
+
+    assert len(problems) == 1
+    assert "copied directory" in problems[0]
+    assert "Working on Windows" in problems[0]
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="junctions exist only on Windows")
+def test_check_root_symlinks_accepts_a_junction(repo_root: Path) -> None:
+    _remove_link(repo_root / ".claude")
+    subprocess.run(
+        [
+            "cmd", "/c", "mklink", "/J",
+            str(repo_root / ".claude"), str(repo_root / "starter" / ".claude"),
+        ],
+        check=True,
+        capture_output=True,
+    )
+    assert not (repo_root / ".claude").is_symlink()
+
+    assert check_root_symlinks(repo_root, repo_root / "starter") == []
+
+
+@needs_real_symlink
 def test_check_root_symlinks_reports_a_dangling_symlink(repo_root: Path) -> None:
     (repo_root / ".claude").unlink()
     (repo_root / ".claude").symlink_to(
@@ -210,15 +265,14 @@ def test_check_root_symlinks_reports_a_dangling_symlink(repo_root: Path) -> None
     assert any("dangling" in p for p in problems)
 
 
+@needs_real_symlink
 def test_check_root_symlinks_reports_a_symlink_pointing_outside_starter(
     repo_root: Path,
 ) -> None:
     outside = repo_root / "outside"
     outside.mkdir()
     (repo_root / ".claude").unlink()
-    (repo_root / ".claude").symlink_to(
-        outside, target_is_directory=True
-    )
+    (repo_root / ".claude").symlink_to(outside, target_is_directory=True)
 
     problems = check_root_symlinks(repo_root, repo_root / "starter")
 
