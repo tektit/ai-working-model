@@ -121,8 +121,10 @@ the route that fits your account.
 git clone -c core.symlinks=true <url>
 ```
 
-For an existing clone, turn it on, delete the stub file or copied
-folder at `.claude`, and check the link out again. The `.gitattributes`
+For an existing clone, turn it on, delete whatever is at `.claude`,
+and check the link out again. Remove a junction with `cmd /c rmdir
+.claude`, never with a recursive delete, which under older PowerShell
+follows the junction into the real files. The `.gitattributes`
 line `.claude symlink=dir` makes git create a directory link.
 
 ```powershell
