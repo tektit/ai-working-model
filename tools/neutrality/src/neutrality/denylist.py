@@ -27,7 +27,7 @@ def load_denylist(path: Path) -> list[DenylistEntry]:
         raise DenylistMissing(str(path))
 
     entries: list[DenylistEntry] = []
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
             continue

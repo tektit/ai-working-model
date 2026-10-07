@@ -141,9 +141,14 @@ cmd /c mklink /J .claude starter\.claude
 git update-index --skip-worktree .claude
 ```
 
-`git status` then stays clean. The junction is per clone and per
-worktree, so repeat these steps in each one. While skip-worktree is
-set, `git add -A` never picks up `.claude`.
+Skip-worktree keeps `git status` clean. The committed `/.claude/`
+ignore line keeps `git add -A` from staging the junction's contents.
+The junction is per clone and per worktree, so repeat these steps in
+each one.
+
+If the junction's files ever show up as staged, run `git reset` before
+anything else: a `git reset --hard` at that point deletes the real
+files under `starter/.claude` through the junction.
 
 **Tools.** Install `uv` and the GitHub CLI, then open a new shell:
 
@@ -161,7 +166,15 @@ This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
 file against a local, gitignored denylist
 (`.neutrality-denylist`, one case-insensitive regex per line) and
-fails on any hit. To install it as a pre-commit hook:
+fails on any hit.
+
+The denylist is local and gitignored, so a fresh clone has none. On a
+new machine, create `.neutrality-denylist` at the repo root with the
+identifiers to exclude (one case-insensitive regex per line) before the
+first commit there. Until it exists the check fails with exit code 2
+rather than passing silently.
+
+To install it as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'

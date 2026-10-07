@@ -318,7 +318,9 @@ and that right; any user may create a directory junction. Git's
 **Decision.** The symlink stays (D7). A `.gitattributes` line
 `.claude symlink=dir` makes a privileged Windows checkout create a
 directory link. A machine without the right uses a directory junction
-plus `git update-index --skip-worktree .claude`, documented in the
+plus `git update-index --skip-worktree .claude` and a committed `/.claude/`
+ignore line (skip-worktree keeps status clean; the ignore line keeps
+`git add -A` from staging the junction's contents), documented in the
 README's "Working on Windows"; `starter-check` accepts a junction and
 names the stub file when it finds one. Rejected again: a committed
 copy with a drift check (every starter change shows twice in review),
