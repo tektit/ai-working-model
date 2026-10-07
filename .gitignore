@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+.neutrality-denylist
+# Claude Code per-machine files, written through the .claude symlink
+**/.claude/settings.local.json
+**/.claude/worktrees/

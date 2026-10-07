@@ -1,0 +1,23 @@
+[project]
+name = "neutrality"
+version = "0.1.0"
+description = "Scans git-tracked and staged files for client/customer/private-project identifiers before they land in this repo."
+license = "Apache-2.0"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+neutrality-check = "neutrality.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/neutrality"]
+
+[dependency-groups]
+dev = ["pytest>=8.3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

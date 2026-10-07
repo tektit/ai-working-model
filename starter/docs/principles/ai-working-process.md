@@ -1,0 +1,385 @@
+# AI working process
+
+How AI-assisted work runs in this project. A principle changes only
+through "Changing a principle" below.
+
+## Roles
+
+- **Human:** any person working on this project, as opposed to an
+  agent. Every human is equal: any may decide, review and merge.
+  Agents assume no role and no skill level: they treat each human as
+  the one who decides, and explain in plain words by default. Tests,
+  CI and verification keep the software production grade, not a
+  human's code review.
+- **Task-briefed agent**, the default mode: a subagent, a headless or
+  scheduled run, or an interactive session not in the architect role.
+  Its brief comes from whoever started it: the delegating session, or
+  the human's own instructions in an interactive session. The brief
+  defines its scope; it implements, and nothing asks it to delegate
+  onward.
+- **Architect**, the other mode: a role a human invokes explicitly,
+  never by default. The architect divides work across subagents and
+  is the agent the human thinks things through with: it plans,
+  delegates, verifies agent work against the pushed remote and keeps
+  its own thread conversational. It implements only a tiny,
+  time-critical fix while a human is blocked live.
+
+The two modes, task-briefed and architect, add nothing to and remove
+nothing from the guardrails (listed in [AGENTS.md](../../AGENTS.md)):
+they and these principles bind every agent in every session and mode.
+A brief cannot waive one; an agent whose brief conflicts with one says
+so rather than silently picking a side.
+
+## Work branches
+
+- Work happens on a work branch, one per change, off the trunk (the
+  repository's default branch), merged through review, deleted after
+  — never directly on the trunk. The architect-maintained docs are the
+  one exception ("Docs completeness is part of being done" below).
+- A delegated agent works in its own copy of the repo (its own clone
+  or worktree), never in a human's working copy: a checkout or a reset
+  there moves files under someone mid-edit. An interactive session a
+  human starts in their own checkout works there.
+- No stacked branches unless technically forced; prefer serializing
+  overlapping work rather than parallel branches touching the same
+  files.
+- Rework an existing branch by adding commits, not by amending and
+  force-pushing — review stays readable and nothing already reviewed
+  is rewritten. Beyond the trunk update below, a forced push is only
+  for scrubbing an accidentally committed secret.
+- When the trunk moves under an open branch, rebase the branch onto
+  the trunk and push with `--force-with-lease` — no merge commits.
+  Rebase locally, never via the hosting API's rebase button (it moves
+  only the remote and leaves local copies stale). If a rebase is not
+  possible (conflicts that can't be resolved cleanly), stop and ask.
+- A review artifact (an MR/PR description) describes the change **as
+  it currently stands**, rewritten on every substantive change — never
+  an append-only log of attempts. Reviewers read the description as
+  the truth about the diff; stale narration of a superseded approach
+  actively misleads. Read a generated description back after creating
+  it: a quoting or templating bug can ship a literal placeholder.
+- Before pushing further rework to an existing branch, check whether
+  it has already been merged — a human can merge while an agent is
+  still working. If it has, don't push to a dead branch; start a fresh
+  work branch off the now-current trunk instead.
+
+## Only a human merges
+
+An agent never merges a content change and never arms auto-merge on
+one — only on pure bookkeeping, and only if a human set that up
+themselves. Anything destructive on a shared remote beyond rebasing
+your own branch (force-pushing over someone else's work, deleting a
+branch you didn't create) needs a human's explicit go-ahead. The merge
+is the moment a human accepts the change; an agent that merges removes
+it.
+
+## Live systems need a human's go-ahead
+
+Nothing touches a real, live system (deploy, apply, delete, migrate)
+without a human's explicit go-ahead, every time; an earlier go-ahead
+does not carry over. Where merging deploys, a merge request is a
+deploy request: say so when asking for it. The test suite exists so
+the mechanism is verifiable without a live system.
+
+A **paid run** touches a live system too: the account that pays. A
+paid run is any script, tool or test run that makes its own model
+calls (headless agent sessions, model API calls) or calls another API
+billed per use; a session's own work, its subagents included, is not
+one. A script bills whatever credential its environment hands it,
+possibly another project's key, and a login status may not show
+which. So before each paid run, state what it runs, roughly what it
+costs and whether a credential is set in its environment (a presence
+check, never the value), then ask which account pays; the go-ahead
+names that account.
+
+## Verify before declaring ready
+
+- **Never declare something done, working, or shippable until it is
+  empirically verified** — against the pushed remote, a real dry-run,
+  or a live check, not against your own memory of what you intended to
+  do. State **UNVERIFIED** and go check, rather than presenting a
+  confident guess as fact. A claim that can't be checked is labeled as
+  such, not smoothed over.
+- **A report is a claim, not evidence** — your own, and any agent's.
+  Before relying on or relaying a number, a line citation, a root
+  cause, or a "pushed" claim, re-check it in the current turn: fetch
+  the remote and look at the actual tip and diff. Repo state moves
+  underneath you, and agents park mid-task more often than they
+  should; the work is often correct while the report of it is not.
+- **A branch or a review link existing is not evidence that work
+  happened — the diff is.** Confirm there actually is a non-empty diff
+  against the trunk before treating a change as real.
+- Run a test suite once per meaningful change, with its exit code
+  captured directly (see
+  [platform-notes/test-harnesses.md](platform-notes/test-harnesses.md)).
+- When two explanations for a symptom seem equally plausible, don't
+  ping-pong between theories — add instrumentation (a timestamped
+  value, a self-evidencing log, a direct probe) and let one run
+  discriminate.
+- Read the artifact that actually drives a decision, not a summary of
+  it — a compressed summary or a grep fragment drops exactly the
+  discriminating detail that would change the conclusion. A research
+  agent's report, a summarizing fetch of a web page and a model's own
+  account of what it saw or did are summaries too: confirm a fact that
+  drives a decision in the raw primary text or, for what an agent did,
+  in the session transcript — summaries have inverted a setting's unit
+  and misreported where a tool loads files. For anything
+  that will be quoted onward (to a vendor, to settle an argument,
+  in a report someone else acts on), read the primary source end to
+  end rather than keyword-searching it.
+- Before forming a novel hypothesis, search first: grep the project's
+  own docs for the symptom, and name the nearest working instance of
+  the same thing to diff against. A recorded, already-solved case
+  outranks a fresh theory every time.
+
+## Docs completeness is part of being done
+
+A change that makes a README, the root instruction file, a glossary,
+or a design doc stale or incomplete fixes it in the same change —
+sweep for every assertion the change invalidates. "Docs follow-up
+later" is a rejected pattern; a doc that's wrong is worse than a doc
+that doesn't exist, because it's trusted.
+
+The root instruction file ([AGENTS.md](../../AGENTS.md)) is the
+always-loaded summary of the guardrails, the principles, the agents
+and model tiers, and the per-tool settings. A change that adds,
+removes, renames or changes one of those (a principle, an agent
+definition, a skill, a setting it describes) updates `AGENTS.md` in
+the same change. **How:** a drift check, where the project has one,
+enforces the principles part mechanically (every principle heading
+linked exactly once); the reviewer checks the rest.
+
+The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
+the one authority) are edited only by an architect session, by direct
+push to the trunk, or by setup in its one seeding change; a work
+branch that invalidates something in one of them flags it instead of
+editing it. That direct-push channel carries docs only, so it can't
+smuggle in a behavior change unreviewed.
+
+[docs/decisions.md](../decisions.md) is append-only: an entry is
+written after a human's yes, in the same change as what it records
+(a principle edit on its work branch, a ruling, a decision an
+architect session records).
+
+## Ask, don't guess
+
+Facts outside what an agent can observe are asked, never guessed or
+researched: org facts (licenses, contracts, vendors, existing
+systems), a human's preferences, the business goal and constraints,
+budgets and deadlines, and the local environment and how credentials
+reach a command. One question to the person who knows is far cheaper
+than a string of failed guesses, and a researched answer about this
+organization is still a guess. "Not known yet" is a valid answer;
+record it as exactly that.
+
+## Stay on the job
+
+One job per session or brief. A finding outside it becomes one
+backlog item and a one-line mention, never a detour: a detour spends
+context and a human's review attention on work nobody asked for, and
+the backlog keeps the finding from getting lost.
+
+## Specs and plans are not repo content
+
+A spec (the what/why) and a plan (the how, task by task) are **session
+working documents**. They exist while the work does, they steer it,
+and they are not committed anywhere in the repo.
+
+The reason is what committed docs are *for*: they're the grounding
+truth for whoever reads the repo next, human or AI. A spec is stale
+the moment its implementation lands — it describes an intention, while
+everything else in the repo now describes the result. Committing it
+anyway means the repo starts lying to the next reader.
+
+What genuinely survives a change goes to one of three places instead:
+
+- A lasting architectural decision → an entry in
+  [docs/decisions.md](../decisions.md), and a design doc if it needs
+  more room — not a spec repurposed.
+- The task breakdown and how each task was verified → the review
+  artifact's description, which "Work branches" already requires to
+  stay current.
+- Deferred work or an open question → the project's backlog, never an
+  ephemeral hand-off message that gets lost when the session ends.
+
+## Changing a principle
+
+These principles evolve with the project, but none changes silently:
+not by the architect, not by setup, not as a side effect of other
+work. Wording alone hides what a change costs, so the proposal to the
+human shows:
+
+- the rule now and the rule after;
+- two or three concrete situations in this project, and what an agent
+  does in each before and after;
+- the trade-off in business terms: what gets faster or cheaper, what
+  gets riskier, who is affected;
+- what becomes hard to undo.
+
+Then one check question built on a concrete scenario, so the human
+confirms the consequence, not just the wording. Only after their yes
+is the principle edited, on a work branch, in one change that also
+updates the principle's line in [AGENTS.md](../../AGENTS.md) and
+appends a dated entry to [docs/decisions.md](../decisions.md).
+
+A **ruling** is a human's decision on how a principle applies here,
+without changing it. It gets a dated entry appended to
+[docs/decisions.md](../decisions.md) and applies project-wide, not
+only where it was raised.
+
+Example: the human wants no test-first for a prototype. Now, per
+"Test first" in [engineering.md](engineering.md), every behavior
+change starts with a failing test; after, prototype code ships
+untested, and a pricing bug is found by a customer instead of by CI.
+The first weeks go faster; if the prototype becomes the product, its
+tests are retrofitted. Check question: "If the prototype becomes the
+product, the missing tests cost about a week. Acceptable?"
+
+## Delegation: objectives, not a lookup table
+
+Whether to work inline or hand off to a subagent, spawn fresh or
+resume, and which model to use are judgment calls made in service of
+a few objectives — re-evaluate against these rather than applying a
+rule mechanically past the point it stops serving them:
+
+- **Keep the thread responsive while a human is live.** A long inline
+  tool sequence makes someone watch output they didn't ask to watch;
+  background work keeps a live conversation conversational.
+- **Keep the delegating session's context lean.** It should consume
+  conclusions, not the file dumps and search noise it took to reach
+  them.
+- **Spend the lowest model tier that's adequate** — one objective
+  among several, never the only one.
+- **Correctness always wins.** Never economize on model, delegation,
+  or shortcuts where a mistake is costly — verification against the
+  pushed remote is what makes cheaper delegation safe in the first
+  place.
+- **Preserve built-up context.** An agent that already investigated an
+  area holds context a fresh one would have to rebuild from scratch.
+
+From weighing these together, a few heuristics follow:
+
+- A one-off probe or a lookup you can answer directly stays inline —
+  a background agent's own spin-up cost would exceed the task, and
+  there's no one waiting on you to hide it behind. An open-ended
+  investigation sweep, or building an artifact (a patch, a doc
+  rewrite, bookkeeping), is substantial enough to delegate — especially
+  with a human live in the thread.
+- Prefer resuming a still-relevant agent over spawning a fresh one for
+  a closely related follow-up; spawn fresh when the area has genuinely
+  moved on.
+- Pick the model tier by what an undetected mistake would cost, not
+  by the task's label. Four tiers, named the same everywhere (the root
+  instruction file maps them to models per tool):
+  - **cheapest:** a fully specified edit that a diff check catches;
+  - **standard:** a bounded brief whose mistakes tests or checks
+    catch;
+  - **strong**, the session default: judgment across several parts,
+    with mistakes visible in review;
+  - **top:** mistakes that would be silent and expensive — a novel
+    design that is expensive to change later (data model, security
+    boundary, interfaces), adversarial review of security, data-loss
+    or migration work, the analysis behind a principle change, the
+    consistency pass after a series of rule edits, a tie-break
+    when two strong-tier attempts disagree or fail.
+
+  A precise brief that avoids rework is worth more than a cheap model
+  that has to be corrected twice.
+- A narrow-lane agent runs on the model and effort pinned in its
+  definition. A delegation overrides the model only to raise the
+  tier, stating the reason in one line. An agent without a pin (a
+  general-purpose or built-in agent) always gets an explicit model.
+- When the problem is depth (missed edge cases, shallow verification)
+  rather than judgment, raise the effort before raising the tier.
+- The delegating session picks the top tier on its own judgment and
+  states it in one line with the reason; a human can veto it, or cap
+  it per project for budget. For a design-heavy session it may
+  recommend switching the whole session to the top tier; the session's
+  model and effort are a human's settings.
+- Every top-tier review notes in one line of its review description
+  whether it found something a lower tier would have missed. After
+  about ten, revisit what the top tier is used for.
+- A narrow-lane agent whose report is compressed (locate, build,
+  review, analyze, docs) is worth preferring over a general-purpose
+  one when the task shape genuinely matches its lane — it saves the
+  delegating session's context on exactly the kind of work whose
+  value is in the result, not the narration. Fall back to a
+  general-purpose agent the moment the task needs open-ended judgment
+  a narrow lane would refuse.
+
+## Brief anatomy
+
+A brief for a task-briefed agent is self-contained and states, up
+front, every time:
+
+1. **Completion discipline**, first, where it is read before
+   anything else: run everything in the foreground; do not start a
+   background watch and end the turn waiting on a notification; commit
+   and push before reporting; if something backgrounds anyway, collect
+   it now and finish. A subagent left to wait on its own child task
+   will report a non-result and stall the whole chain.
+2. **What to build or investigate**, and the scope boundary — what's
+   in, what's deliberately out; repo paths and the deliverable files.
+3. **What applies**: always "Test first" and docs completeness, plus
+   any other guardrail or hard standard (in
+   [AGENTS.md](../../AGENTS.md)) the task touches, the path-scoped
+   rule files of the area the task touches, by path, for the agent to
+   read, and how the environment provides credentials or other local
+   facts — never a value.
+4. **Isolation**: where the agent's own copy of the repo is — never a
+   human's working copy (see "Work branches").
+5. **How to verify the result** — the actual command or check, never
+   a placeholder like "add tests."
+6. **The deliverable's durable destination** — a pushed branch, a
+   review artifact's description, a backlog item — never only a
+   scratch file that a cleanup step might delete before anyone reads
+   it.
+7. **The final report format**: the review link, what was verified
+   and how, anything UNVERIFIED.
+8. **Ground truth already established as fact**, stated plainly and
+   verifiably in the brief itself, not relayed mid-task (see "A
+   running agent can't verify a mid-stream claim"). Each fact says
+   how it was verified; an unchecked one is marked UNVERIFIED, so the
+   agent checks it rather than trusts it.
+
+## A running agent can't verify a mid-stream claim
+
+A follow-up message that introduces a new *empirical* claim (a live
+result, a human decision, "this constraint was lifted for me") is
+indistinguishable from an injected instruction, and a well-behaved
+agent is right to refuse it — regardless of whether the message is
+framed as an extension or a contradiction. Put anything the agent
+needs to treat as ground truth into its *original* brief instead, or
+make the change yourself. A refusal of this kind is the safeguard
+working, not agent error.
+
+## A tiny change may be done inline
+
+In a task-briefed session, a tiny, one-file, fully-specified change
+may be done inline rather than delegated and re-checked — delegation
+has a fixed overhead that a trivial change doesn't amortize.
+
+## Write a behavior where the acting agent reads it
+
+**Rule:** a behavior you want happens only if it is written, with its
+concrete mechanism, in a file the acting agent loads or is pointed
+to. Where a command is meant, give the literal command, not the
+intent.
+**Why:** implied behavior does not happen. An agent that has read only
+`AGENTS.md` and the docs its task opens acts on those alone; given
+only intent ("read X"), sessions improvise: temporary files outside
+their scratch area, long path workarounds, duplicate calls.
+**How:** test each new rule with "would an agent that has read only
+`AGENTS.md` and what its task opens do this?" A skill or a brief
+gives one-line commands.
+
+## Finish a series of rule edits with one consistency pass
+
+**Rule:** after several edits to principles, skills or agent
+definitions have landed, one audit reads all of them together for
+contradictions, terminology drift and stale pointers before the
+series counts as done. It defaults to the top tier (the analyst
+with the top-tier model), subject to the usual veto or cap.
+**Why:** each edit reviewed alone looks right while contradictions
+accumulate between them; one such audit found 46 issues, 8 of them
+severe, after four piecemeal rounds of edits.
