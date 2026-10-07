@@ -17,7 +17,7 @@ def main(argv: list[str] | None = None) -> int:
             "repo or starter/ by name, CLAUDE.md is exactly "
             "@AGENTS.md, AGENTS.md links every principle heading "
             "exactly once, and no license file, copyright line or SPDX "
-            "tag is present. Also checks the root .claude symlink resolves."
+            "tag is present. Also checks that the root .claude is a symlink or a Windows directory junction resolving to a directory inside starter/."
         ),
     )
     parser.add_argument(

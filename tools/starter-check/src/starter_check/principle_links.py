@@ -84,7 +84,7 @@ def check_principle_links(tree_root: Path) -> list[str]:
     for principle_file in PRINCIPLE_FILES:
         path = tree_root / principle_file
         if not path.is_file():
-            problems.append(f"{principle_file}: missing")
+            problems.append(f"{principle_file.as_posix()}: missing")
             continue
         for heading in principle_headings(path.read_text(encoding="utf-8")):
             unsupported = [
@@ -92,7 +92,7 @@ def check_principle_links(tree_root: Path) -> list[str]:
             ]
             if unsupported:
                 problems.append(
-                    f"{principle_file}: heading {heading!r} uses unsupported "
+                    f"{principle_file.as_posix()}: heading {heading!r} uses unsupported "
                     f"markup ({', '.join(unsupported)}); its anchor cannot "
                     "be computed reliably"
                 )
@@ -100,7 +100,7 @@ def check_principle_links(tree_root: Path) -> list[str]:
             key = (principle_file, github_slug(heading))
             if key in headings:
                 problems.append(
-                    f"{principle_file}: heading {heading!r} has duplicate "
+                    f"{principle_file.as_posix()}: heading {heading!r} has duplicate "
                     f"anchor #{key[1]} (also {headings[key]!r}); rename one"
                 )
                 continue
@@ -121,13 +121,13 @@ def check_principle_links(tree_root: Path) -> list[str]:
         lines = linked_at.get((principle_file, slug), [])
         if not lines:
             problems.append(
-                f"{AGENTS_MD}: principle {heading!r} in {principle_file} "
-                f"is not linked (expected a link to {principle_file}#{slug})"
+                f"{AGENTS_MD}: principle {heading!r} in {principle_file.as_posix()} "
+                f"is not linked (expected a link to {principle_file.as_posix()}#{slug})"
             )
         elif len(lines) > 1:
             where = ", ".join(str(n) for n in lines)
             problems.append(
                 f"{AGENTS_MD}:{where}: principle {heading!r} in "
-                f"{principle_file} is linked {len(lines)} times; link it once"
+                f"{principle_file.as_posix()} is linked {len(lines)} times; link it once"
             )
     return problems
