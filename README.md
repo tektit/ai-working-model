@@ -37,14 +37,15 @@ Two jobs, one repo:
 
 ## Design goals
 
-The model is built for six goals: quality first; the human decides
-and merges; cost-aware by design; transparent; the tested procedure
-IS the shipped procedure; portable and neutral. Each is derived from
-the principles, and
+The aim: the best working setup for humans and AI agents as
+coworkers. Six goals serve it: quality first; the human decides and
+merges; cost-aware by design; transparent; the tested procedure IS
+the shipped procedure; portable and tool-neutral. Each is derived
+from the principles, and
 [starter/docs/principles/design-goals.md](starter/docs/principles/design-goals.md)
 says per goal which principles carry it and what it asks of a human
-and of an agent. In this repo, "neutral" also means the neutrality
-check below.
+and of an agent. This repo also keeps client and private identifiers
+out (see "Neutrality check" below).
 
 ## Layout
 
@@ -123,7 +124,11 @@ This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
 file against a local, gitignored denylist
 (`.neutrality-denylist`, one case-insensitive regex per line) and
-fails on any hit. To install it as a pre-commit hook:
+fails on any hit. It is an extra safeguard on top of the human
+review of every pull request, which is the check of record: no
+server-side check runs, by decision
+([D15](architecture/decisions.md#d15-no-server-side-neutrality-check)).
+To install it as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'

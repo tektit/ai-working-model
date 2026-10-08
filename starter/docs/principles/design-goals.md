@@ -1,9 +1,10 @@
 # Design goals
 
-What this working model is built to achieve, for the humans and the
-agents who work in it alike. The goals add no rule of their own: each
-one names the principles that carry it, and those principles hold
-the detail. Where cost and correctness pull apart, correctness wins
+The aim: the best working setup for humans and AI agents as
+coworkers. The six goals below serve it, for the humans and the
+agents alike. They add no rule of their own: each one names the
+principles that carry it, and those principles hold the detail.
+Where cost and correctness pull apart, correctness wins
 ("Delegation" in [ai-working-process.md](ai-working-process.md)). A
 goal changes only through "Changing a principle" there.
 
@@ -18,7 +19,7 @@ and "Every change gets an adversarial review".
 - **Human:** accept "done" only with its evidence, and expect to hear
   UNVERIFIED or UNREVIEWED until there is some.
 - **Agent:** report evidence, not intent, and say UNVERIFIED or
-  UNREVIEWED until the check or the review has run.
+  UNREVIEWED until the check has run and the review loop has ended.
 
 ## 2. The human decides and merges
 
@@ -45,21 +46,26 @@ in "Verify before declaring ready", decisions batched at milestones
 - **Human:** keep the always-loaded file small, set cost levers in
   committed settings, and answer decisions in batches.
 - **Agent:** pick the cheapest tier that does the job well, load and
-  read only what the task needs, run a suite or a pipeline once per
+  read only what the task needs, run a suite once per meaningful
   change, and batch questions rather than interrupt.
 
 ## 4. Transparent
 
-Anyone can see who or what made a change, and why. Carried by the
-append-only [decision log](../decisions.md), MR/PR descriptions that
-describe the change as it stands and attribution of agent-written
-work ("Work branches"), and evidence labels ("Verify before declaring
-ready").
+Anyone can see who or what made a change, and why. Humans review a
+change through its MR/PR description rather than its code, so the
+description's honesty and quality are key. Carried by the append-only
+[decision log](../decisions.md), MR/PR descriptions written as the
+human's review surface and attribution of agent-written work ("Work
+branches"), the review of each description against its diff ("Every
+change gets an adversarial review"), and evidence labels ("Verify
+before declaring ready").
 
-- **Human:** record every decision and ruling with its date, and read
-  an MR/PR description as the truth about its diff.
-- **Agent:** mark what it wrote, keep the description current, and
-  say how each claim is known.
+- **Human:** record every decision and ruling with its date, and
+  review through the MR/PR description, which is written for you.
+- **Agent:** mark what it wrote; write the MR/PR description as the
+  human's review surface (honest, complete, current with the diff);
+  as the reviewer, check every claim in it against the diff; say how
+  each claim about a system is known.
 
 ## 5. The tested procedure IS the shipped procedure
 
@@ -72,7 +78,7 @@ safe. Carried by "The tested procedure IS the shipped procedure",
 - **Agent:** test the code that ships, through its real entry point,
   and keep every procedure safe to run again.
 
-## 6. Portable and neutral
+## 6. Portable and tool-neutral
 
 The working model is tied to no single tool, machine or person.
 Carried by `AGENTS.md` as the one instruction file every tool reads,

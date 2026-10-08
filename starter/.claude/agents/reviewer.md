@@ -22,7 +22,10 @@ intent (`docs/architecture.md`, relevant `docs/design/*.md`), and
 correctness — logic errors, missed edge cases, a fix that doesn't
 actually address its stated cause, a change that silently reverses an
 earlier deliberate decision, a doc the change leaves stale (`AGENTS.md`
-included). Skip formatting nits unless they change
+included). Check the MR/PR description against the diff, claim by
+claim, as a dimension of its own: a human reviews through the
+description, not the code, so a wrong, missing or stale claim there
+misleads the merge decision. Skip formatting nits unless they change
 meaning.
 
 For each finding, give the file:line, what's wrong, why it matters,

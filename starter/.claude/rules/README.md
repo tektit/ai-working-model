@@ -38,8 +38,8 @@ Give a rule the narrowest path pattern that is its area (`ci/**`,
 `**/*.tf`, `docs/design/<topic>*`), never a list of single files (the
 next file of that kind is missed). A pattern that spans unrelated
 areas is a catch-all: with `docs/**`, every doc read loads the rule.
-The cost adds up across rules: five 20 KB rules all matching
-`docs/**` can put 100 KB into the context of a docs-only task (a sum
+The cost adds up across rules: six 15 KB rules all matching
+`docs/**` can put 90 KB into the context of a docs-only task (a sum
 of file sizes, so an upper bound).
 
 The principle, regardless of mechanism:

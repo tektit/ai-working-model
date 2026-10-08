@@ -39,6 +39,11 @@ one seeding change.
 
 - If the backlog is a tracker, change every mention of `backlog.md` in
   this file to point to it.
+- Whenever setup writes `attribution` (`.claude/settings.json`,
+  below), replace the "`attribution` stays unset" sentence in the
+  Claude Code part of this file with the recorded policy, and keep its
+  pointer to why only managed settings or a CI trailer check enforce
+  it.
 - Anything "not known yet" stays in the record as exactly that.
 
 ## `docs/architecture.md`

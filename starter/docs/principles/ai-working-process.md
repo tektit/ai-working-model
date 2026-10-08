@@ -45,11 +45,12 @@ so rather than silently picking a side.
   time on it. At every level, credentials that happen to be present
   are not consent, and neither is a request to "fix it": the level and
   the brief set what an agent may write, and only a human merges.
-  Wherever these principles, an agent definition or a brief say
-  "push" or "the pushed remote", read it at the recorded level: below
-  the recommended one, an agent stops at a local commit, verifies
-  against that commit and leaves the push to a human, and that
-  includes an architect's direct push of its docs to the trunk.
+  Wherever these principles, the root instruction file, an agent
+  definition or a brief say "push" or "the pushed remote", read it at
+  the recorded level: below the recommended one, an agent stops at a
+  local commit, verifies against that commit and leaves the push to a
+  human, and that includes an architect's direct push of its docs to
+  the trunk.
 - A delegated agent works in a fresh clone made for it, never in a
   human's working copy and never in a worktree of it: a checkout or
   a reset in a human's working copy moves files under someone
@@ -77,8 +78,9 @@ so rather than silently picking a side.
     be linear: the same plain `git merge` and an ordinary push.
   - **A linear trunk without squashing** (rebase or fast-forward-only
     merges): rebase onto the trunk only while the branch is unshared,
-    meaning it has no open review and no other clone holds it;
-    otherwise ask first. Push the result with `--force-with-lease`.
+    meaning it has no open review and no other clone holds it, or you
+    never pushed it; otherwise ask first. Push the result with
+    `--force-with-lease`.
 
   Rewriting a pushed branch strands every other clone, worktree and
   running agent that holds it on commits that no longer exist, can
@@ -99,10 +101,14 @@ so rather than silently picking a side.
   check the template before relying on it).
 - A review artifact (an MR/PR description) describes the change **as
   it currently stands**, rewritten on every substantive change — never
-  an append-only log of attempts. Reviewers read the description as
-  the truth about the diff; stale narration of a superseded approach
-  actively misleads. Read a generated description back after creating
-  it: a quoting or templating bug can ship a literal placeholder.
+  an append-only log of attempts. Humans review a change through its
+  description, not its code, so it is written for them: honest,
+  complete and current with the diff; stale narration of a superseded
+  approach actively misleads. Like any report, it is a claim (see
+  "Verify before declaring ready"), which the adversarial review
+  checks against the diff on the human's behalf. Read a generated
+  description back after creating it: a quoting or templating bug can
+  ship a literal placeholder.
 - Before pushing further rework to an existing branch, check whether
   it has already been merged — a human can merge while an agent is
   still working. If it has, don't push to a dead branch; start a fresh
@@ -154,12 +160,13 @@ settle who probes it and when.
   do. State **UNVERIFIED** and go check, rather than presenting a
   confident guess as fact. A claim that can't be checked is labeled as
   such, not smoothed over.
-- **A report is a claim, not evidence** — your own, and any agent's.
-  Before relying on or relaying a number, a line citation, a root
-  cause, or a "pushed" claim, re-check it in the current turn: fetch
-  the remote and look at the actual tip and diff. Repo state moves
-  underneath you, and agents park mid-task more often than they
-  should; the work is often correct while the report of it is not.
+- **A report is a claim, not evidence** — your own, and any agent's,
+  an MR/PR description included. Before relying on or relaying a
+  number, a line citation, a root cause, or a "pushed" claim, re-check
+  it in the current turn: fetch the remote and look at the actual tip
+  and diff. Repo state moves underneath you, and agents park mid-task
+  more often than they should; the work is often correct while the
+  report of it is not.
 - **A branch or a review link existing is not evidence that work
   happened — the diff is.** Confirm there actually is a non-empty diff
   against the trunk before treating a change as real.
@@ -207,7 +214,9 @@ settle who probes it and when.
 **Rule:** no MR/PR is called ready, and no later commit added to it
 either, before an adversarial review: a reviewer told to find what is
 wrong, not to confirm what is right. Docs and config changes are no
-exception. Once its findings are fixed, a delta review looks only at
+exception. The review checks the MR/PR description against the diff,
+claim by claim, because a human reviews through the description, not
+the code. Once its findings are fixed, a delta review looks only at
 the fixes and states for each finding whether it is closed. A delta
 review that closes every finding and raises none ends the loop;
 anything else goes back for another fix and another delta review.
@@ -396,6 +405,8 @@ From weighing these together, a few heuristics follow:
   definition. A delegation overrides the model only to raise the
   tier, stating the reason in one line, or, where the pinned model
   isn't available to the project, to name the highest tier that is.
+  A tier above a human's per-project cap (below) counts as not
+  available.
   An agent without a pin (a general-purpose or built-in agent) always
   gets an explicit model.
 - When the problem is depth (missed edge cases, shallow verification)
@@ -407,7 +418,9 @@ From weighing these together, a few heuristics follow:
   model and effort are a human's settings.
 - Every top-tier review notes in one line of its review description
   whether it found something a lower tier would have missed. After
-  about ten, revisit what the top tier is used for.
+  about ten such reviews, count how many found something a lower tier
+  would have missed: that measures whether pinning reviews to the top
+  tier pays off, and the answer goes to a human as a proposal.
 - A narrow-lane agent whose report is compressed (locate, build,
   review, analyze, docs) is worth preferring over a general-purpose
   one when the task shape genuinely matches its lane — it saves the
@@ -446,8 +459,8 @@ front, every time:
    scratch file that a cleanup step might delete before anyone reads
    it.
 7. **The final report format**: the review link, what was verified
-   and how, anything UNVERIFIED, and UNREVIEWED until the adversarial
-   review has run.
+   and how, anything UNVERIFIED, and UNREVIEWED until the review loop
+   has ended.
 8. **Ground truth already established as fact**, stated plainly and
    verifiably in the brief itself, not relayed mid-task (see "A
    running agent can't verify a mid-stream claim"). Each fact says
@@ -470,7 +483,9 @@ working, not agent error.
 In a task-briefed session, a tiny, one-file, fully-specified change
 may be done inline rather than delegated and re-checked — delegation
 has a fixed overhead that a trivial change doesn't amortize. It is
-not called ready without its adversarial review either.
+not called ready without its adversarial review either; the
+delegating session or the human starts that review, never a briefed
+subagent.
 
 ## Write a behavior where the acting agent reads it
 

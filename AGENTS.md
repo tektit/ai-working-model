@@ -41,6 +41,9 @@ settings a seeded project would.
   session's scratchpad directory). For the neutrality check, symlink
   the root's gitignored `.neutrality-denylist` into the clone and
   remove the link afterwards; never commit it.
+- **Merge method: squash only.** The owner merges a pull request as
+  one squash commit on `main`. Co-author trailers survive on `main`
+  because the squash message is the list of commit messages.
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a

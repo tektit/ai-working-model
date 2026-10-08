@@ -46,6 +46,5 @@
   <epoch>`). An unknown zone, or a missing zone database as in many
   minimal container images, silently falls back to UTC instead of
   failing, so first check that `TZ=<zone> date +%Z` prints the zone's
-  own abbreviation or a numeric offset (for example `CET`, or `+04` for
-  zones without an abbreviation), not `UTC` or a piece of the zone's
-  name.
+  own abbreviation or a numeric offset (such as `+04`, for a zone
+  without an abbreviation), not `UTC` or a piece of the zone's name.

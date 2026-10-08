@@ -198,7 +198,8 @@ minutes of reading; rulings that only apply a principle stay cheap.
 ## D9: Model and effort by the cost of an undetected mistake
 
 **Date:** 2026-10-05
-**Status:** accepted; the reviewer's Sonnet pin superseded by D13
+**Status:** accepted; the reviewer's Sonnet pin and the upward-only
+model override superseded by D13
 
 **Context.** "Fable only when the owner asks" was caution, not
 evidence; the model A/B compared only Sonnet and Opus on bounded
@@ -333,22 +334,29 @@ Code that is the unset `attribution` setting, a default rather than
 an enforced policy. Auto-memory never points into the working copy.
 Adversarial and delta reviews run on the highest tier available,
 never a middle one, so the reviewer agent is pinned to the top tier.
-Folded in with these: a `docs/troubleshooting.md` skeleton;
-evidence labels and the reach proof in "Verify"; load discipline in
-"Live systems"; answers recorded in the facts they settle, no question
-pages; local hooks as feedback, never the gate; times with an explicit
-zone; deliberate omissions recorded as decisions; a new principle
-"Every change gets an adversarial review"; a new principle "The repo
-is shared truth; auto-memory is personal"; rule globs scoped to their
-area, never a catch-all; never relying on a rule loading by itself;
-one isolation rule, a fresh clone, stated the same everywhere; one
-list of architect-maintained files that agent definitions point at.
+Where a pinned model isn't available to the project, or is above a
+human's per-project cap, a delegation names the highest tier that is;
+this supersedes D9's "a delegation overrides the model only upward";
+otherwise an override still only raises the tier. D9's revisit after
+about ten top-tier reviews stays, and now measures whether pinning
+reviews to the top tier pays off. Folded in with these: a
+`docs/troubleshooting.md` skeleton; evidence labels and the reach
+proof in "Verify"; load discipline in "Live systems"; answers recorded
+in the facts they settle, no question pages; local hooks as feedback
+or an extra safeguard, never the check of record; times with an
+explicit zone; deliberate omissions recorded as decisions; a new
+principle "Every change gets an adversarial review"; a new principle
+"The repo is shared truth; auto-memory is personal"; rule globs scoped
+to their area, never a catch-all; never relying on a rule loading by
+itself; one isolation rule, a fresh clone, stated the same everywhere;
+one list of architect-maintained files that agent definitions point
+at.
 
 **Consequences.** Setup asks three more questions (write level,
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
-1,090 to 1,220 words (186 lines), which replaces D10's "about 1k
-words". Every MR/PR now costs at least two top-tier reviewer runs,
+1,090 to 1,240 words (187 lines, D14's line included), which replaces
+D10's "about 1k words". Every MR/PR now costs at least two top-tier reviewer runs,
 the adversarial review and a delta review, plus one more delta review
 for each round that leaves a finding open; each run costs more than
 it did on the standard tier (the top tier is about 2.5x the strong
@@ -372,26 +380,57 @@ answer quality. Seeded projects don't get any of this automatically
 what the whole model is built to achieve, so neither a human nor an
 agent could weigh one rule against another, cost included.
 
-**Decision.** Six design goals, derived from the existing principles
-and adding no rule of their own: quality first; the human decides
-and merges; cost-aware by design (the cheapest adequate tier per job
-and the top tier for reviews and novel design, a budgeted
-always-loaded context, a test suite or pipeline run once per change,
-decisions batched at milestones); transparent (attribution, the
-decision log, current MR/PR descriptions, evidence labels); the
-tested procedure IS the shipped procedure; portable and neutral. They
-live in the starter's `docs/principles/design-goals.md`, each with
-the principles that carry it and one line on what it asks of a human
-and one on what it asks of an agent. The README names them, and the
-starter's `AGENTS.md` links them in one line. Where cost and
+**Decision.** The aim is the best working setup for humans and AI
+agents as coworkers, and six design goals serve it, derived from the
+existing principles and adding no rule of their own: quality first;
+the human decides and merges; cost-aware by design (the cheapest
+adequate tier per job and the top tier for reviews and novel design,
+a budgeted always-loaded context, a test suite run once per
+meaningful change, decisions batched at milestones); transparent
+(attribution, the decision log, MR/PR descriptions as the human's
+review surface, evidence labels); the tested procedure IS the shipped
+procedure; portable and tool-neutral. They live in the starter's
+`docs/principles/design-goals.md`, each with the principles that
+carry it and one line on what it asks of a human and one on what it
+asks of an agent. The README states the aim and names the goals, and
+the starter's `AGENTS.md` links them in one line. Where cost and
 correctness pull apart, correctness wins, as "Delegation" already
-says.
+says. Humans review a change through its MR/PR description rather
+than its code, so the description is written for them (honest,
+complete, current with the diff) and is a claim like any report: the
+adversarial review checks it against the diff, claim by claim, as a
+dimension of its own ("Work branches", "Every change gets an
+adversarial review", the reviewer agent).
 
 **Consequences.** A new principle or a change to one is checked
 against the goals it serves. The goals are not covered by
 `starter-check`'s principle-line drift check, so the reviewer keeps
 their "carried by" references current. The starter's `AGENTS.md`
 grows by one line.
+
+## D15: No server-side neutrality check
+
+**Date:** 2026-10-08
+**Status:** accepted
+
+**Context.** This repo is public and must never contain client,
+customer or private-project identifiers. The neutrality check runs
+as a local pre-commit hook against a gitignored denylist. The
+starter's "Test first" says a local hook is never the check itself,
+and a server-side check would need the private denylist as a
+repository secret.
+
+**Decision.** A deliberate omission: there is no server-side
+neutrality check. The check of record is the human review of every
+pull request before it merges; the hook is an extra safeguard on top
+of it.
+
+**Consequences.** A commit from a working copy without the hook
+reaches the pull request unchecked, and only the review catches an
+identifier in it. The denylist stays off the hosting site. "Test
+first" in the starter names a human's review as a possible check of
+record, so this hook agrees with it. A later server-side check
+supersedes this entry.
 
 ## Format
 
