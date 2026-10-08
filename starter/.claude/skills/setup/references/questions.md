@@ -24,17 +24,23 @@ and where the answer goes (details in `edits.md`).
 - **Goes to:** the stakeholders line in `docs/architecture.md`, with who
   speaks for each role.
 
-## 3. Git host and trunk
+## 3. Git host, trunk and merge method
 
 The trunk is the repository's default branch: the version of the code
 that counts. Explain that once, then say "trunk".
 
-- **Observe first:** the configured remote and its default branch.
+- **Observe first:** the configured remote and its default branch;
+  where you can read it, the merge methods the host allows.
 - **Ask:** "Your code lives on <host>, and <branch> is the version that
   counts. Is that right?" With no remote: "Where does your team keep
-  code (for example GitHub, GitLab, or a company server)?"
+  code (for example GitHub, GitLab, or a company server)?" Then: "When
+  a change is merged, is it squashed into one commit?"
 - **Default:** the host the team already uses; `main` as the default
-  branch.
+  branch; squash merges. With squash merges, a branch catches up with
+  the trunk by merging it in, never by rewriting history, and the
+  trunk still gets one commit per change. Without squash, a branch
+  catches up by rebasing, which rewrites it and needs a forced push
+  (details: "Work branches" in the AI working process principles).
 - **Goes to:** `AGENTS.md` "Project setup"; `docs/architecture.md`
   decisions.
 
@@ -99,6 +105,41 @@ This matters most: from now on "the backlog" means this place.
   is none; "not known yet" plus who could answer is a good record.
 - **Goes to:** `docs/architecture.md` decisions (each constraint that
   shapes the design); open ones to the backlog.
+
+## 8. How far agents write to the repo
+
+- **Ask:** "How far may AI agents write on their own? (a) They push
+  their own work branches and open draft review requests, never on
+  the trunk. (b) They commit on their own computer only, and a person
+  pushes. (c) They change nothing in the repo unless a person asks for
+  that specific change."
+- **Default:** (a). An agent then sees the real test results of its
+  own change, fixes what fails and pushes again before anyone spends
+  review time; nothing reaches the trunk without a person merging.
+  (b) and (c) give more control at the cost of a person relaying
+  every step. Whatever the level, credentials that happen to be
+  available are never permission.
+- **Goes to:** `AGENTS.md` "Project setup" (the work-branch guardrail
+  already defers to the recorded level).
+
+## 9. Commit attribution
+
+- **Ask:** "Should commits and review requests written by an AI say
+  so?"
+- **Default:** yes: each such commit names the model as co-author, and
+  each review request carries a generated-with line. Anyone reading
+  the history can tell which changes an agent wrote; the cost is a
+  line per commit.
+- **Goes to:** `AGENTS.md` "Project setup"; the tool's setting when
+  the answer is not the default (`edits.md`).
+
+## 10. Time zone
+
+- **Observe first:** the time zone of the computer you run on.
+- **Ask:** "Which time zone should times be shown in?"
+- **Default:** the zone most of the team works in. Tools often print
+  UTC; a time without its zone is easily misread by hours.
+- **Goes to:** `AGENTS.md` "Project setup".
 
 ## Deviations from the principles
 

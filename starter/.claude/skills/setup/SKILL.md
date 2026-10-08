@@ -57,7 +57,7 @@ the trade-off.
    like.
 2. **Stakeholders**: who uses it, operates it, is responsible for its
    security, pays for it, and is legally affected.
-3. **Git host and trunk**.
+3. **Git host, trunk and merge method**.
 4. **Pipeline**: what runs on each change, what merging deploys, and
    where.
 5. **Where work and project management lives**: issues on the git host,
@@ -68,6 +68,12 @@ the trade-off.
 7. **Organization constraints**: rules the project must follow (data
    protection, approved vendors or hosting, security policies,
    budget, licenses).
+8. **How far agents write to the repo**: push branches and open draft
+   review requests, commit locally only, or nothing without a
+   per-change instruction.
+9. **Commit attribution**: whether AI-written commits and review
+   requests say so.
+10. **Time zone** for times shown to people.
 
 Last, ask whether the project deliberately differs from any of its
 principles. Only the human can say so; don't suggest deviations.
@@ -85,7 +91,9 @@ principles. Only the human can say so; don't suggest deviations.
    - `docs/decisions.md`: one dated entry per decision in force;
    - `backlog.md`: seeded, or removed with every link pointing to the
      chosen tracker instead;
-   - `docs/glossary.md`: initial terms.
+   - `docs/glossary.md`: initial terms;
+   - `.claude/settings.json`: `attribution`, only when the attribution
+     answer is not the default.
 4. Remove every template comment (`<!-- ... -->`) in the files you
    touched, the architect-maintained markers included, and every
    template section the project doesn't use. Filled content stays.

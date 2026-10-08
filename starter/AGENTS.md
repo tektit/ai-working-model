@@ -23,8 +23,11 @@ standard (below).
 - Test first; never weaken a test; tests and CI gate every change.
   [Test first](docs/principles/engineering.md#test-first)
 - Work happens on a work branch, never directly on the trunk
-  (architect-maintained docs excepted); a delegated agent works in its
-  own copy of the repo, never in a human's working copy. [Work branches](docs/principles/ai-working-process.md#work-branches)
+  (architect-maintained docs excepted). An agent at most pushes it and
+  opens a draft MR/PR, or less at the write level setup recorded;
+  credentials being present is not consent. A delegated agent works in
+  its own fresh clone, never in a human's working copy or a worktree
+  of it. [Work branches](docs/principles/ai-working-process.md#work-branches)
 - Done means verified against the pushed remote or a dry-run or live
   check; otherwise say UNVERIFIED. [Verify](docs/principles/ai-working-process.md#verify-before-declaring-ready)
 - A change fixes every doc it makes stale, `AGENTS.md` included, in
@@ -153,7 +156,12 @@ this is how they map per tool.
   `.claude/settings.json`). The committed `.claude/settings.json`
   overrides each person's `~/.claude/settings.json`; a personal value
   goes in `.claude/settings.local.json` (not committed, wins over
-  `.claude/settings.json`).
+  `.claude/settings.json`). Commit and MR/PR attribution is the
+  default while `attribution` is unset: a co-author trailer naming the
+  model in use, and a generated-with line. A project that chose
+  otherwise sets `attribution` there. An instruction about
+  attribution, a personal one included, outranks that setting unless
+  the setting comes from managed settings.
 
 ## Running the tests
 

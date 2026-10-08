@@ -36,22 +36,51 @@ so rather than silently picking a side.
   repository's default branch), merged through review, deleted after
   — never directly on the trunk. The architect-maintained docs are the
   one exception ("Docs completeness is part of being done" below).
-- A delegated agent works in its own copy of the repo (its own clone
-  or worktree), never in a human's working copy: a checkout or a reset
-  there moves files under someone mid-edit. An interactive session a
-  human starts in their own checkout works there.
+- How far an agent writes to the repo is chosen at setup, one of
+  three levels: it pushes work branches and opens draft MRs/PRs
+  (recommended); it commits locally only and a human pushes; or it
+  writes nothing to the repo without a per-change instruction. The
+  recommended level lets an agent iterate on real CI results by itself
+  — push, read the pipeline, push a fix — before a human spends review
+  time on it. At every level, credentials that happen to be present
+  are not consent, and neither is a request to "fix it": the level and
+  the brief set what an agent may write, and only a human merges.
+- A delegated agent works in its own fresh clone of the repo, never in
+  a human's working copy and never in a worktree of it: a checkout or
+  a reset in a human's copy moves files under someone mid-edit, and a
+  worktree shares that copy's git metadata, so a branch checked out in
+  one can't be checked out in the other (in Claude Code, this rules
+  out `isolation: worktree`). An interactive session a human starts in
+  their own checkout works there.
 - No stacked branches unless technically forced; prefer serializing
   overlapping work rather than parallel branches touching the same
   files.
 - Rework an existing branch by adding commits, not by amending and
   force-pushing — review stays readable and nothing already reviewed
-  is rewritten. Beyond the trunk update below, a forced push is only
-  for scrubbing an accidentally committed secret.
-- When the trunk moves under an open branch, rebase the branch onto
-  the trunk and push with `--force-with-lease` — no merge commits.
-  Rebase locally, never via the hosting API's rebase button (it moves
-  only the remote and leaves local copies stale). If a rebase is not
-  possible (conflicts that can't be resolved cleanly), stop and ask.
+  is rewritten. Beyond rebasing a branch you alone use (below), a
+  forced push is only for scrubbing an accidentally committed secret.
+- When the trunk moves under an open branch, how the branch catches
+  up depends on the repo's merge method, recorded at setup:
+  - **Squash merges:** merge the trunk into the branch as an ordinary
+    commit and push normally; never rebase a pushed branch, never
+    force-push. These merge commits never reach the trunk, because the
+    squash flattens the branch into one commit, so the trunk's history
+    stays linear without rewriting anything.
+  - **No squash:** rebase a branch only while you alone use it, then
+    push with `--force-with-lease`; never rebase a shared branch.
+
+  A forced push desyncs every other clone, worktree and running agent
+  that holds the branch, and can lose review context attached to the
+  replaced commits; a rebase also replays conflicts commit by commit,
+  where a merge resolves them once. Update locally, never via the
+  hosting site's update or rebase button (it moves only the remote and
+  leaves local copies stale). If the update can't be resolved cleanly,
+  stop and ask.
+- Commits an agent authors say so: a co-author trailer naming the
+  model, and a generated-with line in the MR/PR description. That
+  transparency is the recommended default; setup records the
+  project's choice, and the tool's setting carries it where one exists
+  (the root instruction file names it per tool).
 - A review artifact (an MR/PR description) describes the change **as
   it currently stands**, rewritten on every substantive change — never
   an append-only log of attempts. Reviewers read the description as
@@ -68,10 +97,10 @@ so rather than silently picking a side.
 An agent never merges a content change and never arms auto-merge on
 one — only on pure bookkeeping, and only if a human set that up
 themselves. Anything destructive on a shared remote beyond rebasing
-your own branch (force-pushing over someone else's work, deleting a
-branch you didn't create) needs a human's explicit go-ahead. The merge
-is the moment a human accepts the change; an agent that merges removes
-it.
+a branch you alone use (force-pushing over someone else's work,
+deleting a branch you didn't create) needs a human's explicit
+go-ahead. The merge is the moment a human accepts the change; an
+agent that merges removes it.
 
 ## Live systems need a human's go-ahead
 
@@ -326,8 +355,9 @@ front, every time:
    rule files of the area the task touches, by path, for the agent to
    read, and how the environment provides credentials or other local
    facts — never a value.
-4. **Isolation**: where the agent's own copy of the repo is — never a
-   human's working copy (see "Work branches").
+4. **Isolation**: where the agent's own fresh clone of the repo is —
+   never a human's working copy or a worktree of it (see "Work
+   branches").
 5. **How to verify the result** — the actual command or check, never
    a placeholder like "add tests."
 6. **The deliverable's durable destination** — a pushed branch, a

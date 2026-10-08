@@ -18,7 +18,15 @@ one seeding change.
 
   Recorded by the setup skill; re-run it when any of this changes.
 
-  - **Git:** <host and repository>, trunk `<branch>`.
+  - **Git:** <host and repository>, trunk `<branch>`; <squash merges:
+    a branch catches up by merging the trunk in | no squash: a branch
+    you alone use catches up by rebasing>.
+  - **Agent writes:** <push work branches and open draft review
+    requests | commit locally only | nothing without a per-change
+    instruction>.
+  - **Attribution:** <AI-written commits name the model as co-author,
+    review requests carry a generated-with line | the chosen policy>.
+  - **Time zone:** <zone>, stated with every time shown to people.
   - **Pipeline:** <what runs on each change>; merging to `<branch>`
     <deploys to X | deploys nothing>.
   - **Backlog:** <backlog.md | the tracker and project>. Mapping:
@@ -71,9 +79,18 @@ one seeding change.
 - Don't define general engineering terms; the glossary is for this
   project's own vocabulary.
 
+## `.claude/settings.json`
+
+- Only when the attribution answer is not the default: set
+  `attribution` to the chosen text. To hide attribution entirely, set
+  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it.
+  Left unset, Claude Code's default names the model in use, which a
+  fixed text could not.
+
 ## Not touched
 
 - `docs/principles/`: edited only for a deviation the human stated,
   through "Changing a principle" (SKILL.md step 5).
-- Code, pipeline files and settings: setup records what exists; changing
-  them is later work for an architect session.
+- Code, pipeline files and settings, except `attribution` above: setup
+  records what exists; changing them is later work for an architect
+  session.
