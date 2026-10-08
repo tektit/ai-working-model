@@ -248,7 +248,7 @@ well as full text is judgment, not measured.
 ## D11: Lessons from the 2026-10-05 retrospective
 
 **Date:** 2026-10-05
-**Status:** accepted
+**Status:** accepted; the rule-loading sentence superseded by D13
 
 **Context.** In one session the human repeatedly found behavior that
 was implied but written nowhere an agent reads it; piecemeal rule
@@ -299,6 +299,54 @@ its subagents are unaffected. Seeded projects that copied the
 principles before this change don't get it automatically (D5). The
 2026-09-25 owner ruling "no more paid experiments" stays in force on
 top of this.
+
+## D13: Lessons from comparing two other working setups
+
+**Date:** 2026-10-08
+**Status:** accepted
+
+**Context.** A comparison of this kit with two AI working setups in
+real use found practices the kit lacked: known failures keyed by error
+text, evidence labels on claims, proof of reach before reporting
+absence, load discipline for read-only probes, a recorded write level
+for agents, a commit attribution policy, a precedence rule for
+auto-memory, adversarial review of every change. It also found the
+kit stating things that contradicted observed behavior or each other:
+rebase plus forced push as the only branch update, rules that "never"
+load through the shell, isolation in "a clone or worktree".
+
+**Decision.** The human ruled on four setup questions. Branch updates
+follow the merge method: with squash merges, merge the trunk in and
+push normally (the merge commits never reach the trunk); without
+squash, rebase only a branch you alone use and push with
+`--force-with-lease`. Agents at most push work branches and open draft
+MRs/PRs, the recommended of three write levels, so they can iterate on
+real CI results before a human reviews; present credentials are not
+consent. AI-written commits name the model as co-author and MR/PR
+descriptions carry a generated-with line, by default, carried by the
+tool's setting where one exists. Auto-memory never points into the
+checkout. Folded in with these: a `docs/troubleshooting.md` skeleton;
+evidence labels and the reach proof in "Verify"; load discipline in
+"Live systems"; answers recorded in the facts they settle, no question
+pages; local hooks as feedback, never the gate; times with an explicit
+zone; deliberate omissions recorded as decisions; a new principle
+"Every change gets an adversarial review"; a new principle "The repo
+is shared truth; auto-memory is personal"; rule globs scoped to their
+area, never a catch-all; never relying on a rule loading by itself;
+one isolation rule, a fresh clone, stated the same everywhere; one
+list of architect-maintained files that agent definitions point at.
+
+**Consequences.** Setup asks three more questions (write level,
+attribution, time zone) and the merge method, and `attribution` is the
+one setting it may write. The starter's `AGENTS.md` grows from about
+1,090 to 1,260 words (189 lines). An index-to-fact-file drift check
+stays written guidance: the starter ships no facts, so a check in
+`starter-check` would test nothing, and seeded projects don't get
+`tools/`. The fact storage model (headlines in the root file versus
+one fact per file) is not decided here; the "Facts that bite"
+placeholder stays as it is until the two approaches are evaluated for
+answer quality. Seeded projects don't get any of this automatically
+(D5).
 
 ## Format
 
