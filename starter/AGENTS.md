@@ -110,6 +110,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   [Dumps](docs/principles/context-economy.md#dumps-go-to-a-subagent-conclusions-come-back)
 - State lives in files; sessions stay short and compact early.
   [Restarting](docs/principles/context-economy.md#restarting-is-cheap-so-sessions-stay-short)
+- The repo wins over auto-memory, which holds only personal or
+  host-local facts and never points into the checkout.
+  [Auto-memory](docs/principles/context-economy.md#the-repo-is-shared-truth-auto-memory-is-personal)
 - Load less and call less; never compress what is sent.
   [Shrink and skip](docs/principles/context-economy.md#shrink-and-skip-never-compress)
 - Cost levers live in committed, team-wide settings.
@@ -142,6 +145,8 @@ it becomes a mechanical check (lint, CI gate) once one exists.
 - [docs/principles/platform-notes/](docs/principles/platform-notes/):
   read the one matching what you touch — bash, containers, GitLab CI,
   Kubernetes/ArgoCD, Python, Terraform, test harnesses.
+- Each person's auto-memory, outside the repo: only that person's or
+  that machine's facts; a team lesson moves into the repo.
 - `.claude/agents/`: narrow-lane helpers, each definition stating its
   lane, model and effort; `.claude/skills/`: architect, setup.
 - `.claude/rules/`: rules for one area of the tree, scoped by path.

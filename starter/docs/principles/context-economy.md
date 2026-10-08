@@ -99,6 +99,29 @@ the compaction threshold in the committed project settings (the
 value per tool is in the root instruction file), so a session's
 history is condensed early rather than carried to the limit.
 
+## The repo is shared truth; auto-memory is personal
+
+**Rule:** where an agent's auto-memory and the repo differ, the repo
+wins. Auto-memory holds only what is true for one person or one
+machine (a laptop's setup, a personal preference); a lesson that
+matters to the team moves into the repo in the same session.
+Task status lives in the backlog, never in always-loaded context.
+Auto-memory is never pointed into the checkout.
+**Why:** each person and each machine grows its own memory, so
+without a precedence rule the shared truth forks. No other person or
+tool reads it, and in Claude Code a subagent doesn't get the
+session's auto-memory either, so a team rule kept only there reaches
+almost nobody.
+Status kept in always-loaded context is paid on every call and goes
+stale there. Memory written into the checkout lands in shared git as
+one person's or one host's notes, or strands uncommitted on the one
+machine that wrote it.
+**How:** promote a team lesson to its place in the repo (a fact file,
+a principle, the backlog) and drop the memory copy. In Claude Code,
+never set `autoMemoryDirectory` to a path inside the checkout, and
+never give a subagent `memory: project`, which writes under
+`.claude/`.
+
 ## Shrink and skip; never compress
 
 **Rule:** cost comes down by loading less and calling less — never by
