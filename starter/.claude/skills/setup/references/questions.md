@@ -34,13 +34,16 @@ that counts. Explain that once, then say "trunk".
 - **Ask:** "Your code lives on <host>, and <branch> is the version that
   counts. Is that right?" With no remote: "Where does your team keep
   code (for example GitHub, GitLab, or a company server)?" Then: "When
-  a change is merged, is it squashed into one commit?"
+  a change is merged, is it squashed into one commit?" If not: "Must
+  the trunk's history still be one straight line?"
 - **Default:** the host the team already uses; `main` as the default
   branch; squash merges. With squash merges, a branch catches up with
-  the trunk by merging it in, never by rewriting history, and the
-  trunk still gets one commit per change. Without squash, a branch
-  catches up by rebasing, which rewrites it and needs a forced push
-  (details: "Work branches" in the AI working process principles).
+  the trunk by merging it in, nothing is rewritten, and the trunk
+  still gets one commit per change. With plain merge commits, a branch
+  catches up the same way, and the trunk keeps every commit. Only a
+  trunk that must be a straight line without squashing needs
+  rebasing, which rewrites the branch and needs a forced push (details:
+  "Work branches" in the AI working process principles).
 - **Goes to:** `AGENTS.md` "Project setup"; `docs/architecture.md`
   decisions.
 
@@ -111,13 +114,15 @@ This matters most: from now on "the backlog" means this place.
 - **Ask:** "How far may AI agents write on their own? (a) They push
   their own work branches and open draft merge requests (a proposed
   change that waits for a person to accept it; GitHub calls it a pull
-  request), never on the trunk. (b) They commit on their own computer
-  only, and a person pushes. (c) They change nothing in the repo
-  unless a person asks for that specific change."
+  request), never on the trunk itself, apart from the planning notes
+  an architect session keeps there. (b) They commit on their own
+  computer only, and a person pushes, those planning notes included.
+  (c) They change nothing in the repo unless a person asks for that
+  specific change."
 - **Default:** (a). An agent then sees the real test results of its
   own change, fixes what fails and pushes again before anyone spends
-  review time; nothing reaches the trunk without a person merging.
-  (b) and (c) give more control at the cost of a person relaying
+  review time; no change reaches the trunk without a person merging
+  it. (b) and (c) give more control at the cost of a person relaying
   every step. Whatever the level, credentials that happen to be
   available are never permission.
 - **Goes to:** `AGENTS.md` "Project setup" (the work-branch guardrail

@@ -45,42 +45,58 @@ so rather than silently picking a side.
   time on it. At every level, credentials that happen to be present
   are not consent, and neither is a request to "fix it": the level and
   the brief set what an agent may write, and only a human merges.
-- A delegated agent works in its own fresh clone of the repo, never in
-  a human's working copy and never in a worktree of it: a checkout or
-  a reset in a human's copy moves files under someone mid-edit, and a
-  worktree shares that copy's git metadata, so a branch checked out in
-  one can't be checked out in the other (in Claude Code, this rules
-  out `isolation: worktree`). An interactive session a human starts in
-  their own checkout works there.
+  Wherever these principles, an agent definition or a brief say
+  "push" or "the pushed remote", read it at the recorded level: below
+  the recommended one, an agent stops at a local commit, verifies
+  against that commit and leaves the push to a human, and that
+  includes an architect's direct push of its docs to the trunk.
+- A delegated agent works in a fresh clone made for it, never in a
+  human's working copy and never in a worktree of it: a checkout or
+  a reset in a human's working copy moves files under someone
+  mid-edit, and a worktree shares that working copy's git metadata, so
+  a branch checked out in one can't be checked out in the other (in
+  Claude Code, this rules out `isolation: worktree`). An interactive
+  session a human starts in their own working copy works there.
 - No stacked branches unless technically forced; prefer serializing
   overlapping work rather than parallel branches touching the same
   files.
 - Rework an existing branch by adding commits, not by amending and
   force-pushing — review stays readable and nothing already reviewed
-  is rewritten. Beyond rebasing a branch you alone use (below), a
-  forced push is only for scrubbing an accidentally committed secret.
+  is rewritten. Beyond rebasing an unshared branch (below), a forced
+  push is only for scrubbing an accidentally committed secret.
 - When the trunk moves under an open branch, how the branch catches
-  up depends on the repo's merge method, recorded at setup:
-  - **Squash merges:** merge the trunk into the branch as an ordinary
-    commit and push normally; never rebase a pushed branch, never
-    force-push. These merge commits never reach the trunk, because the
-    squash flattens the branch into one commit, so the trunk's history
-    stays linear without rewriting anything.
-  - **No squash:** rebase a branch only while you alone use it, then
-    push with `--force-with-lease`; never rebase a shared branch.
+  up follows the repo's merge method, recorded at setup. What decides
+  it is whether the trunk must stay linear without squashing:
+  - **Squash merges** (the setup default): bring the trunk in with a
+    plain `git merge` and push that like any other commit. Once the
+    branch is pushed, don't rebase it, and don't force-push except to
+    scrub a committed secret. Squashing turns the whole branch, these
+    merges included, into a single trunk commit, so the trunk stays
+    linear and nothing is rewritten.
+  - **Merge commits**, where the trunk keeps every commit and need not
+    be linear: the same plain `git merge` and an ordinary push.
+  - **A linear trunk without squashing** (rebase or fast-forward-only
+    merges): rebase onto the trunk only while the branch is unshared,
+    meaning it has no open review and no other clone holds it;
+    otherwise ask first. Push the result with `--force-with-lease`.
 
-  A forced push desyncs every other clone, worktree and running agent
-  that holds the branch, and can lose review context attached to the
-  replaced commits; a rebase also replays conflicts commit by commit,
-  where a merge resolves them once. Update locally, never via the
-  hosting site's update or rebase button (it moves only the remote and
-  leaves local copies stale). If the update can't be resolved cleanly,
-  stop and ask.
+  Rewriting a pushed branch strands every other clone, worktree and
+  running agent that holds it on commits that no longer exist, can
+  detach review comments from the code they were about, and brings
+  each conflict back once per replayed commit, where a merge settles
+  it once. Update locally and never use the hosting site's
+  rebase-update button, which rewrites the remote branch behind every
+  local copy; its merge-update button only adds a commit that a normal
+  pull picks up. If the update can't be resolved cleanly, stop and
+  ask.
 - By default, what an agent authors says so: each commit carries a
   co-author trailer naming the model, and each MR/PR description a
   generated-with line. Setup records the project's choice; the tool's
   setting carries it where one exists (the root instruction file names
-  it per tool).
+  it per tool). Under squash merges, the per-commit trailers reach the
+  trunk only if the host's squash commit message keeps them; whether
+  it does depends on the host and its template (UNVERIFIED per host:
+  check the template before relying on it).
 - A review artifact (an MR/PR description) describes the change **as
   it currently stands**, rewritten on every substantive change — never
   an append-only log of attempts. Reviewers read the description as
@@ -96,11 +112,12 @@ so rather than silently picking a side.
 
 An agent never merges a content change and never arms auto-merge on
 one — only on pure bookkeeping, and only if a human set that up
-themselves. Anything destructive on a shared remote beyond rebasing
-a branch you alone use (force-pushing over someone else's work,
-deleting a branch you didn't create) needs a human's explicit
-go-ahead. The merge is the moment a human accepts the change; an
-agent that merges removes it.
+themselves. Anything destructive on a shared remote, such as
+force-pushing over someone else's work or deleting a branch you
+didn't create, needs a human's explicit go-ahead; the one exception
+is rebasing an unshared branch (no open review, no other clone; see
+"Work branches"). The merge is the moment a human accepts the change;
+an agent that merges removes it.
 
 ## Live systems need a human's go-ahead
 
@@ -121,14 +138,13 @@ costs and whether a credential is set in its environment (a presence
 check, never the value), then ask which account pays; the go-ahead
 names that account.
 
-**Read-only is not automatically harmless.** A diagnostic read still
-loads the system it reads, and parallel sessions multiply that load:
-concurrent read-only checks have exhausted the memory of a fragile
-control-plane component. Before probing a live system, check its
-headroom; run one heavy call at a time; target one specific node, not
-a load-balanced address; bound every log read (a time window or a
-line count); and where parallel sessions need the same system, agree
-who probes it when.
+**A read can still do harm.** A diagnostic read puts load on the
+system it reads, and parallel sessions multiply that load. Before
+probing a live system, look at how much spare capacity it has; keep
+heavy calls sequential; address one named node rather than an address
+behind a load balancer; give every log read a limit (a time window or
+a line count); and when parallel sessions need the same system,
+settle who probes it and when.
 
 ## Verify before declaring ready
 
@@ -170,28 +186,33 @@ who probes it when.
   [docs/troubleshooting.md](../troubleshooting.md), and name the
   nearest working instance of the same thing to diff against. A
   recorded, already-solved case outranks a fresh theory every time.
-- **Prove reach before reporting absence.** An unreachable or
-  unauthorized scope can return nothing, which looks exactly like an
-  empty one. Before reporting "none found" for a scope, show one
-  positive, authenticated call that proves the scope was reachable.
-  An empty or null aggregate (a sum, a count, a list) is a finding to
-  explain, not a zero.
-- **A factual claim carries its evidence label.** A claim about a
-  system, in a doc, a rule file or a report, says how it is known, in
-  these words, verbatim: *observed live, <date>*; *from code only*;
-  *inferred*; *reported, not re-verified*; *confirmed by <who>,
-  <date>*. An undated claim silently goes stale, and an unlabeled one
-  reads as stronger than its evidence; treat an unlabeled claim as
-  UNVERIFIED.
+- **"Nothing found" needs proof that the search could find
+  something.** A scope the agent can't reach or isn't authorized for
+  often answers with nothing, indistinguishable from a scope that is
+  really empty. So a "none found" report comes with one successful,
+  authenticated call into that same scope. A sum, count or list that
+  comes back empty or null is itself something to explain, never a
+  silent zero.
+- **A factual claim carries its evidence label.** A claim about the
+  project's own systems or a vendor's behavior, in the full text of a
+  fact or rule or in a report, says how it is known, in these words,
+  verbatim: *observed live, <date>*; *read in the code*; *inferred*;
+  *reported, unchecked*; *confirmed by <who>, <date>*. The label
+  sits in the full text, not in an always-loaded headline. An undated
+  claim silently goes stale, and an unlabeled one reads as stronger
+  than its evidence; treat an unlabeled claim as UNVERIFIED.
 
 ## Every change gets an adversarial review
 
-**Rule:** every MR/PR and every follow-up commit to one, docs and
-config included, gets an adversarial review — a reviewer told to find
-what is wrong, not to confirm what is right — before anyone calls it
-ready. After the findings are fixed, a delta review checks the fixes
-and whether each finding is really closed. Until both have run, the
-change is reported as UNREVIEWED, even when it is verified.
+**Rule:** no MR/PR is called ready, and no later commit added to it
+either, before an adversarial review: a reviewer told to find what is
+wrong, not to confirm what is right. Docs and config changes are no
+exception. Once its findings are fixed, a delta review looks only at
+the fixes and states for each finding whether it is closed. A delta
+review that closes every finding and raises none ends the loop;
+anything else goes back for another fix and another delta review.
+Until the loop has ended, the change is reported as UNREVIEWED, even
+when it is verified.
 **Why:** the author, human or agent, reviews what they meant to write,
 not what they wrote; small follow-up commits and "just docs" changes
 are where unreviewed mistakes slip through, because they look too
@@ -217,11 +238,10 @@ the same change. **How:** a drift check, where the project has one,
 enforces the principles part mechanically (every principle heading
 linked exactly once); the reviewer checks the rest. The same holds for
 any always-loaded index of facts whose full text lives elsewhere:
-each headline appears verbatim, exactly once, in the index and in the
-file holding its full text, and a change to one updates the other.
-Hand-kept pairs drift (one project found 8 of 97 headlines
-paraphrased), so propose a drift check of the same shape once the
-project has such an index.
+every headline reads the same, word for word, in the index and in the
+file holding its full text, occurs once in each, and changes in both
+places together. Hand-kept pairs drift, so propose a drift check of
+the same shape once the project has such an index.
 
 The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
 the one authority) are edited only by an architect session, by direct
@@ -250,12 +270,12 @@ than a string of failed guesses, and a researched answer about this
 organization is still a guess. "Not known yet" is a valid answer;
 record it as exactly that.
 
-An answer goes into the fact it settles, labeled *confirmed by <who>,
-<date>*. The repo holds no question pages, question tables or
-question ids: they outlive their context. An open question is one
-backlog item; an unknown is stated plainly where it matters. In
-team-facing docs, names and terms are written out in full, not as
-abbreviations only their author knows.
+An answer is written into the fact it settles, labeled *confirmed by
+<who>, <date>*. Pages, tables or numbering schemes that track
+questions have no place in the repo, since they outlive their context:
+an open question is one backlog item, and an unknown is stated
+plainly where it matters. Team-facing docs spell names and terms out
+rather than using abbreviations only their author knows.
 
 ## Stay on the job
 
@@ -400,8 +420,8 @@ front, every time:
 1. **Completion discipline**, first, where it is read before
    anything else: run everything in the foreground; do not start a
    background watch and end the turn waiting on a notification; commit
-   and push before reporting; if something backgrounds anyway, collect
-   it now and finish. A subagent left to wait on its own child task
+   and, at the recorded write level, push before reporting; if
+   something backgrounds anyway, collect it now and finish. A subagent left to wait on its own child task
    will report a non-result and stall the whole chain.
 2. **What to build or investigate**, and the scope boundary — what's
    in, what's deliberately out; repo paths and the deliverable files.
@@ -411,13 +431,14 @@ front, every time:
    rule files of the area the task touches, by path, for the agent to
    read, and how the environment provides credentials or other local
    facts — never a value.
-4. **Isolation**: where the agent's own fresh clone of the repo is —
+4. **Isolation**: where the agent's fresh clone of the repo is —
    never a human's working copy or a worktree of it (see "Work
    branches").
 5. **How to verify the result** — the actual command or check, never
    a placeholder like "add tests."
-6. **The deliverable's durable destination** — a pushed branch, a
-   review artifact's description, a backlog item — never only a
+6. **The deliverable's durable destination** — a pushed branch (a
+   local commit below the recommended write level), a review
+   artifact's description, a backlog item — never only a
    scratch file that a cleanup step might delete before anyone reads
    it.
 7. **The final report format**: the review link, what was verified
@@ -444,8 +465,8 @@ working, not agent error.
 
 In a task-briefed session, a tiny, one-file, fully-specified change
 may be done inline rather than delegated and re-checked — delegation
-has a fixed overhead that a trivial change doesn't amortize. It still
-gets its adversarial review before it is called ready.
+has a fixed overhead that a trivial change doesn't amortize. It is
+not called ready without its adversarial review either.
 
 ## Write a behavior where the acting agent reads it
 

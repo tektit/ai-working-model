@@ -1,7 +1,7 @@
 # Troubleshooting
 
 Known failures, keyed by the exact error text a person or an agent
-sees. Search here before forming a hypothesis ("Verify before
+sees. Search here first when something fails ("Verify before
 declaring ready" in
 [principles/ai-working-process.md](principles/ai-working-process.md)):
 

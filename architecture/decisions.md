@@ -221,7 +221,8 @@ Quota weight per model on Team seats stays unknown.
 ## D10: Every agent obeys `AGENTS.md`; every human is equal
 
 **Date:** 2026-10-05
-**Status:** accepted
+**Status:** accepted; the "about 1k words" figure for `AGENTS.md`
+superseded by D13
 
 **Context.** Guardrails lived partly in the architect skill, so a
 plain session never saw them; the principles read as optional
@@ -303,7 +304,7 @@ top of this.
 ## D13: Lessons from comparing two other working setups
 
 **Date:** 2026-10-08
-**Status:** accepted
+**Status:** proposed
 
 **Context.** A comparison of this kit with two AI working setups in
 real use found practices the kit lacked: known failures keyed by error
@@ -316,16 +317,21 @@ rebase plus forced push as the only branch update, rules that "never"
 load through the shell, isolation in "a clone or worktree".
 
 **Decision.** The human ruled on four setup questions. Branch updates
-follow the merge method: with squash merges, merge the trunk in and
-push normally (the merge commits never reach the trunk); without
-squash, rebase only a branch you alone use and push with
+follow the merge method, with squash merges the setup default: under
+squash or plain merge commits, a branch catches up by merging the
+trunk in (under squash those merges never reach the trunk); only a
+trunk that must be linear without squashing rebases, and only an
+unshared branch (no open review, no other clone), pushed with
 `--force-with-lease`. Agents at most push work branches and open draft
 MRs/PRs, the recommended of three write levels, so they can iterate on
 real CI results before a human reviews; present credentials are not
-consent. AI-written commits name the model as co-author and MR/PR
-descriptions carry a generated-with line, by default, carried by the
-tool's setting where one exists. Auto-memory never points into the
-checkout. Folded in with these: a `docs/troubleshooting.md` skeleton;
+consent, and below that level every "push" in the kit, the
+architect's direct trunk push included, becomes a local commit a
+human pushes. AI-written commits name the model as co-author and
+MR/PR descriptions carry a generated-with line, by default; in Claude
+Code that is the unset `attribution` setting, a default rather than
+an enforced policy. Auto-memory never points into the working copy.
+Folded in with these: a `docs/troubleshooting.md` skeleton;
 evidence labels and the reach proof in "Verify"; load discipline in
 "Live systems"; answers recorded in the facts they settle, no question
 pages; local hooks as feedback, never the gate; times with an explicit
@@ -339,11 +345,13 @@ list of architect-maintained files that agent definitions point at.
 **Consequences.** Setup asks three more questions (write level,
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
-1,090 to 1,260 words (189 lines). A drift check between a fact index
-and the files holding the full text stays written guidance: the
-starter ships no facts, so a check in
-`starter-check` would test nothing, and seeded projects don't get
-`tools/`. The fact storage model (headlines in the root file versus
+1,090 to 1,220 words (186 lines), which replaces D10's "about 1k
+words". Every MR/PR now costs at least two reviewer runs, the
+adversarial review and a delta review, plus one more delta review
+for each round that leaves a finding open. A drift check between a
+fact index and the files holding the full text stays written
+guidance: the starter ships no facts, so a check in `starter-check`
+would test nothing, and seeded projects don't get `tools/`. The fact storage model (headlines in the root file versus
 one fact per file) is not decided here; the "Facts that bite"
 placeholder stays as it is until the two approaches are evaluated for
 answer quality. Seeded projects don't get any of this automatically

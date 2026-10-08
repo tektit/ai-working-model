@@ -64,10 +64,10 @@ the software production grade.
 **How:** write the test, watch it fail for the expected reason, then
 make it pass. Use the ecosystem's standard test framework (the
 platform notes name it per language). A local hook (pre-commit,
-pre-push) is an optional fast-feedback copy of a CI or server-side
-gate, never the only enforcement: it can be skipped, is missing from
-a fresh clone and differs between machines, so its pass means
-"probably fine", never "verified".
+pre-push) only gives early feedback by running a check that CI or the
+server also runs; it is never the check itself. Anyone can skip it,
+a fresh clone doesn't have it, and it can differ from machine to
+machine, so a passing hook is a hint, not a verification.
 
 ## The tested procedure IS the shipped procedure
 

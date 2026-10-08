@@ -36,8 +36,8 @@ settings a seeded project would.
   `LICENSE-starter`, recorded in `NOTICE`) — run
   `uv run --project tools/starter-check starter-check` before
   committing a change that touches it.
-- **Delegated agents work in their own fresh clone, never in the
-  human's checkout or a worktree of it** (in Claude Code, under the
+- **A delegated agent uses a fresh clone of its own, never the
+  human's working copy or a worktree of it** (in Claude Code, under the
   session's scratchpad directory). For the neutrality check, symlink
   the root's gitignored `.neutrality-denylist` into the clone and
   remove the link afterwards; never commit it.

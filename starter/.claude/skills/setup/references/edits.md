@@ -18,9 +18,9 @@ one seeding change.
 
   Recorded by the setup skill; re-run it when any of this changes.
 
-  - **Git:** <host and repository>, trunk `<branch>`; <squash merges:
-    a branch catches up by merging the trunk in | no squash: a branch
-    you alone use catches up by rebasing>.
+  - **Git:** <host and repository>, trunk `<branch>`; <squash merges |
+    merge commits | linear trunk without squash>, so a branch catches
+    up by <merging the trunk in | rebasing while unshared>.
   - **Agent writes:** <push work branches and open draft MRs/PRs |
     commit locally only | nothing without a per-change instruction>.
   - **Attribution:** <AI-written commits name the model as co-author,
@@ -84,8 +84,16 @@ one seeding change.
 - Only when the attribution answer is not the default: set
   `attribution` to the chosen text. To hide attribution entirely, set
   `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it.
-  Left unset, Claude Code's default names the model in use, which a
-  fixed text could not.
+- Why the default leaves it unset: while `attribution` is unset,
+  Claude Code adds a co-author trailer naming the model in use to each
+  commit and a generated-with line to each MR/PR description, and a
+  fixed text could not follow the model. The committed setting
+  overrides each person's settings file, but any instruction about
+  attribution, a personal one included, outranks the setting unless
+  the setting itself is in managed settings. So the setting is a
+  default, not an enforced policy: only managed settings, or a CI
+  check on commit trailers, enforce it. Tell the human that when they
+  answer the attribution question.
 
 ## Not touched
 

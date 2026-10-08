@@ -18,27 +18,29 @@ it loads only when a rule file is read or edited.
 
 Claude Code loads rule files scoped by path under `.claude/rules/`;
 other tools have their own mechanism. Claude Code documents that a
-rule loads when the session reads, writes or edits a matching file
-with its file tools. Beyond that:
+rule loads once the session's file tools (read, write, edit) touch a
+file the rule's paths match. Beyond that:
 
 - a read through a shell command has been observed both to load a
-  matching rule and not to, depending on the tool version;
+  matching rule and not to, depending on the command and the tool
+  version; this is undocumented;
 - in another copy of the repo, such as a delegated agent's own clone,
   no rule was observed to load;
 - a subagent gets the starting session's instructions, not those of
   its working directory.
 
-So never rely on a rule loading by itself: before working in an
-area, read its rule file explicitly, and a brief names, by path, the
+So never rely on a rule loading by itself: read the area's rule file
+yourself before you work there, and a brief names, by path, the
 rule files of the area its task touches for the agent to read (Brief
 anatomy in `../../docs/principles/ai-working-process.md`).
 
-Scope a rule's path glob to its area: a directory or a file type,
-never a list of single files (the next file of that kind is missed),
-and never a catch-all such as `docs/**` or `**/*.md`. A catch-all
-loads the rule on every read of any doc; with several rules scoped
-that way, one docs-only read was computed to pull in about 100 KB of
-rules.
+Give a rule the narrowest path pattern that is its area (`ci/**`,
+`**/*.tf`, `docs/design/<topic>*`), never a list of single files (the
+next file of that kind is missed). A pattern that spans unrelated
+areas is a catch-all: with `docs/**`, every doc read loads the rule.
+The cost adds up across rules: five 20 KB rules all matching
+`docs/**` can put 100 KB into the context of a docs-only task (a sum
+of file sizes, so an upper bound).
 
 The principle, regardless of mechanism:
 

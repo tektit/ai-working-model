@@ -20,13 +20,13 @@ standard (below).
   the paying account, so its go-ahead names it. [Live systems](docs/principles/ai-working-process.md#live-systems-need-a-humans-go-ahead)
 - Code never obtains, parses or relays a credential; each tool reads
   its own. [Credentials](docs/principles/engineering.md#credentials-are-pure-injection)
-- Test first; never weaken a test; tests and CI gate every change, a
-  local hook is only feedback. [Test first](docs/principles/engineering.md#test-first)
+- Test first; never weaken a test; tests and CI gate every change.
+  [Test first](docs/principles/engineering.md#test-first)
 - Work happens on a work branch, never directly on the trunk
   (architect-maintained docs excepted). An agent at most pushes it and
   opens a draft MR/PR, or less at the write level setup recorded;
-  credentials being present is not consent. A delegated agent works in
-  its own fresh clone, never in a human's working copy or a worktree
+  credentials being present is not consent. A delegated agent uses a
+  fresh clone of its own, never a human's working copy or a worktree
   of it. [Work branches](docs/principles/ai-working-process.md#work-branches)
 - Done means verified against the pushed remote or a dry-run or live
   check; otherwise say UNVERIFIED. [Verify](docs/principles/ai-working-process.md#verify-before-declaring-ready)
@@ -94,8 +94,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   done inline. [Inline](docs/principles/ai-working-process.md#a-tiny-change-may-be-done-inline)
 - A wanted behavior is written where the acting agent reads it, a
   command given literally. [Write it where it's read](docs/principles/ai-working-process.md#write-a-behavior-where-the-acting-agent-reads-it)
-- Every MR/PR and follow-up commit gets an adversarial review, then a
-  delta review of the fixes; until then it is UNREVIEWED.
+- No MR/PR, nor a later commit to it, is ready until it has been
+  reviewed adversarially and its fixes delta-reviewed; until then,
+  UNREVIEWED.
   [Adversarial review](docs/principles/ai-working-process.md#every-change-gets-an-adversarial-review)
 - A series of rule edits ends with one top-tier consistency pass.
   [Consistency pass](docs/principles/ai-working-process.md#finish-a-series-of-rule-edits-with-one-consistency-pass)
@@ -111,7 +112,7 @@ it becomes a mechanical check (lint, CI gate) once one exists.
 - State lives in files; sessions stay short and compact early.
   [Restarting](docs/principles/context-economy.md#restarting-is-cheap-so-sessions-stay-short)
 - The repo wins over auto-memory, which holds only personal or
-  host-local facts and never points into the checkout.
+  host-local facts and never points into the working copy.
   [Auto-memory](docs/principles/context-economy.md#the-repo-is-shared-truth-auto-memory-is-personal)
 - Load less and call less; never compress what is sent.
   [Shrink and skip](docs/principles/context-economy.md#shrink-and-skip-never-compress)
@@ -134,8 +135,8 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   append-only, written in the change it records.
 - [docs/glossary.md](docs/glossary.md): terms defined once.
 - [docs/troubleshooting.md](docs/troubleshooting.md): known failures
-  keyed by their exact error text; grep it before forming a
-  hypothesis.
+  keyed by their exact error text; search it first when something
+  fails.
 - [docs/design/](docs/design/): one doc per subsystem or cross-cutting
   decision.
 - The principles in full:
@@ -145,8 +146,6 @@ it becomes a mechanical check (lint, CI gate) once one exists.
 - [docs/principles/platform-notes/](docs/principles/platform-notes/):
   read the one matching what you touch — bash, containers, GitLab CI,
   Kubernetes/ArgoCD, Python, Terraform, test harnesses.
-- Each person's auto-memory, outside the repo: only that person's or
-  that machine's facts; a team lesson moves into the repo.
 - `.claude/agents/`: narrow-lane helpers, each definition stating its
   lane, model and effort; `.claude/skills/`: architect, setup.
 - `.claude/rules/`: rules for one area of the tree, scoped by path.
@@ -167,12 +166,10 @@ this is how they map per tool.
   `.claude/settings.json`). The committed `.claude/settings.json`
   overrides each person's `~/.claude/settings.json`; a personal value
   goes in `.claude/settings.local.json` (not committed, wins over
-  `.claude/settings.json`). While `attribution` is unset, Claude Code
-  adds a co-author trailer naming the model in use to each commit and
-  a generated-with line to each MR/PR description; a project that
-  chose otherwise sets `attribution` there. An instruction about
-  attribution, a personal one included, outranks that setting unless
-  it comes from managed settings.
+  `.claude/settings.json`). `attribution` stays unset: Claude Code then
+  credits the model on commits and MRs/PRs, a default a personal
+  instruction defeats; only managed settings or a CI trailer check
+  enforce it (why: setup's `edits.md`).
 
 ## Running the tests
 
