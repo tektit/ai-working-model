@@ -50,7 +50,7 @@ repo itself is organized.
 | `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, delegation, briefing, and the lessons that shaped them. |
 | `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever. |
 | `starter/docs/principles/platform-notes/*.md` | Terse, reusable lessons and tool choices scoped to one platform (bash, containers, GitLab CI, Kubernetes/ArgoCD, Python, Terraform, test harnesses) — generalized past any one incident. |
-| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` — everything a new repo needs to begin on this foundation. |
+| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` and the troubleshooting page `docs/troubleshooting.md` — everything a new repo needs to begin on this foundation. |
 | `architecture/decisions.md` | This repo's own decision log (D1 onwards): why the starter is shaped the way it is. |
 | `tools/` | The two check tools: `neutrality` (no client or private identifiers) and `starter-check` (`starter/` stays generic and its links resolve). Not part of the distilled model. |
 
@@ -70,7 +70,8 @@ repo itself is organized.
    `docs/principles/ai-working-process.md`), the append-only
    `decisions.md`, `glossary.md`, and `design/README.md`. Every
    decision in force in `architecture.md` cites its dated entry in
-   `decisions.md`.
+   `decisions.md`. `troubleshooting.md` starts empty and grows by one
+   entry per verified fix, keyed by the exact error text.
 4. Use `.claude/rules/README.md`'s path-scoped rules for anything
    that applies to one area of the tree, instead of growing the root
    file.

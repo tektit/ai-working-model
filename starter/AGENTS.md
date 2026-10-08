@@ -127,6 +127,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   `docs/architecture.md`, `backlog.md`. `docs/decisions.md` is
   append-only, written in the change it records.
 - [docs/glossary.md](docs/glossary.md): terms defined once.
+- [docs/troubleshooting.md](docs/troubleshooting.md): known failures
+  keyed by their exact error text; grep it before forming a
+  hypothesis.
 - [docs/design/](docs/design/): one doc per subsystem or cross-cutting
   decision.
 - The principles in full:

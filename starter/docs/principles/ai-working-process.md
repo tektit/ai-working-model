@@ -157,9 +157,23 @@ names that account.
   in a report someone else acts on), read the primary source end to
   end rather than keyword-searching it.
 - Before forming a novel hypothesis, search first: grep the project's
-  own docs for the symptom, and name the nearest working instance of
-  the same thing to diff against. A recorded, already-solved case
-  outranks a fresh theory every time.
+  own docs for the symptom, starting with the exact error text in
+  [docs/troubleshooting.md](../troubleshooting.md), and name the
+  nearest working instance of the same thing to diff against. A
+  recorded, already-solved case outranks a fresh theory every time.
+- **Prove reach before reporting absence.** An unreachable or
+  unauthorized scope can return nothing, which looks exactly like an
+  empty one. Before reporting "none found" for a scope, show one
+  positive, authenticated call that proves the scope was reachable.
+  An empty or null aggregate (a sum, a count, a list) is a finding to
+  explain, not a zero.
+- **A factual claim carries its evidence label.** A claim about a
+  system, in a doc, a fact file or a report, says how it is known, in
+  these words, verbatim: *observed live, <date>*; *from code only*;
+  *inferred*; *reported, not re-verified*; *confirmed by <who>,
+  <date>*. An undated claim silently goes stale, and an unlabeled one
+  reads as stronger than its evidence; treat an unlabeled claim as
+  UNVERIFIED.
 
 ## Docs completeness is part of being done
 
