@@ -76,11 +76,11 @@ so rather than silently picking a side.
   hosting site's update or rebase button (it moves only the remote and
   leaves local copies stale). If the update can't be resolved cleanly,
   stop and ask.
-- Commits an agent authors say so: a co-author trailer naming the
-  model, and a generated-with line in the MR/PR description. That
-  transparency is the recommended default; setup records the
-  project's choice, and the tool's setting carries it where one exists
-  (the root instruction file names it per tool).
+- By default, what an agent authors says so: each commit carries a
+  co-author trailer naming the model, and each MR/PR description a
+  generated-with line. Setup records the project's choice; the tool's
+  setting carries it where one exists (the root instruction file names
+  it per tool).
 - A review artifact (an MR/PR description) describes the change **as
   it currently stands**, rewritten on every substantive change — never
   an append-only log of attempts. Reviewers read the description as
@@ -177,7 +177,7 @@ who probes it when.
   An empty or null aggregate (a sum, a count, a list) is a finding to
   explain, not a zero.
 - **A factual claim carries its evidence label.** A claim about a
-  system, in a doc, a fact file or a report, says how it is known, in
+  system, in a doc, a rule file or a report, says how it is known, in
   these words, verbatim: *observed live, <date>*; *from code only*;
   *inferred*; *reported, not re-verified*; *confirmed by <who>,
   <date>*. An undated claim silently goes stale, and an unlabeled one
@@ -217,10 +217,11 @@ the same change. **How:** a drift check, where the project has one,
 enforces the principles part mechanically (every principle heading
 linked exactly once); the reviewer checks the rest. The same holds for
 any always-loaded index of facts whose full text lives elsewhere:
-each headline appears verbatim, exactly once, in the index and in its
-fact file, and a change to one updates the other. Hand-kept pairs
-drift (one project found 8 of 97 headlines paraphrased), so propose a
-drift check of the same shape once the project has such an index.
+each headline appears verbatim, exactly once, in the index and in the
+file holding its full text, and a change to one updates the other.
+Hand-kept pairs drift (one project found 8 of 97 headlines
+paraphrased), so propose a drift check of the same shape once the
+project has such an index.
 
 The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
 the one authority) are edited only by an architect session, by direct
@@ -443,7 +444,8 @@ working, not agent error.
 
 In a task-briefed session, a tiny, one-file, fully-specified change
 may be done inline rather than delegated and re-checked — delegation
-has a fixed overhead that a trivial change doesn't amortize.
+has a fixed overhead that a trivial change doesn't amortize. It still
+gets its adversarial review before it is called ready.
 
 ## Write a behavior where the acting agent reads it
 

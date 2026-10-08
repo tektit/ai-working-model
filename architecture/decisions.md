@@ -339,8 +339,9 @@ list of architect-maintained files that agent definitions point at.
 **Consequences.** Setup asks three more questions (write level,
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
-1,090 to 1,260 words (189 lines). An index-to-fact-file drift check
-stays written guidance: the starter ships no facts, so a check in
+1,090 to 1,260 words (189 lines). A drift check between a fact index
+and the files holding the full text stays written guidance: the
+starter ships no facts, so a check in
 `starter-check` would test nothing, and seeded projects don't get
 `tools/`. The fact storage model (headlines in the root file versus
 one fact per file) is not decided here; the "Facts that bite"

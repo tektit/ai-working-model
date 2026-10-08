@@ -109,10 +109,11 @@ This matters most: from now on "the backlog" means this place.
 ## 8. How far agents write to the repo
 
 - **Ask:** "How far may AI agents write on their own? (a) They push
-  their own work branches and open draft review requests, never on
-  the trunk. (b) They commit on their own computer only, and a person
-  pushes. (c) They change nothing in the repo unless a person asks for
-  that specific change."
+  their own work branches and open draft merge requests (a proposed
+  change that waits for a person to accept it; GitHub calls it a pull
+  request), never on the trunk. (b) They commit on their own computer
+  only, and a person pushes. (c) They change nothing in the repo
+  unless a person asks for that specific change."
 - **Default:** (a). An agent then sees the real test results of its
   own change, fixes what fails and pushes again before anyone spends
   review time; nothing reaches the trunk without a person merging.
@@ -124,10 +125,10 @@ This matters most: from now on "the backlog" means this place.
 
 ## 9. Commit attribution
 
-- **Ask:** "Should commits and review requests written by an AI say
+- **Ask:** "Should commits and merge requests written by an AI say
   so?"
 - **Default:** yes: each such commit names the model as co-author, and
-  each review request carries a generated-with line. Anyone reading
+  each merge request carries a generated-with line. Anyone reading
   the history can tell which changes an agent wrote; the cost is a
   line per commit.
 - **Goes to:** `AGENTS.md` "Project setup"; the tool's setting when

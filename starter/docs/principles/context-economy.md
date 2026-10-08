@@ -116,11 +116,12 @@ Status kept in always-loaded context is paid on every call and goes
 stale there. Memory written into the checkout lands in shared git as
 one person's or one host's notes, or strands uncommitted on the one
 machine that wrote it.
-**How:** promote a team lesson to its place in the repo (a fact file,
-a principle, the backlog) and drop the memory copy. In Claude Code,
-never set `autoMemoryDirectory` to a path inside the checkout, and
-never give a subagent `memory: project`, which writes under
-`.claude/`.
+**How:** promote a team lesson to its place in the repo (a
+path-scoped rule, a platform note, a principle, the backlog) and drop
+the memory copy. In Claude Code, never set `autoMemoryDirectory` to a
+path inside the checkout, and never give a subagent `memory: project`
+or `memory: local`, which both write under the checkout's `.claude/`;
+`memory: user` stays outside it.
 
 ## Shrink and skip; never compress
 

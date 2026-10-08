@@ -47,8 +47,8 @@ repo itself is organized.
 |---|---|
 | `starter/` | The exact tree a user copies into a new repo — everything below is inside it. |
 | `starter/docs/principles/engineering.md` | Engineering principles: fail loudly, trust the PATH, credentials as pure injection, test first, and the rest — one rule, one reason, one way to apply it. |
-| `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, delegation, briefing, and the lessons that shaped them. |
-| `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever. |
+| `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, adversarial review, delegation, briefing, and the lessons that shaped them. |
+| `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever, and why auto-memory stays personal. |
 | `starter/docs/principles/platform-notes/*.md` | Terse, reusable lessons and tool choices scoped to one platform (bash, containers, GitLab CI, Kubernetes/ArgoCD, Python, Terraform, test harnesses) — generalized past any one incident. |
 | `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` and the troubleshooting page `docs/troubleshooting.md` — everything a new repo needs to begin on this foundation. |
 | `architecture/decisions.md` | This repo's own decision log (D1 onwards): why the starter is shaped the way it is. |

@@ -21,11 +21,11 @@ one seeding change.
   - **Git:** <host and repository>, trunk `<branch>`; <squash merges:
     a branch catches up by merging the trunk in | no squash: a branch
     you alone use catches up by rebasing>.
-  - **Agent writes:** <push work branches and open draft review
-    requests | commit locally only | nothing without a per-change
-    instruction>.
+  - **Agent writes:** <push work branches and open draft MRs/PRs |
+    commit locally only | nothing without a per-change instruction>.
   - **Attribution:** <AI-written commits name the model as co-author,
-    review requests carry a generated-with line | the chosen policy>.
+    MR/PR descriptions carry a generated-with line | the chosen
+    policy>.
   - **Time zone:** <zone>, stated with every time shown to people.
   - **Pipeline:** <what runs on each change>; merging to `<branch>`
     <deploys to X | deploys nothing>.

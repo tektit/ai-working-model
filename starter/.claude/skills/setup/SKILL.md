@@ -69,10 +69,10 @@ the trade-off.
    protection, approved vendors or hosting, security policies,
    budget, licenses).
 8. **How far agents write to the repo**: push branches and open draft
-   review requests, commit locally only, or nothing without a
-   per-change instruction.
-9. **Commit attribution**: whether AI-written commits and review
-   requests say so.
+   MRs/PRs, commit locally only, or nothing without a per-change
+   instruction.
+9. **Commit attribution**: whether AI-written commits and MRs/PRs say
+   so.
 10. **Time zone** for times shown to people.
 
 Last, ask whether the project deliberately differs from any of its

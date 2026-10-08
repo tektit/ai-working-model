@@ -167,12 +167,12 @@ this is how they map per tool.
   `.claude/settings.json`). The committed `.claude/settings.json`
   overrides each person's `~/.claude/settings.json`; a personal value
   goes in `.claude/settings.local.json` (not committed, wins over
-  `.claude/settings.json`). Commit and MR/PR attribution is the
-  default while `attribution` is unset: a co-author trailer naming the
-  model in use, and a generated-with line. A project that chose
-  otherwise sets `attribution` there. An instruction about
+  `.claude/settings.json`). While `attribution` is unset, Claude Code
+  adds a co-author trailer naming the model in use to each commit and
+  a generated-with line to each MR/PR description; a project that
+  chose otherwise sets `attribution` there. An instruction about
   attribution, a personal one included, outranks that setting unless
-  the setting comes from managed settings.
+  it comes from managed settings.
 
 ## Running the tests
 

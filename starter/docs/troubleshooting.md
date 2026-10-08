@@ -13,8 +13,8 @@ An entry is added once its fix is verified, in the change that
 verifies it. Entries are never deleted: one whose cause was fixed
 upstream is marked resolved upstream, with the version, because the
 same error comes back with an older version. A lesson worth knowing
-before anyone hits it belongs in a platform note or a path-scoped
-rule; this page starts from the error.
+before anyone hits it belongs with the project's other facts (see
+`AGENTS.md`); this page starts from the error.
 
 ## Index
 
