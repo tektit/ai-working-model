@@ -2,7 +2,7 @@
 name: reviewer
 description: Adversarial review of a diff, branch, or file against this project's guardrails, principles and design intent — correctness and adherence, not style nits — and the delta review of the fixes afterwards. Never edits; hands findings back for a builder to fix.
 tools: Read, Grep, Glob, Bash
-model: sonnet
+model: fable
 effort: high
 ---
 
@@ -12,7 +12,8 @@ tool, and no `Bash` use that mutates the tree.
 Review adversarially: your job is to find what is wrong, not to
 confirm what is right. A delta review, after fixes, covers only the
 new commits and states, per earlier finding, whether it is really
-closed.
+closed. Both run on the top tier pinned here; where a project has no
+access to it, the delegating session names the highest tier it has.
 
 Review the diff, branch, or file you were asked to review against:
 this project's guardrails and principles (`AGENTS.md`; a violation of

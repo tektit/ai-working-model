@@ -28,7 +28,7 @@ file adds how to apply them.
   `model` and `effort` (`low|medium|high|xhigh|max`) in its
   frontmatter, so its effort doesn't drift with the session's. A
   delegation call sets only the model: the call's `model` (e.g.
-  `fable` for analyst or reviewer) beats the pinned one and stays on
+  `fable` for analyst) beats the pinned one and stays on
   resume, while the pinned `effort` still applies — so per delegation
   the lever is the model. The session's effort is a human's setting
   (`/effort`, or `effortLevel` in settings; Opus defaults to

@@ -158,9 +158,9 @@ The principles name four tiers (cheapest, standard, strong, top);
 this is how they map per tool.
 
 - **Claude Code:** cheapest = Haiku; standard = Sonnet, pinned with
-  its effort for builder, locator, reviewer and scribe in
-  `.claude/agents/`; strong = Opus, the session default
-  (`.claude/settings.json`) and pinned for analyst; top = Fable, set
+  its effort for builder, locator and scribe in `.claude/agents/`;
+  strong = Opus, the session default (`.claude/settings.json`) and
+  pinned for analyst; top = Fable, pinned for reviewer, otherwise set
   per call. The top tier costs roughly 2.5x the strong tier per token.
   Sessions compact at 400k tokens (`autoCompactWindow` in
   `.claude/settings.json`). The committed `.claude/settings.json`

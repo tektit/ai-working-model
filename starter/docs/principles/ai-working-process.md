@@ -218,8 +218,10 @@ not what they wrote; small follow-up commits and "just docs" changes
 are where unreviewed mistakes slip through, because they look too
 small to check.
 **How:** the read-only reviewer agent (`.claude/agents/reviewer.md`),
-on a higher tier where "Delegation" says so. Its findings go back to
-whoever wrote the change; the reviewer never fixes them itself.
+pinned to the top tier, runs both the review and every delta review,
+on the highest tier available to the project, never a middle one. Its
+findings go back to whoever wrote the change; the reviewer never
+fixes them itself.
 
 ## Docs completeness is part of being done
 
@@ -383,17 +385,19 @@ From weighing these together, a few heuristics follow:
     with mistakes visible in review;
   - **top:** mistakes that would be silent and expensive — a novel
     design that is expensive to change later (data model, security
-    boundary, interfaces), adversarial review of security, data-loss
-    or migration work, the analysis behind a principle change, the
-    consistency pass after a series of rule edits, a tie-break
-    when two strong-tier attempts disagree or fail.
+    boundary, interfaces), every adversarial review and delta review,
+    the analysis behind a principle change, the consistency pass
+    after a series of rule edits, a tie-break when two strong-tier
+    attempts disagree or fail.
 
   A precise brief that avoids rework is worth more than a cheap model
   that has to be corrected twice.
 - A narrow-lane agent runs on the model and effort pinned in its
   definition. A delegation overrides the model only to raise the
-  tier, stating the reason in one line. An agent without a pin (a
-  general-purpose or built-in agent) always gets an explicit model.
+  tier, stating the reason in one line, or, where the pinned model
+  isn't available to the project, to name the highest tier that is.
+  An agent without a pin (a general-purpose or built-in agent) always
+  gets an explicit model.
 - When the problem is depth (missed edge cases, shallow verification)
   rather than judgment, raise the effort before raising the tier.
 - The delegating session picks the top tier on its own judgment and

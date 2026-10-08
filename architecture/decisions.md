@@ -198,7 +198,7 @@ minutes of reading; rulings that only apply a principle stay cheap.
 ## D9: Model and effort by the cost of an undetected mistake
 
 **Date:** 2026-10-05
-**Status:** accepted
+**Status:** accepted; the reviewer's Sonnet pin superseded by D13
 
 **Context.** "Fable only when the owner asks" was caution, not
 evidence; the model A/B compared only Sonnet and Opus on bounded
@@ -331,6 +331,8 @@ human pushes. AI-written commits name the model as co-author and
 MR/PR descriptions carry a generated-with line, by default; in Claude
 Code that is the unset `attribution` setting, a default rather than
 an enforced policy. Auto-memory never points into the working copy.
+Adversarial and delta reviews run on the highest tier available,
+never a middle one, so the reviewer agent is pinned to the top tier.
 Folded in with these: a `docs/troubleshooting.md` skeleton;
 evidence labels and the reach proof in "Verify"; load discipline in
 "Live systems"; answers recorded in the facts they settle, no question
@@ -346,12 +348,16 @@ list of architect-maintained files that agent definitions point at.
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
 1,090 to 1,220 words (186 lines), which replaces D10's "about 1k
-words". Every MR/PR now costs at least two reviewer runs, the
-adversarial review and a delta review, plus one more delta review
-for each round that leaves a finding open. A drift check between a
-fact index and the files holding the full text stays written
-guidance: the starter ships no facts, so a check in `starter-check`
-would test nothing, and seeded projects don't get `tools/`. The fact storage model (headlines in the root file versus
+words". Every MR/PR now costs at least two top-tier reviewer runs,
+the adversarial review and a delta review, plus one more delta review
+for each round that leaves a finding open; each run costs more than
+it did on the standard tier (the top tier is about 2.5x the strong
+tier per token, D9), and the stop condition, a delta review that
+closes every finding and raises none, is what bounds the total. A
+drift check between a fact index and the files holding the full text
+stays written guidance: the starter ships no facts, so a check in
+`starter-check` would test nothing, and seeded projects don't get
+`tools/`. The fact storage model (headlines in the root file versus
 one fact per file) is not decided here; the "Facts that bite"
 placeholder stays as it is until the two approaches are evaluated for
 answer quality. Seeded projects don't get any of this automatically
