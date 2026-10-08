@@ -46,6 +46,7 @@ standard (below).
 
 ## Principles
 
+What they serve, for humans and agents: [design goals](docs/principles/design-goals.md).
 One line each; the link holds the rule, the reason and how to apply
 it. **hard** marks a hard standard: its violation blocks review, and
 it becomes a mechanical check (lint, CI gate) once one exists.

@@ -363,6 +363,36 @@ placeholder stays as it is until the two approaches are evaluated for
 answer quality. Seeded projects don't get any of this automatically
 (D5).
 
+## D14: Stated design goals for humans and agents
+
+**Date:** 2026-10-08
+**Status:** proposed
+
+**Context.** The principles said what to do, rule by rule, but not
+what the whole model is built to achieve, so neither a human nor an
+agent could weigh one rule against another, cost included.
+
+**Decision.** Six design goals, derived from the existing principles
+and adding no rule of their own: quality first; the human decides
+and merges; cost-aware by design (the cheapest adequate tier per job
+and the top tier for reviews and novel design, a budgeted
+always-loaded context, a test suite or pipeline run once per change,
+decisions batched at milestones); transparent (attribution, the
+decision log, current MR/PR descriptions, evidence labels); the
+tested procedure IS the shipped procedure; portable and neutral. They
+live in the starter's `docs/principles/design-goals.md`, each with
+the principles that carry it and one line on what it asks of a human
+and one on what it asks of an agent. The README names them, and the
+starter's `AGENTS.md` links them in one line. Where cost and
+correctness pull apart, correctness wins, as "Delegation" already
+says.
+
+**Consequences.** A new principle or a change to one is checked
+against the goals it serves. The goals are not covered by
+`starter-check`'s principle-line drift check, so the reviewer keeps
+their "carried by" references current. The starter's `AGENTS.md`
+grows by one line.
+
 ## Format
 
 ```

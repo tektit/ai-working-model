@@ -35,6 +35,17 @@ Two jobs, one repo:
    here instead, so it doesn't pollute project repos with material that
    isn't about them.
 
+## Design goals
+
+The model is built for six goals: quality first; the human decides
+and merges; cost-aware by design; transparent; the tested procedure
+IS the shipped procedure; portable and neutral. Each is derived from
+the principles, and
+[starter/docs/principles/design-goals.md](starter/docs/principles/design-goals.md)
+says per goal which principles carry it and what it asks of a human
+and of an agent. In this repo, "neutral" also means the neutrality
+check below.
+
 ## Layout
 
 This repo dogfoods its own starter kit: its principles are `starter/`'s,
@@ -46,6 +57,7 @@ repo itself is organized.
 | Path | Contents |
 |---|---|
 | `starter/` | The exact tree a user copies into a new repo — everything below is inside it. |
+| `starter/docs/principles/design-goals.md` | The six design goals the principles serve, each with what it asks of a human and of an agent. |
 | `starter/docs/principles/engineering.md` | Engineering principles: fail loudly, trust the PATH, credentials as pure injection, test first, and the rest — one rule, one reason, one way to apply it. |
 | `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, adversarial review, delegation, briefing, and the lessons that shaped them. |
 | `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever, and why auto-memory stays personal. |
