@@ -216,9 +216,11 @@ either, before an adversarial review: a reviewer told to find what is
 wrong, not to confirm what is right. Docs and config changes are no
 exception. The review checks the MR/PR description against the diff,
 claim by claim, because a human reviews through the description, not
-the code. Once its findings are fixed, a delta review looks only at
-the fixes and states for each finding whether it is closed. A delta
-review that closes every finding and raises none ends the loop;
+the code. A review that raises no finding ends the loop there.
+Otherwise, once the findings are fixed, a delta review looks only at
+the fix commits and the open findings, and states for each finding
+whether it is closed: the fix commits are new, unreviewed changes. A
+delta review that closes every finding and raises none ends the loop;
 anything else goes back for another fix and another delta review.
 Until the loop has ended, the change is reported as UNREVIEWED, even
 when it is verified.

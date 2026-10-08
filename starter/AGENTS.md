@@ -97,7 +97,7 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   command given literally. [Write it where it's read](docs/principles/ai-working-process.md#write-a-behavior-where-the-acting-agent-reads-it)
 - No MR/PR, nor a later commit to it, is ready until it has been
   reviewed adversarially, its description against the diff included,
-  and its fixes delta-reviewed; until then, UNREVIEWED.
+  and any fixes delta-reviewed; until then, UNREVIEWED.
   [Adversarial review](docs/principles/ai-working-process.md#every-change-gets-an-adversarial-review)
 - A series of rule edits ends with one top-tier consistency pass.
   [Consistency pass](docs/principles/ai-working-process.md#finish-a-series-of-rule-edits-with-one-consistency-pass)

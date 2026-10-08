@@ -356,12 +356,12 @@ at.
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
 1,090 to 1,240 words (187 lines, D14's line included), which replaces
-D10's "about 1k words". Every MR/PR now costs at least two top-tier reviewer runs,
-the adversarial review and a delta review, plus one more delta review
-for each round that leaves a finding open; each run costs more than
-it did on the standard tier (the top tier is about 2.5x the strong
-tier per token, D9), and the stop condition, a delta review that
-closes every finding and raises none, is what bounds the total. A
+D10's "about 1k words". Every MR/PR costs at least one top-tier
+review; each round of fix commits adds one delta review, scoped to the
+new commits and the open findings and so smaller than the first, until
+the stop condition (a review that closes every open finding and raises
+none) ends the loop. Each run costs more than it did on the standard
+tier (the top tier is about 2.5x the strong tier per token, D9). A
 drift check between a fact index and the files holding the full text
 stays written guidance: the starter ships no facts, so a check in
 `starter-check` would test nothing, and seeded projects don't get
