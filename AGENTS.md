@@ -36,11 +36,16 @@ settings a seeded project would.
   `LICENSE-starter`, recorded in `NOTICE`) — run
   `uv run --project tools/starter-check starter-check` before
   committing a change that touches it.
-- **Delegated agents work in a git worktree outside the human's
-  checkout** (in Claude Code, under the session's scratchpad
-  directory). For the neutrality check,
-  symlink the root's gitignored `.neutrality-denylist` into the
-  worktree and remove the link afterwards; never commit it.
+- **A delegated agent uses a fresh clone of its own, never the
+  human's working copy or a worktree of it** (in Claude Code, under the
+  session's scratchpad directory). For the neutrality check, symlink
+  the root's gitignored `.neutrality-denylist` into the clone and
+  remove the link afterwards; never commit it.
+- **Merge method: squash only.** The owner merges a pull request as
+  one squash commit on `main`. The repository's squash-message setting
+  is the list of commit messages (setting observed live, 2026-10-08),
+  so co-author trailers should survive on `main` (inferred; not yet
+  observed on a merge).
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a

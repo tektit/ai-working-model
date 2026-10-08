@@ -20,6 +20,7 @@ another file owns:
 | Principles: engineering, AI working process, context economy | [principles/](principles/) |
 | Decisions and rulings, dated, superseded ones kept | [decisions.md](decisions.md) |
 | Detailed designs | [design/](design/) |
+| Known failures, keyed by their exact error text | [troubleshooting.md](troubleshooting.md) |
 | Work in flight, queued, deliberately deferred | [../backlog.md](../backlog.md) |
 
 **Stakeholders:** <!-- Who uses, operates, secures, pays for, and is

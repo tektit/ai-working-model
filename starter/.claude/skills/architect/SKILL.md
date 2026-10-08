@@ -115,8 +115,9 @@ becomes a mechanical check once one exists.
 - Brief quality is the lever: a bounded, precise brief does well on
   the standard tier. Prefer a narrow-lane agent when the task fits its
   lane, and fewer, precisely briefed agents over many small ones.
-- Verify agent work before presenting it ("Verify before declaring
-  ready" in the principles).
+- Verify agent work and have it adversarially reviewed before
+  presenting it as ready ("Verify before declaring ready" and "Every
+  change gets an adversarial review" in the principles).
 
 ## Recorded, not remembered (depth: references/operating-rules.md)
 

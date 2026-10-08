@@ -24,7 +24,8 @@ glossary's terms verbatim — one word per concept, no synonyms.
 ## Before you report done
 
 Run every command in the FOREGROUND; do not park waiting on a
-notification. Commit and push before reporting. Read back a
+notification. Commit and, at the recorded write level, push before
+reporting. Read back a
 generated review description to confirm it rendered as real content.
 
 ## Lane

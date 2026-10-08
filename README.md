@@ -35,6 +35,18 @@ Two jobs, one repo:
    here instead, so it doesn't pollute project repos with material that
    isn't about them.
 
+## Design goals
+
+The aim: the best working setup for humans and AI agents as
+coworkers. Six goals serve it: quality first; the human decides and
+merges; cost-aware by design; transparent; the tested procedure IS
+the shipped procedure; portable and tool-neutral. Each is derived
+from the principles, and
+[starter/docs/principles/design-goals.md](starter/docs/principles/design-goals.md)
+says per goal which principles carry it and what it asks of a human
+and of an agent. This repo also keeps client and private identifiers
+out (see "Neutrality check" below).
+
 ## Layout
 
 This repo dogfoods its own starter kit: its principles are `starter/`'s,
@@ -46,11 +58,12 @@ repo itself is organized.
 | Path | Contents |
 |---|---|
 | `starter/` | The exact tree a user copies into a new repo — everything below is inside it. |
+| `starter/docs/principles/design-goals.md` | The six design goals the principles serve, each with what it asks of a human and of an agent. |
 | `starter/docs/principles/engineering.md` | Engineering principles: fail loudly, trust the PATH, credentials as pure injection, test first, and the rest — one rule, one reason, one way to apply it. |
-| `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, delegation, briefing, and the lessons that shaped them. |
-| `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever. |
+| `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, adversarial review, delegation, briefing, and the lessons that shaped them. |
+| `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever, and why auto-memory stays personal. |
 | `starter/docs/principles/platform-notes/*.md` | Terse, reusable lessons and tool choices scoped to one platform (bash, containers, GitLab CI, Kubernetes/ArgoCD, Python, Terraform, test harnesses) — generalized past any one incident. |
-| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` — everything a new repo needs to begin on this foundation. |
+| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` and the troubleshooting page `docs/troubleshooting.md` — everything a new repo needs to begin on this foundation. |
 | `architecture/decisions.md` | This repo's own decision log (D1 onwards): why the starter is shaped the way it is. |
 | `tools/` | The two check tools: `neutrality` (no client or private identifiers) and `starter-check` (`starter/` stays generic and its links resolve). Not part of the distilled model. |
 
@@ -70,7 +83,8 @@ repo itself is organized.
    `docs/principles/ai-working-process.md`), the append-only
    `decisions.md`, `glossary.md`, and `design/README.md`. Every
    decision in force in `architecture.md` cites its dated entry in
-   `decisions.md`.
+   `decisions.md`. `troubleshooting.md` starts empty and grows by one
+   entry per verified fix, keyed by the exact error text.
 4. Use `.claude/rules/README.md`'s path-scoped rules for anything
    that applies to one area of the tree, instead of growing the root
    file.
@@ -110,7 +124,11 @@ This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
 file against a local, gitignored denylist
 (`.neutrality-denylist`, one case-insensitive regex per line) and
-fails on any hit. To install it as a pre-commit hook:
+fails on any hit. It is an extra safeguard on top of the human
+review of every pull request, which is the check of record: no
+server-side check runs, by decision
+([D15](architecture/decisions.md#d15-no-server-side-neutrality-check)).
+To install it as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'

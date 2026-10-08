@@ -18,7 +18,15 @@ one seeding change.
 
   Recorded by the setup skill; re-run it when any of this changes.
 
-  - **Git:** <host and repository>, trunk `<branch>`.
+  - **Git:** <host and repository>, trunk `<branch>`; <squash merges |
+    merge commits | linear trunk without squash>, so a branch catches
+    up by <merging the trunk in | rebasing while unshared>.
+  - **Agent writes:** <push work branches and open draft MRs/PRs |
+    commit locally only | nothing without a per-change instruction>.
+  - **Attribution:** <AI-written commits name the model as co-author,
+    MR/PR descriptions carry a generated-with line | the chosen
+    policy>.
+  - **Time zone:** <zone>, stated with every time shown to people.
   - **Pipeline:** <what runs on each change>; merging to `<branch>`
     <deploys to X | deploys nothing>.
   - **Backlog:** <backlog.md | the tracker and project>. Mapping:
@@ -31,6 +39,11 @@ one seeding change.
 
 - If the backlog is a tracker, change every mention of `backlog.md` in
   this file to point to it.
+- Whenever setup writes `attribution` (`.claude/settings.json`,
+  below), replace the "`attribution` stays unset" sentence in the
+  Claude Code part of this file with the recorded policy, and keep its
+  pointer to why only managed settings or a CI trailer check enforce
+  it.
 - Anything "not known yet" stays in the record as exactly that.
 
 ## `docs/architecture.md`
@@ -71,9 +84,26 @@ one seeding change.
 - Don't define general engineering terms; the glossary is for this
   project's own vocabulary.
 
+## `.claude/settings.json`
+
+- Only when the attribution answer is not the default: set
+  `attribution` to the chosen text. To hide attribution entirely, set
+  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it.
+- Why the default leaves it unset: while `attribution` is unset,
+  Claude Code adds a co-author trailer naming the model in use to each
+  commit and a generated-with line to each MR/PR description, and a
+  fixed text could not follow the model. The committed setting
+  overrides each person's settings file, but any instruction about
+  attribution, a personal one included, outranks the setting unless
+  the setting itself is in managed settings. So the setting is a
+  default, not an enforced policy: only managed settings, or a CI
+  check on commit trailers, enforce it. Tell the human that when they
+  answer the attribution question.
+
 ## Not touched
 
 - `docs/principles/`: edited only for a deviation the human stated,
   through "Changing a principle" (SKILL.md step 5).
-- Code, pipeline files and settings: setup records what exists; changing
-  them is later work for an architect session.
+- Code, pipeline files and settings, except `attribution` above: setup
+  records what exists; changing them is later work for an architect
+  session.
