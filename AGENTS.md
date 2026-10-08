@@ -42,8 +42,10 @@ settings a seeded project would.
   the root's gitignored `.neutrality-denylist` into the clone and
   remove the link afterwards; never commit it.
 - **Merge method: squash only.** The owner merges a pull request as
-  one squash commit on `main`. Co-author trailers survive on `main`
-  because the squash message is the list of commit messages.
+  one squash commit on `main`. The repository's squash-message setting
+  is the list of commit messages (setting observed live, 2026-10-08),
+  so co-author trailers should survive on `main`; not yet observed on
+  a merge.
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a

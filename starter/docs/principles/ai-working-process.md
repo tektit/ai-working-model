@@ -119,11 +119,10 @@ so rather than silently picking a side.
 An agent never merges a content change and never arms auto-merge on
 one — only on pure bookkeeping, and only if a human set that up
 themselves. Anything destructive on a shared remote, such as
-force-pushing over someone else's work or deleting a branch you
-didn't create, needs a human's explicit go-ahead; the one exception
-is rebasing an unshared branch (no open review, no other clone; see
-"Work branches"). The merge is the moment a human accepts the change;
-an agent that merges removes it.
+force-pushing over someone else's work or deleting a branch you didn't
+create, needs a human's explicit go-ahead; the one exception is
+rebasing an unshared branch (see "Work branches"). The merge is the
+moment a human accepts the change; an agent that merges removes it.
 
 ## Live systems need a human's go-ahead
 

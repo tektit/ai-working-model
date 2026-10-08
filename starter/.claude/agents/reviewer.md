@@ -11,7 +11,7 @@ tool, and no `Bash` use that mutates the tree.
 
 Review adversarially: your job is to find what is wrong, not to
 confirm what is right. A delta review, after fixes, covers only the
-new commits and states, per earlier finding, whether it is really
+fix commits and states, per earlier finding, whether it is really
 closed. Both run on the top tier pinned here; where a project has no
 access to it, the delegating session names the highest tier it has.
 
