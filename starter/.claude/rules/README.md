@@ -17,21 +17,28 @@ a rule that truly applies everywhere omits it; this README has one, so
 it loads only when a rule file is read or edited.
 
 Claude Code loads rule files scoped by path under `.claude/rules/`;
-other tools have their own mechanism. Measured in Claude Code, a rule
-loads only when the session reads or edits a matching file with its
-file tools, in the checkout the session started in:
+other tools have their own mechanism. Claude Code documents that a
+rule loads when the session reads, writes or edits a matching file
+with its file tools. Beyond that:
 
-- not when a file is read through the shell;
-- never in another copy of the repo, so not in a delegated agent's
-  own worktree;
+- a read through a shell command has been observed both to load a
+  matching rule and not to, depending on the tool version;
+- in another copy of the repo, such as a delegated agent's own clone,
+  no rule was observed to load;
 - a subagent gets the starting session's instructions, not those of
   its working directory.
 
-So a brief names, by path, the rule files of the area its task
-touches for the agent to read (Brief anatomy in
-`../../docs/principles/ai-working-process.md`). Keep a rule's path
-glob broad — a directory or a file type, never a list of single
-files, or the next file of that kind is missed.
+So never rely on a rule loading by itself: before working in an
+area, read its rule file explicitly, and a brief names, by path, the
+rule files of the area its task touches for the agent to read (Brief
+anatomy in `../../docs/principles/ai-working-process.md`).
+
+Scope a rule's path glob to its area: a directory or a file type,
+never a list of single files (the next file of that kind is missed),
+and never a catch-all such as `docs/**` or `**/*.md`. A catch-all
+loads the rule on every read of any doc; with several rules scoped
+that way, one docs-only read was computed to pull in about 100 KB of
+rules.
 
 The principle, regardless of mechanism:
 

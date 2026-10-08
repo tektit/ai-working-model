@@ -138,9 +138,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   Kubernetes/ArgoCD, Python, Terraform, test harnesses.
 - `.claude/agents/`: narrow-lane helpers, each definition stating its
   lane, model and effort; `.claude/skills/`: architect, setup.
-- `.claude/rules/`: rules for one area of the tree, loaded by path
-  only in the session's own checkout, so a brief names them (see
-  `.claude/rules/README.md`).
+- `.claude/rules/`: rules for one area of the tree, scoped by path.
+  Their loading is not reliable, so read the one for your area
+  explicitly, and a brief names them (see `.claude/rules/README.md`).
 
 ## Model tiers and settings
 

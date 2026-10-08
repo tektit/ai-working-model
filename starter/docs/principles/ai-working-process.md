@@ -176,14 +176,23 @@ removes, renames or changes one of those (a principle, an agent
 definition, a skill, a setting it describes) updates `AGENTS.md` in
 the same change. **How:** a drift check, where the project has one,
 enforces the principles part mechanically (every principle heading
-linked exactly once); the reviewer checks the rest.
+linked exactly once); the reviewer checks the rest. The same holds for
+any always-loaded index of facts whose full text lives elsewhere:
+each headline appears verbatim, exactly once, in the index and in its
+fact file, and a change to one updates the other. Hand-kept pairs
+drift (one project found 8 of 97 headlines paraphrased), so propose a
+drift check of the same shape once the project has such an index.
 
 The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
 the one authority) are edited only by an architect session, by direct
 push to the trunk, or by setup in its one seeding change; a work
 branch that invalidates something in one of them flags it instead of
 editing it. That direct-push channel carries docs only, so it can't
-smuggle in a behavior change unreviewed.
+smuggle in a behavior change unreviewed. An agent definition or skill
+that needs this list points at it rather than copying it; where a
+copy can't be avoided, every copy is identical and changes with the
+list in the same change, since a copy that drifts leaves one agent
+free to edit a file another treats as protected.
 
 [docs/decisions.md](../decisions.md) is append-only: an entry is
 written after a human's yes, in the same change as what it records
