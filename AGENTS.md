@@ -44,8 +44,8 @@ settings a seeded project would.
 - **Merge method: squash only.** The owner merges a pull request as
   one squash commit on `main`. The repository's squash-message setting
   is the list of commit messages (setting observed live, 2026-10-08),
-  so co-author trailers should survive on `main`; not yet observed on
-  a merge.
+  so co-author trailers should survive on `main` (inferred; not yet
+  observed on a merge).
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a
