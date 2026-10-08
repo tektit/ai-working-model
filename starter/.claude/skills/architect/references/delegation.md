@@ -22,7 +22,9 @@ file adds how to apply them.
 - **Brief quality is the lever.** A precise brief lets a lower tier do
   the job, so invest in the brief first. A narrow-lane agent runs on
   its pinned model and effort; override the model only to raise the
-  tier, with the reason in one line. A general-purpose or built-in
+  tier, with the reason in one line, or, where the pinned model isn't
+  available to the project, to name the highest tier that is (the
+  reviewer's top-tier pin, for example). A general-purpose or built-in
   agent has no pin: give it an explicit model every time.
 - **Model and effort, in Claude Code.** A narrow-lane agent pins
   `model` and `effort` (`low|medium|high|xhigh|max`) in its
