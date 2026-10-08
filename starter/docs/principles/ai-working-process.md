@@ -121,6 +121,15 @@ costs and whether a credential is set in its environment (a presence
 check, never the value), then ask which account pays; the go-ahead
 names that account.
 
+**Read-only is not automatically harmless.** A diagnostic read still
+loads the system it reads, and parallel sessions multiply that load:
+concurrent read-only checks have exhausted the memory of a fragile
+control-plane component. Before probing a live system, check its
+headroom; run one heavy call at a time; target one specific node, not
+a load-balanced address; bound every log read (a time window or a
+line count); and where parallel sessions need the same system, agree
+who probes it when.
+
 ## Verify before declaring ready
 
 - **Never declare something done, working, or shippable until it is
@@ -223,6 +232,13 @@ reach a command. One question to the person who knows is far cheaper
 than a string of failed guesses, and a researched answer about this
 organization is still a guess. "Not known yet" is a valid answer;
 record it as exactly that.
+
+An answer goes into the fact it settles, labeled *confirmed by <who>,
+<date>*. The repo holds no question pages, question tables or
+question ids: they outlive their context. An open question is one
+backlog item; an unknown is stated plainly where it matters. In
+team-facing docs, names and terms are written out in full, not as
+abbreviations only their author knows.
 
 ## Stay on the job
 
