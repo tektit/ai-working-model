@@ -305,7 +305,7 @@ top of this.
 ## D13: Lessons from comparing two other working setups
 
 **Date:** 2026-10-08
-**Status:** proposed
+**Status:** accepted
 
 **Context.** A comparison of this kit with two AI working setups in
 real use found practices the kit lacked: known failures keyed by error
