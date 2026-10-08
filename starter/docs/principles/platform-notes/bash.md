@@ -40,3 +40,11 @@
   can silently stop matching the moment a value gets long enough to
   truncate. Ask for structured output (`--json`/`--format=json`/`-o
   json` or equivalent) and match an exact field, every time.
+- **A time shown to a person carries an explicit zone, the team's
+  (recorded at setup).** Tools print UTC by default; convert with
+  `TZ=<zone> date -d <time>` (GNU; on macOS `TZ=<zone> date -r
+  <epoch>`). An unknown zone, or a missing zone database as in many
+  minimal container images, silently falls back to UTC instead of
+  failing, so first check that `TZ=<zone> date +%Z` prints the zone's
+  own abbreviation (for example `CET` or `CEST`), not `UTC` or a piece
+  of the zone's name.

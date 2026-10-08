@@ -20,8 +20,8 @@ standard (below).
   the paying account, so its go-ahead names it. [Live systems](docs/principles/ai-working-process.md#live-systems-need-a-humans-go-ahead)
 - Code never obtains, parses or relays a credential; each tool reads
   its own. [Credentials](docs/principles/engineering.md#credentials-are-pure-injection)
-- Test first; never weaken a test; tests and CI gate every change.
-  [Test first](docs/principles/engineering.md#test-first)
+- Test first; never weaken a test; tests and CI gate every change, a
+  local hook is only feedback. [Test first](docs/principles/engineering.md#test-first)
 - Work happens on a work branch, never directly on the trunk
   (architect-maintained docs excepted). An agent at most pushes it and
   opens a draft MR/PR, or less at the write level setup recorded;

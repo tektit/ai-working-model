@@ -9,6 +9,11 @@ change as what it records. Entries are numbered D1, D2, … in order and
 dated. An entry is never deleted: a superseded one stays, marked with
 the entry that superseded it.
 
+A deliberate omission (something left out of the system or the docs
+on purpose) is a decision too: its entry gives the reason, so a later
+session doesn't add it back as a fix, and any count or list that would
+include it says so ("four of five, see D<n>").
+
 ## Format
 
 ```markdown
