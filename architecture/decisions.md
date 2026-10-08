@@ -374,7 +374,7 @@ answer quality. Seeded projects don't get any of this automatically
 ## D14: Stated design goals for humans and agents
 
 **Date:** 2026-10-08
-**Status:** proposed
+**Status:** accepted
 
 **Context.** The principles said what to do, rule by rule, but not
 what the whole model is built to achieve, so neither a human nor an
