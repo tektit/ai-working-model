@@ -94,6 +94,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   done inline. [Inline](docs/principles/ai-working-process.md#a-tiny-change-may-be-done-inline)
 - A wanted behavior is written where the acting agent reads it, a
   command given literally. [Write it where it's read](docs/principles/ai-working-process.md#write-a-behavior-where-the-acting-agent-reads-it)
+- Every MR/PR and follow-up commit gets an adversarial review, then a
+  delta review of the fixes; until then it is UNREVIEWED.
+  [Adversarial review](docs/principles/ai-working-process.md#every-change-gets-an-adversarial-review)
 - A series of rule edits ends with one top-tier consistency pass.
   [Consistency pass](docs/principles/ai-working-process.md#finish-a-series-of-rule-edits-with-one-consistency-pass)
 

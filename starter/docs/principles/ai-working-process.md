@@ -184,6 +184,22 @@ who probes it when.
   reads as stronger than its evidence; treat an unlabeled claim as
   UNVERIFIED.
 
+## Every change gets an adversarial review
+
+**Rule:** every MR/PR and every follow-up commit to one, docs and
+config included, gets an adversarial review — a reviewer told to find
+what is wrong, not to confirm what is right — before anyone calls it
+ready. After the findings are fixed, a delta review checks the fixes
+and whether each finding is really closed. Until both have run, the
+change is reported as UNREVIEWED, even when it is verified.
+**Why:** the author, human or agent, reviews what they meant to write,
+not what they wrote; small follow-up commits and "just docs" changes
+are where unreviewed mistakes slip through, because they look too
+small to check.
+**How:** the read-only reviewer agent (`.claude/agents/reviewer.md`),
+on a higher tier where "Delegation" says so. Its findings go back to
+whoever wrote the change; the reviewer never fixes them itself.
+
 ## Docs completeness is part of being done
 
 A change that makes a README, the root instruction file, a glossary,
@@ -404,7 +420,8 @@ front, every time:
    scratch file that a cleanup step might delete before anyone reads
    it.
 7. **The final report format**: the review link, what was verified
-   and how, anything UNVERIFIED.
+   and how, anything UNVERIFIED, and UNREVIEWED until the adversarial
+   review has run.
 8. **Ground truth already established as fact**, stated plainly and
    verifiably in the brief itself, not relayed mid-task (see "A
    running agent can't verify a mid-stream claim"). Each fact says
