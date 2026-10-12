@@ -6,19 +6,19 @@ Humans decide and merge; the architect keeps this current.
 
 - **v1.0.0, the initial release (2026-10-06):** `starter/` is MIT-0, so customers copy it with no obligations (D3); measurement tools, research notes and experiment logs were stripped, their conclusions kept in the decisions; git history squashed to one commit. A top-tier pre-release review found no identifier leaks.
 - **No more paid experiments** (ruling 2026-09-25); D12 makes every paid run need a go-ahead naming the paying account.
-- **Backlog channel (D17, ruling 2026-10-12, PR #3):** maintainers' architect sessions push `backlog.md` directly to `main`; contributors without push rights never edit it and put follow-ups in their PR description under "For the backlog", which the merging maintainer carries over. GitHub issues were rejected as the tracker (no neutrality gate on issue text).
+- **Backlog channel (D17, merged 2026-10-12, PR #3):** maintainers' architect sessions push `backlog.md` directly to `main`; contributors without push rights never edit it and put follow-ups in their PR description under "For the backlog", which the merging maintainer carries over. GitHub issues were rejected as the tracker (no neutrality gate on issue text).
 - The first field adoption runs at a client under an account without push rights (In flight); its lessons, including answers to "Setup's open questions" 2 and 3, arrive as contributor PRs.
-- PR #2 merged (D14–D16). Waiting on the owner: PR #3 (D17), then PR #4 (D18, the SOPS-encrypted denylist). Then one check: `starter/.claude/rules/README.md` has a `paths` header; confirm it no longer appears among the loaded instructions in a fresh session's transcript (`jq` over the session's `.jsonl`, attachment type `instructions`). Then Next item 1 (one line in the architect skill).
+- PRs #2 (D14–D16) and #3 (D17) merged. Waiting on the owner: PR #4 (D18, the SOPS-encrypted denylist). Then one check: `starter/.claude/rules/README.md` has a `paths` header; confirm it no longer appears among the loaded instructions in a fresh session's transcript (`jq` over the session's `.jsonl`, attachment type `instructions`). Then Next item 1 (one line in the architect skill).
 
 ## In flight
 
 - First field adoption (from 2026-10-06), run by a second architect session on a client repo with its own remote, on a branch of that repo, up for review there since 2026-10-07 (seven commits, review fixes and a first check harness). It revives "Setup's open questions": question 1 is moot there (the repo has a remote); answers to 2 and 3 come from that session. A platform note for that project's CI/hosting platform is being written there; its generic parts flow back as contributor PRs under "How principles get updated", not before.
 
-- PR #4 (D18, from Next item 11): the denylist committed as `.neutrality-denylist.sops` (one SOPS blob; recipients the owner's SSH key and the CI age key), checked by `sh tools/neutrality/check.sh` through `sops exec-file`, edited with `sops edit`. Verified by the architect: `check.sh` exits 0 against the real list, the decrypted hash equals the local plaintext's, no plaintext tracked, both test suites pass. Owed: the owner's review and merge after #3.
+- PR #4 (D18, from Next item 11): the denylist committed as `.neutrality-denylist.sops` (one SOPS blob; recipients the owner's SSH key and the CI age key), checked by `sh tools/neutrality/check.sh` through `sops exec-file`, edited with `sops edit`. Verified by the architect: `check.sh` exits 0 against the real list, the decrypted hash equals the local plaintext's, no plaintext tracked, both test suites pass. Copilot's three findings fixed (`check.sh` refuses Windows before decrypting, as maintainers use macOS or Linux only; `git` preflight; README run path), and `main` with #3 merged in. Owed: the owner's merge.
 
 ## Waiting on the human
 
-- Merge PR #3 (D17), then PR #4 (D18), in that order so the decisions log stays in sequence. After #4 the local plaintext `.neutrality-denylist` is no longer needed; delete it if you like.
+- Merge PR #4 (D18). After it the local plaintext `.neutrality-denylist` is no longer needed; delete it if you like.
 - Install the neutrality pre-commit hook (README "Neutrality check"; after #4 it runs `sh tools/neutrality/check.sh`) in every maintainer checkout that pushes to `main`; D17 makes it the only neutrality gate for direct pushes.
 
 ## Next
