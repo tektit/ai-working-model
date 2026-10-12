@@ -47,6 +47,11 @@ settings a seeded project would. On Windows, see the README's
   is the list of commit messages (setting observed live, 2026-10-08),
   and co-author trailers survive on `main`: the squash commit
   `afa9ed8` (PR #1) carries them (observed live, 2026-10-12).
+- **Only maintainers' architect sessions edit `backlog.md`**, by
+  direct push to `main` from a checkout with the neutrality
+  pre-commit hook installed (D17). Without push rights, leave it alone:
+  follow-ups go into the PR description under a "For the backlog"
+  heading, and the merging maintainer carries them over.
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a
