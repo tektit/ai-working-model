@@ -43,7 +43,8 @@ settings a seeded project would. On Windows, see the README's
   symlink the root's gitignored `.neutrality-denylist` into the
   worktree and remove the link afterwards; never commit it.
 - **Only maintainers' architect sessions edit `backlog.md`**, by
-  direct push to `main` (D14). Without push rights, leave it alone:
+  direct push to `main` from a checkout with the neutrality
+  pre-commit hook installed (D17). Without push rights, leave it alone:
   follow-ups go into the PR description under a "For the backlog"
   heading, and the merging maintainer carries them over.
 - **Read Claude Code docs raw**: `curl -sL

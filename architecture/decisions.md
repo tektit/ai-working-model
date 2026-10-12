@@ -334,7 +334,7 @@ confirmed by the owner in a fresh session, not by the tools.
 `starter-check` and its tests run on Windows; tests that need a real
 symlink skip there when the account lacks the right.
 
-## D14: The backlog stays `backlog.md`, pushed directly by maintainers
+## D17: The backlog stays `backlog.md`, pushed directly by maintainers
 
 **Date:** 2026-10-12
 **Status:** accepted
@@ -344,9 +344,9 @@ One ran under an account without push rights, so its backlog edits
 travelled on its work branch and collided with the others. Sessions
 doing field work at client sites run under such accounts and always
 will. GitHub issues would make concurrent writes easy, but this repo
-is public: an issue publishes its text instantly, past the neutrality
-check and the review every commit gets, and its edit history stays
-visible.
+is public: an issue publishes its text instantly, and the neutrality
+check scans committed files, never issue text; its edit history stays
+visible too.
 
 **Decision.** `backlog.md` stays the backlog (D6). Maintainers'
 architect sessions edit it by direct push to `main`, the starter's
@@ -359,11 +359,13 @@ GitHub issues are an inbox for outsiders that the architect triages
 into `backlog.md`, not a second tracker. Rejected: GitHub issues as
 the tracker (no neutrality gate on a public repo).
 
-**Consequences.** `main` stays open to maintainers' direct pushes; a
-future protection rule must let maintainers bypass it, and because a
-bypass covers every path, "docs only" on that channel stays a rule,
-not a check. Nothing mechanical stops an outside PR from editing
-`backlog.md` yet; review catches it.
+**Consequences.** A direct push gets no pull-request review, so the
+neutrality pre-commit hook is its only neutrality gate: a maintainer's
+checkout that pushes to `main` has the hook installed. `main` stays
+open to maintainers' direct pushes; a future protection rule must let
+maintainers bypass it, and because a bypass covers every path, "docs
+only" on that channel stays a rule, not a check. Nothing mechanical
+stops an outside PR from editing `backlog.md` yet; review catches it.
 
 ## Format
 
