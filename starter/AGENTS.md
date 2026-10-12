@@ -23,8 +23,11 @@ standard (below).
 - Test first; never weaken a test; tests and CI gate every change.
   [Test first](docs/principles/engineering.md#test-first)
 - Work happens on a work branch, never directly on the trunk
-  (architect-maintained docs excepted); a delegated agent works in its
-  own copy of the repo, never in a human's working copy. [Work branches](docs/principles/ai-working-process.md#work-branches)
+  (architect-maintained docs excepted). An agent at most pushes it and
+  opens a draft MR/PR, or less at the write level setup recorded;
+  credentials being present is not consent. A delegated agent uses a
+  fresh clone of its own, never a human's working copy or a worktree
+  of it. [Work branches](docs/principles/ai-working-process.md#work-branches)
 - Done means verified against the pushed remote or a dry-run or live
   check; otherwise say UNVERIFIED. [Verify](docs/principles/ai-working-process.md#verify-before-declaring-ready)
 - A change fixes every doc it makes stale, `AGENTS.md` included, in
@@ -43,6 +46,7 @@ standard (below).
 
 ## Principles
 
+What they serve, for humans and agents: [design goals](docs/principles/design-goals.md).
 One line each; the link holds the rule, the reason and how to apply
 it. **hard** marks a hard standard: its violation blocks review, and
 it becomes a mechanical check (lint, CI gate) once one exists.
@@ -91,6 +95,10 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   done inline. [Inline](docs/principles/ai-working-process.md#a-tiny-change-may-be-done-inline)
 - A wanted behavior is written where the acting agent reads it, a
   command given literally. [Write it where it's read](docs/principles/ai-working-process.md#write-a-behavior-where-the-acting-agent-reads-it)
+- No MR/PR, nor a later commit to it, is ready until it has been
+  reviewed adversarially, its description against the diff included,
+  and any fixes delta-reviewed; until then, UNREVIEWED.
+  [Adversarial review](docs/principles/ai-working-process.md#every-change-gets-an-adversarial-review)
 - A series of rule edits ends with one top-tier consistency pass.
   [Consistency pass](docs/principles/ai-working-process.md#finish-a-series-of-rule-edits-with-one-consistency-pass)
 
@@ -104,6 +112,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   [Dumps](docs/principles/context-economy.md#dumps-go-to-a-subagent-conclusions-come-back)
 - State lives in files; sessions stay short and compact early.
   [Restarting](docs/principles/context-economy.md#restarting-is-cheap-so-sessions-stay-short)
+- The repo wins over auto-memory, which holds only personal or
+  host-local facts and never points into the working copy.
+  [Auto-memory](docs/principles/context-economy.md#the-repo-is-shared-truth-auto-memory-is-personal)
 - Load less and call less; never compress what is sent.
   [Shrink and skip](docs/principles/context-economy.md#shrink-and-skip-never-compress)
 - Cost levers live in committed, team-wide settings.
@@ -124,6 +135,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   `docs/architecture.md`, `backlog.md`. `docs/decisions.md` is
   append-only, written in the change it records.
 - [docs/glossary.md](docs/glossary.md): terms defined once.
+- [docs/troubleshooting.md](docs/troubleshooting.md): known failures
+  keyed by their exact error text; search it first when something
+  fails.
 - [docs/design/](docs/design/): one doc per subsystem or cross-cutting
   decision.
 - The principles in full:
@@ -135,9 +149,9 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   Kubernetes/ArgoCD, Python, Terraform, test harnesses.
 - `.claude/agents/`: narrow-lane helpers, each definition stating its
   lane, model and effort; `.claude/skills/`: architect, setup.
-- `.claude/rules/`: rules for one area of the tree, loaded by path
-  only in the session's own checkout, so a brief names them (see
-  `.claude/rules/README.md`).
+- `.claude/rules/`: rules for one area of the tree, scoped by path.
+  Their loading is not reliable, so read the one for your area
+  explicitly, and a brief names them (see `.claude/rules/README.md`).
 
 ## Model tiers and settings
 
@@ -145,15 +159,18 @@ The principles name four tiers (cheapest, standard, strong, top);
 this is how they map per tool.
 
 - **Claude Code:** cheapest = Haiku; standard = Sonnet, pinned with
-  its effort for builder, locator, reviewer and scribe in
-  `.claude/agents/`; strong = Opus, the session default
-  (`.claude/settings.json`) and pinned for analyst; top = Fable, set
+  its effort for builder, locator and scribe in `.claude/agents/`;
+  strong = Opus, the session default (`.claude/settings.json`) and
+  pinned for analyst; top = Fable, pinned for reviewer, otherwise set
   per call. The top tier costs roughly 2.5x the strong tier per token.
   Sessions compact at 400k tokens (`autoCompactWindow` in
   `.claude/settings.json`). The committed `.claude/settings.json`
   overrides each person's `~/.claude/settings.json`; a personal value
   goes in `.claude/settings.local.json` (not committed, wins over
-  `.claude/settings.json`).
+  `.claude/settings.json`). `attribution` stays unset: Claude Code then
+  credits the model on commits and MRs/PRs, a default a personal
+  instruction defeats; only managed settings or a CI trailer check
+  enforce it (why: setup's `edits.md`).
 
 ## Running the tests
 

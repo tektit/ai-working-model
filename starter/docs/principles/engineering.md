@@ -63,7 +63,12 @@ what it should do. Tests and CI, not a human reading the code, keep
 the software production grade.
 **How:** write the test, watch it fail for the expected reason, then
 make it pass. Use the ecosystem's standard test framework (the
-platform notes name it per language).
+platform notes name it per language). A local hook (pre-commit,
+pre-push) gives early feedback or adds a safeguard on top of the
+check of record (CI, the server, or a human's review), and is never
+that check itself. Anyone can skip it, a fresh clone doesn't have
+it, and it can differ from machine to machine, so a passing hook is
+a hint, not a verification.
 
 ## The tested procedure IS the shipped procedure
 

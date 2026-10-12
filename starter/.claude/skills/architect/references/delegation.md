@@ -22,13 +22,16 @@ file adds how to apply them.
 - **Brief quality is the lever.** A precise brief lets a lower tier do
   the job, so invest in the brief first. A narrow-lane agent runs on
   its pinned model and effort; override the model only to raise the
-  tier, with the reason in one line. A general-purpose or built-in
+  tier, with the reason in one line, or, where the pinned model isn't
+  available to the project, to name the highest tier that is (the
+  reviewer's top-tier pin, for example); a tier above a human's
+  per-project cap counts as not available. A general-purpose or built-in
   agent has no pin: give it an explicit model every time.
 - **Model and effort, in Claude Code.** A narrow-lane agent pins
   `model` and `effort` (`low|medium|high|xhigh|max`) in its
   frontmatter, so its effort doesn't drift with the session's. A
   delegation call sets only the model: the call's `model` (e.g.
-  `fable` for analyst or reviewer) beats the pinned one and stays on
+  `fable` for analyst) beats the pinned one and stays on
   resume, while the pinned `effort` still applies — so per delegation
   the lever is the model. The session's effort is a human's setting
   (`/effort`, or `effortLevel` in settings; Opus defaults to
