@@ -186,7 +186,7 @@ review of every pull request, which is the check of record: no
 server-side check runs, by decision
 ([D16](architecture/decisions.md#d16-no-server-side-neutrality-check)).
 
-The denylist is committed encrypted, as `.neutrality-denylist.sops.json`
+The denylist is committed encrypted, as `.neutrality-denylist.sops`
 (SOPS, the whole file as one binary blob). `.sops.yaml` names who can
 decrypt it. Run the check from anywhere in a clone:
 
@@ -200,24 +200,17 @@ variable. The decrypted list reaches the scanner through a named pipe
 and never touches disk. Exit codes: `0` clean, `1` hits, `2` list or
 tool missing; without a key `sops` fails non-zero rather than passing.
 
-**Editing the list.** `sops edit` does not work on this file (it shows
-the editor the JSON wrapper, not the list). Decrypt to the gitignored
-plaintext, edit, re-encrypt, and delete the plaintext:
+**Editing the list.** Edit it in place; sops decrypts into your
+editor and re-encrypts on save, so no plaintext copy lands in the repo:
 
 ```sh
-sops decrypt --input-type json --output-type binary \
-  .neutrality-denylist.sops.json > .neutrality-denylist
-$EDITOR .neutrality-denylist
-sops encrypt --input-type binary --output-type json \
-  --filename-override .neutrality-denylist.sops.json \
-  .neutrality-denylist > .neutrality-denylist.sops.json
-rm .neutrality-denylist
+sops edit .neutrality-denylist.sops
 ```
 
 A commit that changes the list never names a client in its message.
 
 **Adding a recipient.** Edit `.sops.yaml`, then run
-`sops updatekeys .neutrality-denylist.sops.json`.
+`sops updatekeys .neutrality-denylist.sops`.
 
 **Without a key.** Run `uv run --project tools/neutrality
 neutrality-check --denylist <your own list>`; review of the pull

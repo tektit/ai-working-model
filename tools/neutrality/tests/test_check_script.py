@@ -69,7 +69,7 @@ def project(tmp_path: Path, keys: Keys) -> Path:
     _run("git", "init", "-q", cwd=repo)
     (repo / ".sops.yaml").write_text(
         "creation_rules:\n"
-        "  - path_regex: ^\\.neutrality-denylist\\.sops\\.json$\n"
+        "  - path_regex: ^\\.neutrality-denylist\\.sops$\n"
         "    age:\n"
         f'      - "{keys.ssh_recipient}"\n'
         f"      - {keys.age_recipient}\n"
@@ -77,11 +77,11 @@ def project(tmp_path: Path, keys: Keys) -> Path:
     plaintext = tmp_path / "list.txt"
     plaintext.write_text("# sample\nacme\n")
     encrypted = _run(
-        "sops", "encrypt", "--input-type", "binary", "--output-type", "json",
-        "--filename-override", ".neutrality-denylist.sops.json", str(plaintext),
+        "sops", "encrypt", "--filename-override", ".neutrality-denylist.sops",
+        str(plaintext),
         cwd=repo, env=_env(keys.home),
     ).stdout
-    (repo / ".neutrality-denylist.sops.json").write_text(encrypted)
+    (repo / ".neutrality-denylist.sops").write_text(encrypted)
     _run("git", "add", ".", cwd=repo)
     return repo
 

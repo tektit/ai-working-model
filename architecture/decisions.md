@@ -478,8 +478,9 @@ thing to protect is the client list itself: it must stay out of public
 view.
 
 **Decision.** The denylist is committed as
-`.neutrality-denylist.sops.json`, the whole file encrypted by SOPS as
-one binary blob, so the public sees only its total size. `.sops.yaml`
+`.neutrality-denylist.sops`, the whole file encrypted by SOPS as one
+binary blob and edited in place with `sops edit`, so the public sees
+only its total size. `.sops.yaml`
 names the recipients: the owner's SSH ed25519 key (comment "Schlomo
 Tektit Mac"), which `sops` uses from `~/.ssh/id_ed25519` without
 setup, and a CI age key whose private half is a repository secret for

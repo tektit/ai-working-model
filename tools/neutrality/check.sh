@@ -12,9 +12,8 @@ done
 
 repo=$(git rev-parse --show-toplevel)
 tool_dir=$(cd "$(dirname "$0")" && pwd)
-encrypted="$repo/.neutrality-denylist.sops.json"
+encrypted="$repo/.neutrality-denylist.sops"
 
-quote() { printf "'%s'" "$(printf %s "$1" | sed "s/'/'\\\\''/g")"; }
-
-sops exec-file --input-type json --output-type binary "$encrypted" \
-    "uv run --project $(quote "$tool_dir") neutrality-check --repo $(quote "$repo") --denylist {}"
+NEUTRALITY_REPO="$repo" NEUTRALITY_TOOL_DIR="$tool_dir" \
+    sops exec-file "$encrypted" \
+    'uv run --project "$NEUTRALITY_TOOL_DIR" neutrality-check --repo "$NEUTRALITY_REPO" --denylist {}'

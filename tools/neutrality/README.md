@@ -15,8 +15,8 @@ uv run neutrality-check --denylist PATH [--repo PATH]
 
 Reads the denylist (one case-insensitive regex per line) from the
 file given by `--denylist`, once; it is unaware of SOPS. The repo's
-entry point is `check.sh`, which supplies the decrypted list. Prints one `file:line: pattern` line per
-hit. Exit codes: `0` clean, `1` hits found, `2` denylist file missing.
+entry point is `check.sh`, which supplies the decrypted list. Prints
+one `file:line: pattern` line per hit. Exit codes: `0` clean, `1` hits found, `2` denylist file missing.
 
 ## Testing
 
