@@ -132,7 +132,8 @@ symlinks only with the "Create symbolic links" right. Developer Mode
 grants it; otherwise an administrator assigns it under Local Security
 Policy → User Rights Assignment (see Git for Windows'
 [Symbolic Links](https://gitforwindows.org/Symbolic-Links) page). Pick
-the route that fits your account.
+the route that fits your account. The encrypted neutrality check does
+not run on Windows; see "Neutrality check".
 
 **Route 1: your account can create symlinks.** Clone with symlinks on:
 
@@ -185,27 +186,57 @@ names the stub file if it finds one.
 
 This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
-file against a local, gitignored denylist
-(`.neutrality-denylist`, one case-insensitive regex per line) and
+file against a denylist (one case-insensitive regex per line) and
 fails on any hit. It is an extra safeguard on top of the human
 review of every pull request, which is the check of record: no
 server-side check runs, by decision
 ([D16](architecture/decisions.md#d16-no-server-side-neutrality-check)).
 
-The denylist is local and gitignored, so a fresh clone has none. On a
-new machine, create `.neutrality-denylist` at the repo root with the
-identifiers to exclude (one case-insensitive regex per line) before the
-first commit there. Until it exists the check fails with exit code 2
-rather than passing silently.
+The denylist is committed encrypted, as `.neutrality-denylist.sops`
+(SOPS, the whole file as one binary blob). `.sops.yaml` names who can
+decrypt it. Run the check from the repository root (the script itself finds the
+repo from any directory):
 
-To install it as a pre-commit hook:
+```sh
+sh tools/neutrality/check.sh
+```
+
+It needs `sops` and `uv` on the PATH. `sops` uses `~/.ssh/id_ed25519`
+on its own; CI gets an age key through the `SOPS_AGE_KEY` environment
+variable. The decrypted list reaches the scanner through a named pipe
+and never touches disk. Exit codes: `0` clean, `1` hits, `2` list or
+tool missing; without a key `sops` fails non-zero rather than passing.
+
+**macOS and Linux only.** The key holders do not use Windows, and
+`check.sh` refuses to run there, before decrypting anything: on native
+Windows `sops` has no named pipe, writes the plaintext to a temporary
+file and runs the command through `cmd.exe`. A Windows contributor runs
+`neutrality-check --denylist <own list>` instead.
+
+**Editing the list.** Edit it in place; sops decrypts into your
+editor and re-encrypts on save, so no plaintext copy lands in the repo:
+
+```sh
+sops edit .neutrality-denylist.sops
+```
+
+A commit that changes the list never names a client in its message.
+
+**Adding a recipient.** Edit `.sops.yaml`, then run
+`sops updatekeys .neutrality-denylist.sops`.
+
+**Without a key.** Run `uv run --project tools/neutrality
+neutrality-check --denylist <your own list>`; review of the pull
+request catches the rest.
+
+To install the check as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'
 #!/usr/bin/env sh
 set -eu
 cd "$(git rev-parse --show-toplevel)"
-uv run --project tools/neutrality neutrality-check
+sh tools/neutrality/check.sh
 EOF
 chmod +x .git/hooks/pre-commit
 ```

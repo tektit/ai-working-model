@@ -29,6 +29,6 @@ def write_and_stage(repo: Path, relative_path: str, content: str) -> None:
 
 
 def write_denylist(repo: Path, *lines: str) -> Path:
-    path = repo / ".neutrality-denylist"
+    path = repo / "denylist.txt"
     path.write_text("\n".join(lines) + "\n")
     return path

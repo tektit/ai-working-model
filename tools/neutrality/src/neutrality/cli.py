@@ -7,15 +7,13 @@ from pathlib import Path
 from neutrality.denylist import DenylistMissing, load_denylist
 from neutrality.scanner import scan
 
-DENYLIST_FILENAME = ".neutrality-denylist"
-
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="neutrality-check",
         description=(
             "Scans git-tracked and staged files for client, customer or "
-            "private-project identifiers listed in .neutrality-denylist."
+            "private-project identifiers listed in the denylist file."
         ),
     )
     parser.add_argument(
@@ -24,11 +22,17 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("."),
         help="Repository root to scan (default: current directory).",
     )
+    parser.add_argument(
+        "--denylist",
+        type=Path,
+        required=True,
+        help="Denylist file: one case-insensitive regex per line.",
+    )
     args = parser.parse_args(argv)
     repo = args.repo.resolve()
 
     try:
-        denylist = load_denylist(repo / DENYLIST_FILENAME)
+        denylist = load_denylist(args.denylist)
     except DenylistMissing as exc:
         print(
             f"neutrality-check: denylist file missing, expected at {exc} "

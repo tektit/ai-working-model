@@ -1,4 +1,4 @@
-"""Parses the gitignored `.neutrality-denylist` file.
+"""Parses a denylist file.
 
 One case-insensitive regex per line; `#` starts a comment; blank lines
 are skipped. A missing denylist is a failure, not a skip — an empty
@@ -23,11 +23,13 @@ class DenylistMissing(Exception):
 
 
 def load_denylist(path: Path) -> list[DenylistEntry]:
-    if not path.is_file():
-        raise DenylistMissing(str(path))
+    try:
+        text = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise DenylistMissing(str(path)) from None
 
     entries: list[DenylistEntry] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in text.splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
             continue
