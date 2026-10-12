@@ -18,10 +18,11 @@ silently picking a side.
 ## Before you report done
 
 Run every command in the FOREGROUND. Do not start a background watch
-and end your turn waiting on a notification. Commit and push before
-reporting; if something backgrounds anyway, collect its result now and
-finish. Verify what you built against the actual pushed state, not
-against your memory of writing it.
+and end your turn waiting on a notification. Commit and, at the
+recorded write level, push before reporting; if something backgrounds
+anyway, collect its result now and finish. Verify what you built
+against the actual pushed state (or your local commit, below the
+recommended write level), not against your memory of writing it.
 
 ## Lane
 

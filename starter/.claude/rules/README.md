@@ -17,21 +17,30 @@ a rule that truly applies everywhere omits it; this README has one, so
 it loads only when a rule file is read or edited.
 
 Claude Code loads rule files scoped by path under `.claude/rules/`;
-other tools have their own mechanism. Measured in Claude Code, a rule
-loads only when the session reads or edits a matching file with its
-file tools, in the checkout the session started in:
+other tools have their own mechanism. Claude Code documents that a
+rule loads once the session's file tools (read, write, edit) touch a
+file the rule's paths match. Beyond that:
 
-- not when a file is read through the shell;
-- never in another copy of the repo, so not in a delegated agent's
-  own worktree;
+- a read through a shell command has been observed both to load a
+  matching rule and not to, depending on the command and the tool
+  version; this is undocumented;
+- in another copy of the repo, such as a delegated agent's own clone,
+  no rule was observed to load;
 - a subagent gets the starting session's instructions, not those of
   its working directory.
 
-So a brief names, by path, the rule files of the area its task
-touches for the agent to read (Brief anatomy in
-`../../docs/principles/ai-working-process.md`). Keep a rule's path
-glob broad — a directory or a file type, never a list of single
-files, or the next file of that kind is missed.
+So never rely on a rule loading by itself: read the area's rule file
+yourself before you work there, and a brief names, by path, the
+rule files of the area its task touches for the agent to read (Brief
+anatomy in `../../docs/principles/ai-working-process.md`).
+
+Give a rule the narrowest path pattern that is its area (`ci/**`,
+`**/*.tf`, `docs/design/<topic>*`), never a list of single files (the
+next file of that kind is missed). A pattern that spans unrelated
+areas is a catch-all: with `docs/**`, every doc read loads the rule.
+The cost adds up across rules: four 20 KB rules all matching
+`docs/**` can put 80 KB into the context of a docs-only task (a sum
+of file sizes, so an upper bound).
 
 The principle, regardless of mechanism:
 
