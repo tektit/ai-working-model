@@ -39,3 +39,12 @@ def test_patterns_are_case_insensitive(tmp_path: Path) -> None:
 def test_missing_denylist_raises(tmp_path: Path) -> None:
     with pytest.raises(DenylistMissing):
         load_denylist(tmp_path / ".neutrality-denylist")
+
+
+def test_non_ascii_patterns_are_read_as_utf_8(tmp_path: Path) -> None:
+    path = tmp_path / ".neutrality-denylist"
+    path.write_text("Müller\n", encoding="utf-8")
+
+    entries = load_denylist(path)
+
+    assert entries[0].regex.search("Kunde Müller GmbH") is not None

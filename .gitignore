@@ -4,6 +4,10 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 .neutrality-denylist
-# Claude Code per-machine files, written through the .claude symlink
+# Claude Code per-machine files, written through the .claude link
+# On Windows the root .claude may be a directory junction (README "Working on
+# Windows"); this keeps its contents out of `git add -A`. On Unix it is a symlink,
+# which a directory pattern does not match.
+/.claude/
 **/.claude/settings.local.json
 **/.claude/worktrees/

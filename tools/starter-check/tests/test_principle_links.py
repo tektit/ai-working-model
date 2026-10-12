@@ -21,15 +21,15 @@ def tree(tmp_path: Path) -> Path:
     (principles / "engineering.md").write_text(
         "# Engineering principles\n\n"
         "## Fail early and loudly\n\nRule.\n\n"
-        "## Respect deliberate patterns; open decisions stay open\n\nRule.\n"
+        "## Respect deliberate patterns; open decisions stay open\n\nRule.\n", encoding="utf-8"
     )
     (principles / "ai-working-process.md").write_text(
-        "# AI working process\n\n## Ask, don't guess\n\nRule.\n"
+        "# AI working process\n\n## Ask, don't guess\n\nRule.\n", encoding="utf-8"
     )
     (principles / "context-economy.md").write_text(
         "# Context economy\n\n"
         "```markdown\n## Not a heading, inside a fence\n```\n\n"
-        "## Shrink and skip; never compress\n\nRule.\n"
+        "## Shrink and skip; never compress\n\nRule.\n", encoding="utf-8"
     )
     (tmp_path / "AGENTS.md").write_text(
         "# AGENTS.md\n\n"
@@ -42,7 +42,7 @@ def tree(tmp_path: Path) -> Path:
         "(docs/principles/ai-working-process.md#ask-dont-guess).\n"
         "- Shrink — [Shrink and skip]"
         "(docs/principles/context-economy.md#shrink-and-skip-never-compress).\n"
-        "- All of them: [engineering.md](docs/principles/engineering.md).\n"
+        "- All of them: [engineering.md](docs/principles/engineering.md).\n", encoding="utf-8"
     )
     return tmp_path
 
@@ -89,7 +89,7 @@ def test_every_heading_linked_once_is_clean(tree: Path) -> None:
 
 def test_an_unlinked_heading_is_reported_by_name(tree: Path) -> None:
     path = tree / "docs" / "principles" / "engineering.md"
-    path.write_text(path.read_text() + "\n## Thin CI\n\nRule.\n")
+    path.write_text(path.read_text() + "\n## Thin CI\n\nRule.\n", encoding="utf-8")
 
     problems = check_principle_links(tree)
 
@@ -103,7 +103,7 @@ def test_an_anchor_matching_no_heading_is_reported(tree: Path) -> None:
     agents = _agents_md(tree)
     agents.write_text(
         agents.read_text()
-        + "- Gone — [Old](docs/principles/engineering.md#no-such-principle).\n"
+        + "- Gone — [Old](docs/principles/engineering.md#no-such-principle).\n", encoding="utf-8"
     )
 
     problems = check_principle_links(tree)
@@ -118,7 +118,7 @@ def test_a_heading_linked_twice_is_reported_by_name(tree: Path) -> None:
     agents = _agents_md(tree)
     agents.write_text(
         agents.read_text()
-        + "- Again — [Ask](docs/principles/ai-working-process.md#ask-dont-guess).\n"
+        + "- Again — [Ask](docs/principles/ai-working-process.md#ask-dont-guess).\n", encoding="utf-8"
     )
 
     problems = check_principle_links(tree)
@@ -136,7 +136,7 @@ def test_a_heading_inside_a_code_fence_is_not_a_principle(tree: Path) -> None:
 
 def test_a_level_three_heading_is_not_a_principle(tree: Path) -> None:
     path = tree / "docs" / "principles" / "engineering.md"
-    path.write_text(path.read_text() + "\n### A detail\n\nText.\n")
+    path.write_text(path.read_text() + "\n### A detail\n\nText.\n", encoding="utf-8")
 
     assert check_principle_links(tree) == []
 
@@ -160,7 +160,7 @@ def test_a_missing_agents_md_is_reported(tree: Path) -> None:
 def test_a_heading_inside_an_html_comment_is_not_a_principle(tree: Path) -> None:
     path = tree / "docs" / "principles" / "engineering.md"
     path.write_text(
-        path.read_text() + "\n<!--\n## Template heading\n-->\n<!-- ## Inline -->\n"
+        path.read_text() + "\n<!--\n## Template heading\n-->\n<!-- ## Inline -->\n", encoding="utf-8"
     )
 
     assert check_principle_links(tree) == []
@@ -168,7 +168,7 @@ def test_a_heading_inside_an_html_comment_is_not_a_principle(tree: Path) -> None
 
 def test_a_duplicate_slug_within_a_file_is_reported_by_name(tree: Path) -> None:
     path = tree / "docs" / "principles" / "engineering.md"
-    path.write_text(path.read_text() + "\n## Fail early, and loudly\n\nRule.\n")
+    path.write_text(path.read_text() + "\n## Fail early, and loudly\n\nRule.\n", encoding="utf-8")
 
     problems = check_principle_links(tree)
 
@@ -185,7 +185,7 @@ def test_heading_markup_the_slugger_cannot_handle_fails_loudly(
     tree: Path, heading: str
 ) -> None:
     path = tree / "docs" / "principles" / "engineering.md"
-    path.write_text(path.read_text() + f"\n## {heading}\n\nRule.\n")
+    path.write_text(path.read_text() + f"\n## {heading}\n\nRule.\n", encoding="utf-8")
 
     problems = check_principle_links(tree)
 

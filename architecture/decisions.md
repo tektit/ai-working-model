@@ -151,7 +151,7 @@ one tracker.
 ## D7: The repo runs the starter's config through one `.claude` symlink
 
 **Date:** 2026-10-05
-**Status:** accepted
+**Status:** accepted; Windows consequence superseded by D13
 
 **Context.** This repo dogfoods `starter/.claude` through per-item
 symlinks (`agents`, `skills/architect`, `settings.json`); the `setup`
@@ -299,6 +299,40 @@ its subagents are unaffected. Seeded projects that copied the
 principles before this change don't get it automatically (D5). The
 2026-09-25 owner ruling "no more paid experiments" stays in force on
 top of this.
+
+## D13: Windows checkouts keep the `.claude` symlink through a typed link
+
+**Date:** 2026-10-07
+**Status:** accepted
+
+**Context.** D7 made the root `.claude` a symlink to `starter/.claude`
+and declared Windows not a target. The owner now works on a Windows
+machine where the account may not create symbolic links (no Developer
+Mode, no "Create symbolic links" right), so git checked the link out
+as a one-line stub file and the starter's skills and agents did not
+load. Git for Windows creates symlinks only with `core.symlinks=true`
+and that right; any user may create a directory junction. Git's
+`symlink=dir` attribute fixes the link type on Windows, where
+`starter/` is checked out after `.claude`.
+
+**Decision.** The symlink stays (D7). A `.gitattributes` line
+`.claude symlink=dir` makes a privileged Windows checkout create a
+directory link. A machine without the right uses a directory junction
+plus `git update-index --skip-worktree .claude` and a committed `/.claude/`
+ignore line (skip-worktree keeps status clean; the ignore line keeps
+`git add -A` from staging the junction's contents), documented in the
+README's "Working on Windows"; `starter-check` accepts a junction and
+names the stub file when it finds one. Rejected again: a committed
+copy with a drift check (every starter change shows twice in review),
+and moving `.claude` out of `starter/` (the product stops being one
+tree, and the license-by-path in `NOTICE` needs an exception).
+
+**Consequences.** Windows is a target, with one per-clone step on
+machines without the right (the junction, repeated per clone and
+worktree). Claude Code loading the starter through a junction is
+confirmed by the owner in a fresh session, not by the tools.
+`starter-check` and its tests run on Windows; tests that need a real
+symlink skip there when the account lacks the right.
 
 ## Format
 
