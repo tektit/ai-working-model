@@ -6,20 +6,18 @@ Humans decide and merge; the architect keeps this current.
 
 - **v1.0.0, the initial release (2026-10-06):** `starter/` is MIT-0, so customers copy it with no obligations (D3); measurement tools, research notes and experiment logs were stripped, their conclusions kept in the decisions; git history squashed to one commit. A top-tier pre-release review found no identifier leaks.
 - **No more paid experiments** (ruling 2026-09-25); D12 makes every paid run need a go-ahead naming the paying account.
-- **Windows is now a target (D13, on branch `windows-portable-claude-dir`, 2026-10-07):** the branch, local in the owner's checkout, awaits the owner's review, push and PR from their own account (see In flight). It also carries this backlog's updates: `main` is protected, so for a non-owner the architect-maintained docs travel on the work branch, not by direct push. After the merge the owner's Windows checkout moves from the copied `.claude` folder to README "Working on Windows" Route 2 and a fresh session confirms that `/architect` and the agents load through the junction; that confirms D13's consequence. The owner's machine has no `uv`/`gh` on the inherited PATH of this app (installed 2026-10-07 under WinGet Packages, user scope) and no `.neutrality-denylist` yet.
-- The first field adoption is running in another architect session on a client repo (In flight); its answers to "Setup's open questions" 2 and 3 arrive from there.
+- **Backlog channel (D17, ruling 2026-10-12, PR #3):** maintainers' architect sessions push `backlog.md` directly to `main`; contributors without push rights never edit it and put follow-ups in their PR description under "For the backlog", which the merging maintainer carries over. GitHub issues were rejected as the tracker (no neutrality gate on issue text).
+- The first field adoption runs at a client under an account without push rights (In flight); its lessons, including answers to "Setup's open questions" 2 and 3, arrive as contributor PRs.
 - Then one check: `starter/.claude/rules/README.md` has a `paths` header; confirm it no longer appears among the loaded instructions in a fresh session's transcript (`jq` over the session's `.jsonl`, attachment type `instructions`). Then Next item 1 (one line in the architect skill).
 
 ## In flight
 
-- Branch `windows-portable-claude-dir` (D13): the root `.claude` symlink works on Windows through `symlink=dir`, or a junction plus skip-worktree plus a committed `/.claude/` ignore line; `starter-check` accepts a junction and names git's stub file; both tool test suites pass on Windows; the neutrality denylist is read as UTF-8; README "Working on Windows" and a denylist-bootstrap paragraph. Verified by the architect on the owner's Windows machine (52 passed, 2 skipped; 16 passed; `starter-check: OK`). UNVERIFIED: Route 1 (`core.symlinks=true`), Claude Code loading through the junction, Unix run of the suite. Owed: the owner's review, push and PR.
-- First field adoption (from 2026-10-06), run by a second architect session on a client repo with its own remote, on a branch of that repo, up for review there since 2026-10-07 (seven commits, review fixes and a first check harness). It revives "Setup's open questions": question 1 is moot there (the repo has a remote); answers to 2 and 3 come from that session. A platform note for that project's CI/hosting platform is being written there; its generic parts flow back under "How principles get updated", not before.
+- First field adoption (from 2026-10-06), run by a second architect session on a client repo with its own remote, on a branch of that repo, up for review there since 2026-10-07 (seven commits, review fixes and a first check harness). It revives "Setup's open questions": question 1 is moot there (the repo has a remote); answers to 2 and 3 come from that session. A platform note for that project's CI/hosting platform is being written there; its generic parts flow back as contributor PRs under "How principles get updated", not before.
 
 ## Waiting on the human
 
-- Publish v1.0.0: push it to its remote. Publishing can't be undone, so it is the human's step.
-- Review branch `windows-portable-claude-dir`, push it and open the PR from the owner's own account (the signed-in `gh` account has no write access to this repo; the push got 403).
-- Create `.neutrality-denylist` on the Windows machine (none exists; the check fails with exit 2 until it does) with the current client's identifiers.
+- Review and merge PR #2 (D14–D16), then PR #3 (D17, numbered after #2). Before merging #2, drop its `backlog.md` edit: this direct push supersedes it.
+- Install the neutrality pre-commit hook (README "Neutrality check") in every maintainer checkout that pushes to `main`; D17 makes it the only neutrality gate for direct pushes.
 
 ## Next
 
@@ -37,7 +35,9 @@ Humans decide and merge; the architect keeps this current.
 ## Deliberately deferred
 
 - **Codex enablement** — Claude only for now; kept cheap by `AGENTS.md` as the single instruction source. Remaining: Codex agent definitions, config and skill path, verified in a real Codex setup (`disable-model-invocation`, `references/`, repo-committed skill discovery). The earlier parity research was dropped at v1.0.0; redo it from the official docs. Revive at the first Codex client.
-- **SOPS-encrypted neutrality denylist** (age recipient = SSH ed25519 key) — the "second machine" trigger fired on 2026-10-07 (the owner's Windows machine had no denylist). Still deferred: bootstrapping by hand is one local file, now documented in the README's "Neutrality check". Revive when a second person needs it or a third machine appears.
+- **SOPS-encrypted neutrality denylist** (age recipient = SSH ed25519 key) — bootstrapping by hand is one local file, documented in the README's "Neutrality check". Revive when a second person or a second maintainer machine needs it.
+- **GitHub issues as the tracker** — rejected in D17: issue text on this public repo bypasses the neutrality check. Revive when issue text can be scanned mechanically before it publishes, or the repo goes private.
+- **Mechanical block on outside PRs editing `backlog.md`** (D17) — no CI exists yet; review catches it. Revive when an outside PR edits it.
 - **Release checklist** — v1.0.0 ran a top-tier identifier review of the whole tree by hand. Revive before the second release, as one rule line in the root `AGENTS.md`.
 - **Measurement instruments and research** — the usage, proxy and model A/B tools, their data and the research notes were stripped at v1.0.0 and are gone with the squashed history; D1, D2, D9 and D11 keep their conclusions. Revive when a decision needs a new measurement; build the instrument fresh for that question.
 - **Local-model retrieval over docs** — dropped under D2 for team use; revive only if a platform offers it natively.
