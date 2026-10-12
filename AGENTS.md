@@ -46,7 +46,7 @@ settings a seeded project would. On Windows, see the README's
   one squash commit on `main`. The repository's squash-message setting
   is the list of commit messages (setting observed live, 2026-10-08),
   and co-author trailers survive on `main`: the squash commit
-  `afa9ed8` (PR #1) carries them (observed live, 2026-10-12).
+  `e19361e` (PR #1) carries them (observed live, 2026-10-12).
 - **Only maintainers' architect sessions edit `backlog.md`**, by
   direct push to `main` from a checkout with the neutrality
   pre-commit hook installed (D17). Without push rights, leave it alone:
