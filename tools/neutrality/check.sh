@@ -3,7 +3,16 @@
 # named pipe (sops exec-file) and hands it to neutrality-check.
 set -eu
 
-for tool in sops uv; do
+case "$(uname -s)" in
+    MINGW* | MSYS* | CYGWIN* | Windows_NT)
+        echo "check.sh: the encrypted check runs only on macOS and Linux; the" \
+            "denylist's key holders do not use Windows. On Windows run" \
+            "'neutrality-check --denylist <your own list>' instead." >&2
+        exit 2
+        ;;
+esac
+
+for tool in sops uv git; do
     command -v "$tool" >/dev/null 2>&1 || {
         echo "check.sh: required tool not found on PATH: $tool" >&2
         exit 2

@@ -134,3 +134,37 @@ def test_ci_age_key_from_environment(project: Path, keys: Keys, tmp_path: Path) 
     result = _check(project, keyless_home, SOPS_AGE_KEY=keys.age_secret)
 
     assert result.returncode == 0, result.stderr
+
+
+def _fake_bin(directory: Path, name: str, script: str) -> None:
+    directory.mkdir(exist_ok=True)
+    path = directory / name
+    path.write_text(f"#!/bin/sh\n{script}\n")
+    path.chmod(0o755)
+
+
+def test_windows_is_refused_before_decrypting(project: Path, keys: Keys, tmp_path: Path) -> None:
+    fake_bin = tmp_path / "fake-bin"
+    marker = tmp_path / "sops-was-called"
+    _fake_bin(fake_bin, "uname", "echo MINGW64_NT-10.0")
+    _fake_bin(fake_bin, "sops", f"touch '{marker}'")
+
+    result = _check(project, keys.home, PATH=f"{fake_bin}:{os.environ['PATH']}")
+
+    assert result.returncode == 2
+    assert not marker.exists()
+    assert "windows" in result.stderr.lower()
+
+
+def test_missing_git_exits_two_naming_git(project: Path, keys: Keys, tmp_path: Path) -> None:
+    bin_dir = tmp_path / "bin-without-git"
+    bin_dir.mkdir()
+    for tool in ("sops", "uv", "dirname", "uname", "sh", "env"):
+        found = shutil.which(tool)
+        assert found, f"{tool} is needed for this test"
+        (bin_dir / tool).symlink_to(found)
+
+    result = _check(project, keys.home, PATH=str(bin_dir))
+
+    assert result.returncode == 2
+    assert "git" in result.stderr

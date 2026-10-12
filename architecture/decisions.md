@@ -498,7 +498,11 @@ only later versions. A commit that changes the list never names a
 client in its message. Without a key the check fails instead of
 passing; a contributor without one runs `neutrality-check
 --denylist` with their own list. A server-side check becomes possible
-with the CI key; adopting one is a separate decision.
+with the CI key; adopting one is a separate decision. Maintainers,
+the key holders, work on macOS and Linux only: on native Windows `sops`
+has no named pipe, writes the plaintext to a temporary file and runs
+the command through `cmd.exe`, so `check.sh` refuses to run there,
+before it decrypts anything.
 
 ## Format
 

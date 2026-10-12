@@ -30,7 +30,8 @@ settings a seeded project would. On Windows, see the README's
 
 - **Neutrality check before every commit** — see README's "Neutrality
   check" section; no client, customer or private-project identifiers
-  anywhere in this repo.
+  anywhere in this repo. Key holders run it on macOS or Linux only,
+  never Windows (D18).
 - **`starter/` must stay generic.** Nothing under it may name this
   repo, a client, or reference its own former location, or carry a
   license file or copyright line (its MIT-0 terms live in the root
