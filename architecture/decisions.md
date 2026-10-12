@@ -199,7 +199,7 @@ minutes of reading; rulings that only apply a principle stay cheap.
 
 **Date:** 2026-10-05
 **Status:** accepted; the reviewer's Sonnet pin and the upward-only
-model override superseded by D13
+model override superseded by D14
 
 **Context.** "Fable only when the owner asks" was caution, not
 evidence; the model A/B compared only Sonnet and Opus on bounded
@@ -223,7 +223,7 @@ Quota weight per model on Team seats stays unknown.
 
 **Date:** 2026-10-05
 **Status:** accepted; the "about 1k words" figure for `AGENTS.md`
-superseded by D13
+superseded by D14
 
 **Context.** Guardrails lived partly in the architect skill, so a
 plain session never saw them; the principles read as optional
@@ -250,7 +250,7 @@ well as full text is judgment, not measured.
 ## D11: Lessons from the 2026-10-05 retrospective
 
 **Date:** 2026-10-05
-**Status:** accepted; the rule-loading sentence superseded by D13
+**Status:** accepted; the rule-loading sentence superseded by D14
 
 **Context.** In one session the human repeatedly found behavior that
 was implied but written nowhere an agent reads it; piecemeal rule
@@ -336,7 +336,7 @@ confirmed by the owner in a fresh session, not by the tools.
 `starter-check` and its tests run on Windows; tests that need a real
 symlink skip there when the account lacks the right.
 
-## D13: Lessons from comparing two other working setups
+## D14: Lessons from comparing two other working setups
 
 **Date:** 2026-10-08
 **Status:** accepted
@@ -389,7 +389,7 @@ at.
 **Consequences.** Setup asks three more questions (write level,
 attribution, time zone) and the merge method, and `attribution` is the
 one setting it may write. The starter's `AGENTS.md` grows from about
-1,090 to 1,240 words (187 lines, D14's line included), which replaces
+1,090 to 1,240 words (187 lines, D15's line included), which replaces
 D10's "about 1k words". Every MR/PR costs at least one top-tier
 review; each round of fix commits adds one delta review, scoped to the
 new commits and the open findings and so smaller than the first, until
@@ -405,7 +405,7 @@ placeholder stays as it is until the two approaches are evaluated for
 answer quality. Seeded projects don't get any of this automatically
 (D5).
 
-## D14: Stated design goals for humans and agents
+## D15: Stated design goals for humans and agents
 
 **Date:** 2026-10-08
 **Status:** accepted
@@ -442,7 +442,7 @@ against the goals it serves. The goals are not covered by
 their "carried by" references current. The starter's `AGENTS.md`
 grows by one line.
 
-## D15: No server-side neutrality check
+## D16: No server-side neutrality check
 
 **Date:** 2026-10-08
 **Status:** accepted

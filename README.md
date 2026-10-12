@@ -185,7 +185,7 @@ file against a local, gitignored denylist
 fails on any hit. It is an extra safeguard on top of the human
 review of every pull request, which is the check of record: no
 server-side check runs, by decision
-([D15](architecture/decisions.md#d15-no-server-side-neutrality-check)).
+([D16](architecture/decisions.md#d16-no-server-side-neutrality-check)).
 
 The denylist is local and gitignored, so a fresh clone has none. On a
 new machine, create `.neutrality-denylist` at the repo root with the
