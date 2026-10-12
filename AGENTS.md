@@ -37,11 +37,16 @@ settings a seeded project would. On Windows, see the README's
   `LICENSE-starter`, recorded in `NOTICE`) — run
   `uv run --project tools/starter-check starter-check` before
   committing a change that touches it.
-- **Delegated agents work in a git worktree outside the human's
-  checkout** (in Claude Code, under the session's scratchpad
-  directory). For the neutrality check,
-  symlink the root's gitignored `.neutrality-denylist` into the
-  worktree and remove the link afterwards; never commit it.
+- **A delegated agent uses a fresh clone of its own, never the
+  human's working copy or a worktree of it** (in Claude Code, under the
+  session's scratchpad directory). For the neutrality check, symlink
+  the root's gitignored `.neutrality-denylist` into the clone and
+  remove the link afterwards; never commit it.
+- **Merge method: squash only.** The owner merges a pull request as
+  one squash commit on `main`. The repository's squash-message setting
+  is the list of commit messages (setting observed live, 2026-10-08),
+  and co-author trailers survive on `main`: the squash commit
+  `afa9ed8` (PR #1) carries them (observed live, 2026-10-12).
 - **Only maintainers' architect sessions edit `backlog.md`**, by
   direct push to `main` from a checkout with the neutrality
   pre-commit hook installed (D17). Without push rights, leave it alone:
