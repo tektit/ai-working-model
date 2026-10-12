@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: ^\.neutrality-denylist\.sops\.json$
+    age:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL93o5OviEYHxQICyUWlrg+zcQD0Tzj8ulYM9ZYquH1G Schlomo Tektit Mac"
+      - age1v40dxmxk4ymjshzs37du38py3tzv7mwks93fnn87hh5djsnymgmskv3t36

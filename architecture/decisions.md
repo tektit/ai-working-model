@@ -466,6 +466,39 @@ first" in the starter names a human's review as a possible check of
 record, so this hook agrees with it. A later server-side check
 supersedes this entry.
 
+## D18: The neutrality denylist is committed, SOPS-encrypted
+
+**Date:** 2026-10-12
+**Status:** accepted
+
+**Context.** The denylist was a local, gitignored file, so a fresh
+clone, a delegated agent's own clone or a future pipeline had none and
+could not run the check without a hand-made copy or symlink. The only
+thing to protect is the client list itself: it must stay out of public
+view.
+
+**Decision.** The denylist is committed as
+`.neutrality-denylist.sops.json`, the whole file encrypted by SOPS as
+one binary blob, so the public sees only its total size. `.sops.yaml`
+names the recipients: the owner's SSH ed25519 key (comment "Schlomo
+Tektit Mac"), which `sops` uses from `~/.ssh/id_ed25519` without
+setup, and a CI age key whose private half is a repository secret for
+a future pipeline. `neutrality-check` stays unaware of SOPS and takes
+the list with `--denylist PATH`; `tools/neutrality/check.sh` wraps it
+in `sops exec-file`, which hands it the plaintext through a named
+pipe, so the plaintext never touches disk. Rejected: a committed list
+of hashes (anyone can hash guessed company names and confirm a
+client), and a per-user denylist path (fixes one machine, not clones
+elsewhere or a pipeline).
+
+**Consequences.** Every key holder can read the whole list. A leaked
+key exposes every committed version for good; changing keys protects
+only later versions. A commit that changes the list never names a
+client in its message. Without a key the check fails instead of
+passing; a contributor without one runs `neutrality-check
+--denylist` with their own list. A server-side check becomes possible
+with the CI key; adopting one is a separate decision.
+
 ## Format
 
 ```

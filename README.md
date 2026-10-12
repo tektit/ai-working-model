@@ -180,27 +180,57 @@ names the stub file if it finds one.
 
 This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
-file against a local, gitignored denylist
-(`.neutrality-denylist`, one case-insensitive regex per line) and
+file against a denylist (one case-insensitive regex per line) and
 fails on any hit. It is an extra safeguard on top of the human
 review of every pull request, which is the check of record: no
 server-side check runs, by decision
 ([D16](architecture/decisions.md#d16-no-server-side-neutrality-check)).
 
-The denylist is local and gitignored, so a fresh clone has none. On a
-new machine, create `.neutrality-denylist` at the repo root with the
-identifiers to exclude (one case-insensitive regex per line) before the
-first commit there. Until it exists the check fails with exit code 2
-rather than passing silently.
+The denylist is committed encrypted, as `.neutrality-denylist.sops.json`
+(SOPS, the whole file as one binary blob). `.sops.yaml` names who can
+decrypt it. Run the check from anywhere in a clone:
 
-To install it as a pre-commit hook:
+```sh
+sh tools/neutrality/check.sh
+```
+
+It needs `sops` and `uv` on the PATH. `sops` uses `~/.ssh/id_ed25519`
+on its own; CI gets an age key through the `SOPS_AGE_KEY` environment
+variable. The decrypted list reaches the scanner through a named pipe
+and never touches disk. Exit codes: `0` clean, `1` hits, `2` list or
+tool missing; without a key `sops` fails non-zero rather than passing.
+
+**Editing the list.** `sops edit` does not work on this file (it shows
+the editor the JSON wrapper, not the list). Decrypt to the gitignored
+plaintext, edit, re-encrypt, and delete the plaintext:
+
+```sh
+sops decrypt --input-type json --output-type binary \
+  .neutrality-denylist.sops.json > .neutrality-denylist
+$EDITOR .neutrality-denylist
+sops encrypt --input-type binary --output-type json \
+  --filename-override .neutrality-denylist.sops.json \
+  .neutrality-denylist > .neutrality-denylist.sops.json
+rm .neutrality-denylist
+```
+
+A commit that changes the list never names a client in its message.
+
+**Adding a recipient.** Edit `.sops.yaml`, then run
+`sops updatekeys .neutrality-denylist.sops.json`.
+
+**Without a key.** Run `uv run --project tools/neutrality
+neutrality-check --denylist <your own list>`; review of the pull
+request catches the rest.
+
+To install the check as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'
 #!/usr/bin/env sh
 set -eu
 cd "$(git rev-parse --show-toplevel)"
-uv run --project tools/neutrality neutrality-check
+sh tools/neutrality/check.sh
 EOF
 chmod +x .git/hooks/pre-commit
 ```
