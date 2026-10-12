@@ -334,6 +334,37 @@ confirmed by the owner in a fresh session, not by the tools.
 `starter-check` and its tests run on Windows; tests that need a real
 symlink skip there when the account lacks the right.
 
+## D14: The backlog stays `backlog.md`, pushed directly by maintainers
+
+**Date:** 2026-10-12
+**Status:** accepted
+
+**Context.** Several architect sessions write `backlog.md` at once.
+One ran under an account without push rights, so its backlog edits
+travelled on its work branch and collided with the others. Sessions
+doing field work at client sites run under such accounts and always
+will. GitHub issues would make concurrent writes easy, but this repo
+is public: an issue publishes its text instantly, past the neutrality
+check and the review every commit gets, and its edit history stays
+visible.
+
+**Decision.** `backlog.md` stays the backlog (D6). Maintainers'
+architect sessions edit it by direct push to `main`, the starter's
+channel for architect-maintained docs: re-read from the remote, make a
+small anchored edit, push; a rejected push means re-read and redo.
+Contributors without push rights never edit it: follow-ups and
+lessons go into the PR description under a "For the backlog" heading,
+and the merging maintainer's architect session carries them over.
+GitHub issues are an inbox for outsiders that the architect triages
+into `backlog.md`, not a second tracker. Rejected: GitHub issues as
+the tracker (no neutrality gate on a public repo).
+
+**Consequences.** `main` stays open to maintainers' direct pushes; a
+future protection rule must let maintainers bypass it, and because a
+bypass covers every path, "docs only" on that channel stays a rule,
+not a check. Nothing mechanical stops an outside PR from editing
+`backlog.md` yet; review catches it.
+
 ## Format
 
 ```

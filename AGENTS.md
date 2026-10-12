@@ -42,6 +42,10 @@ settings a seeded project would. On Windows, see the README's
   directory). For the neutrality check,
   symlink the root's gitignored `.neutrality-denylist` into the
   worktree and remove the link afterwards; never commit it.
+- **Only maintainers' architect sessions edit `backlog.md`**, by
+  direct push to `main` (D14). Without push rights, leave it alone:
+  follow-ups go into the PR description under a "For the backlog"
+  heading, and the merging maintainer carries them over.
 - **Read Claude Code docs raw**: `curl -sL
   https://code.claude.com/docs/en/<page>.md` into the scratchpad, then
   read the section that drives the decision — not through a

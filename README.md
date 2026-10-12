@@ -98,6 +98,11 @@ Two things do NOT flow back here:
   stays open there. This repo records settled principles, not pending
   arguments.
 
+A lesson arrives as a pull request. Without push rights, leave
+`backlog.md` alone: anything the diff doesn't settle goes into the PR
+description under a "For the backlog" heading, and the maintainer
+merging it carries it over (D14).
+
 ## Vocabulary
 
 Where a source used a deliberate, exact phrase — "pure injection",
