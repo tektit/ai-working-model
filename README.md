@@ -40,8 +40,9 @@ Two jobs, one repo:
 This repo dogfoods its own starter kit: its principles are `starter/`'s,
 reached via the root `AGENTS.md`, and its agents, skills, rules and
 settings are `starter/.claude/`'s, reached via the single root
-`.claude` → `starter/.claude` symlink — see `AGENTS.md` for how this
-repo itself is organized.
+`.claude` → `starter/.claude` symlink (a junction on a Windows account
+without the symlink right, see "Working on Windows") — see `AGENTS.md`
+for how this repo itself is organized.
 
 | Path | Contents |
 |---|---|
@@ -104,13 +105,78 @@ Where a source used a deliberate, exact phrase — "pure injection",
 verbatim here too. Don't rephrase it into a synonym; the exactness is
 the point (see "One word per concept" in `starter/docs/principles/engineering.md`).
 
+## Working on Windows
+
+Git checks the committed `.claude` symlink out as a one-line stub file
+unless `core.symlinks` is on, and Windows lets an account create
+symlinks only with the "Create symbolic links" right. Developer Mode
+grants it; otherwise an administrator assigns it under Local Security
+Policy → User Rights Assignment (see Git for Windows'
+[Symbolic Links](https://gitforwindows.org/Symbolic-Links) page). Pick
+the route that fits your account.
+
+**Route 1: your account can create symlinks.** Clone with symlinks on:
+
+```powershell
+git clone -c core.symlinks=true <url>
+```
+
+For an existing clone, turn it on, delete whatever is at `.claude`,
+and check the link out again. Remove a junction with `cmd /c rmdir
+.claude`, never with a recursive delete, which under older PowerShell
+follows the junction into the real files. The `.gitattributes`
+line `.claude symlink=dir` makes git create a directory link.
+
+```powershell
+git config core.symlinks true
+Remove-Item -Recurse -Force .claude
+git checkout -- .claude
+```
+
+**Route 2: your account cannot create symlinks.** Any user may create a
+directory junction instead. Delete the stub, make the junction, and
+tell git to leave `.claude` alone:
+
+```powershell
+Remove-Item -Recurse -Force .claude
+cmd /c mklink /J .claude starter\.claude
+git update-index --skip-worktree .claude
+```
+
+Skip-worktree keeps `git status` clean. The committed `/.claude/`
+ignore line keeps `git add -A` from staging the junction's contents.
+The junction is per clone and per worktree, so repeat these steps in
+each one.
+
+If the junction's files ever show up as staged, run `git reset` before
+anything else: a `git reset --hard` at that point deletes the real
+files under `starter/.claude` through the junction.
+
+**Tools.** Install `uv` and the GitHub CLI, then open a new shell:
+
+```powershell
+winget install --id astral-sh.uv --scope user
+winget install --id GitHub.cli --scope user
+```
+
+`starter-check` accepts either a symlink or a junction at `.claude` and
+names the stub file if it finds one.
+
 ## Neutrality check
 
 This repo must never contain client, customer or private-project
 identifiers. `tools/neutrality/` scans every git-tracked and staged
 file against a local, gitignored denylist
 (`.neutrality-denylist`, one case-insensitive regex per line) and
-fails on any hit. To install it as a pre-commit hook:
+fails on any hit.
+
+The denylist is local and gitignored, so a fresh clone has none. On a
+new machine, create `.neutrality-denylist` at the repo root with the
+identifiers to exclude (one case-insensitive regex per line) before the
+first commit there. Until it exists the check fails with exit code 2
+rather than passing silently.
+
+To install it as a pre-commit hook:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'

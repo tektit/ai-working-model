@@ -9,7 +9,8 @@ This repo follows its own starter: its engineering and AI-collaboration
 principles are [starter/docs/principles/](starter/docs/principles/),
 and the root `.claude` is a symlink to `starter/.claude`, so an agent
 working in this repo runs the exact same agents, skills, rules and
-settings a seeded project would.
+settings a seeded project would. On Windows, see the README's
+"Working on Windows" for how that link is made.
 
 ## Layout
 

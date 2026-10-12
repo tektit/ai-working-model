@@ -20,7 +20,11 @@ own git history):
    that repo's own license.
 
 A sixth check runs against the real repo, not the copy: the root
-`.claude` symlink resolves to a real directory inside `starter/`.
+`.claude` is a symlink or a Windows directory junction that resolves
+to a real directory inside `starter/`. A stub file (git checked the
+symlink out without symlink support), a copied directory or a missing
+`.claude` is reported by name, with a pointer to the README's "Working
+on Windows".
 """
 
 from __future__ import annotations
@@ -75,7 +79,7 @@ def git_init(dest: Path) -> None:
 
 def check_links(tree_root: Path) -> list[str]:
     return [
-        f"{ref.file.relative_to(tree_root)}:{ref.line_number}: "
+        f"{ref.file.relative_to(tree_root).as_posix()}:{ref.line_number}: "
         f"broken {ref.kind} -> {ref.target}"
         for ref in find_broken_references(tree_root)
     ]
@@ -90,7 +94,7 @@ def check_no_backreferences(tree_root: Path) -> list[str]:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
-        rel = path.relative_to(tree_root)
+        rel = path.relative_to(tree_root).as_posix()
         for line_number, line in enumerate(text.splitlines(), start=1):
             for token in FORBIDDEN_TOKENS:
                 if token in line:
@@ -121,7 +125,7 @@ def check_no_license_terms(tree_root: Path) -> list[str]:
         if not path.is_file() or ".git" in rel.parts:
             continue
         if path.name.lower().startswith(LICENSE_FILE_PREFIXES):
-            problems.append(f"{rel}: license file does not belong in the starter")
+            problems.append(f"{rel.as_posix()}: license file does not belong in the starter")
         try:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
@@ -129,22 +133,26 @@ def check_no_license_terms(tree_root: Path) -> list[str]:
         for line_number, line in enumerate(text.splitlines(), start=1):
             if LICENSE_LINE_PATTERN.search(line):
                 problems.append(
-                    f"{rel}:{line_number}: copyright or license tag: "
+                    f"{rel.as_posix()}:{line_number}: copyright or license tag: "
                     f"{line.strip()}"
                 )
     return problems
 
 
 def check_root_symlinks(repo_root: Path, starter_dir: Path) -> list[str]:
+    """Each root link (`.claude`) must be a symlink or a Windows
+    directory junction resolving to a real directory inside `starter/`.
+    Failures name what was found instead and point to the README."""
     problems: list[str] = []
     starter_real = starter_dir.resolve()
     for rel in ROOT_SYMLINKS:
         link = repo_root / rel
-        if not link.is_symlink():
-            problems.append(f"{rel}: not a symlink")
+        is_link = link.is_symlink() or link.is_junction()
+        if not is_link:
+            problems.append(f"{rel}: {_not_a_link_reason(link, rel)}")
             continue
         if not link.exists():
-            problems.append(f"{rel}: symlink is broken (dangling)")
+            problems.append(f"{rel}: link is broken (dangling)")
             continue
         resolved = link.resolve()
         try:
@@ -152,6 +160,30 @@ def check_root_symlinks(repo_root: Path, starter_dir: Path) -> list[str]:
         except ValueError:
             problems.append(f"{rel}: resolves outside starter/ ({resolved})")
     return problems
+
+
+def _not_a_link_reason(link: Path, rel: Path) -> str:
+    if link.is_file():
+        try:
+            content = link.read_text(encoding="utf-8").strip()
+        except (UnicodeDecodeError, OSError):
+            content = None
+        if content == f"starter/{rel}":
+            return (
+                "a regular file holding the link target: git checked the "
+                "symlink out without symlink support; see README "
+                '"Working on Windows"'
+            )
+        return (
+            f"a regular file, not a link to starter/{rel}; "
+            'see README "Working on Windows"'
+        )
+    if link.is_dir():
+        return (
+            "a copied directory, not a link to "
+            f'starter/{rel}; see README "Working on Windows"'
+        )
+    return 'missing; see README "Working on Windows"'
 
 
 def run_all(repo_root: Path) -> list[str]:

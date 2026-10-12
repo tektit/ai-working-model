@@ -1,0 +1,2 @@
+# Windows symlinks are typed; starter/ is checked out after .claude, so tell git the type.
+.claude symlink=dir
