@@ -562,12 +562,14 @@ the call's model override and only while a BLOCKER or SHOULD-FIX is
 open (a finding closes when fixed, or dismissed with a reason the
 reviewer accepts and records), NIT fixes and mechanical commits
 unreviewed, any other later commit delta-reviewed. Designs are agreed
-before building: a human signs off a design as text first (trivial
-mechanical edits, well-scoped bug fixes and pure docs or config fixes
-are exempt), tooling checks the ecosystem's native options first and
-must earn its place, a change a design doc planned long ago gets a
-one-line confirmation when it lands if it changes what CI runs or what
-a person types, and the architect decides the small things. Also
+before building: a human signs off a design as text first (an
+interface is anything a person types, reads or names, and code
+interiors are exempt; so are trivial mechanical edits, well-scoped
+bug fixes and pure docs or config fixes), tooling checks the
+ecosystem's native options first and must earn its place, a change a
+design doc planned long ago gets a one-line confirmation when it lands
+if it changes what CI runs or what a person types, and the architect
+decides the small things. Also
 decided: decision entries are lean; a decision is named by what it
 says, not by its id, and a ready change is announced in one message
 (the link, the pipeline result, the review state, the one check left);
