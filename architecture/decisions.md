@@ -609,13 +609,15 @@ entry.
 **Status:** proposed; supersedes D14 in part
 
 **Context.** D14 left the fact storage model open pending a quality
-comparison: the "Facts that bite" placeholder said one bullet per fact
+evaluation: the "Facts that bite" placeholder said one bullet per fact
 in the root file, while the context-economy principle keeps only
-headlines there. Asked "Close it in the kit the same way, as a
-separate commit you can drop?", the human answered "Close it now"
-(2026-10-14). The architect's reading: "the same way" is the layout a
-larger project already uses. Its check question is question 8 in
-PR #5.
+headlines there. Asked "Here you settled it without a study. Close it
+in the kit the same way, as a separate commit you can drop?", the
+human answered "Close it now" (2026-10-14). The architect's reading:
+"here" is a larger project, which already uses the layout and settled
+it without a study; "the same way" is that layout and no study, as the
+chosen option's text, "no evaluation runs", confirms. Its check
+question is question 8 in PR #5.
 
 **Decision.** The root `AGENTS.md` holds one headline per fact; the
 full text lives in the path-scoped rule file for the fact's area, one
@@ -624,7 +626,7 @@ a file (a merge, a push, a retry) stays in the root in full. A new
 fact's change adds its headline, that change's review checks each fact
 has one headline and each headline its fact, and the wording may
 differ. No custom tool maintains the index. This closes the backlog
-item "Fact storage model" (Next 11) by decision, without the parity
+item "Fact storage model" (Next 11) by decision, without the quality
 evaluation: the layout has been in real use in a larger project since
 2026-10-05 (reported, unchecked here), and the chosen option's own
 text reads "no evaluation runs". This replaces D14's last two
