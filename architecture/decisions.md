@@ -673,7 +673,7 @@ differ. No custom tool maintains the index. This closes the backlog
 item "Fact storage model" (Next 11) by decision, without the quality
 evaluation: the layout has been in real use in a larger project since
 2026-10-05 (reported, unchecked here), and the chosen option's own
-text reads "no evaluation runs". This replaces D14's last two
+text reads "no evaluation runs". This replaces two of D14's
 consequence sentences: the fact storage model "is not decided here",
 and a drift check "stays written guidance".
 
