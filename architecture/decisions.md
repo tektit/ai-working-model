@@ -341,7 +341,8 @@ symlink skip there when the account lacks the right.
 **Date:** 2026-10-08
 **Status:** accepted; the review loop's stop condition, top-tier delta
 reviews, upward-only model override and "about 1,240" word figure
-superseded by D19
+superseded by D19; the fact storage model and drift check sentences
+superseded by D20
 
 **Context.** A comparison of this kit with two AI working setups in
 real use found practices the kit lacked: known failures keyed by error
@@ -567,6 +568,37 @@ words (187 to 194 lines). A standard-tier delta may miss a defect its
 fix introduced; the one top-tier review of the settled change stays.
 Nothing is hard to undo: it is text. Evidence: PR #5, which adds this
 entry.
+
+## D20: Facts: a headline index in the root file, the full text in path-scoped rule files
+
+**Date:** 2026-10-14
+**Status:** proposed; supersedes D14 in part
+
+**Context.** D14 left the fact storage model open pending a quality
+comparison: the "Facts that bite" placeholder said one bullet per fact
+in the root file, while the context-economy principle keeps only
+headlines there.
+
+**Decision.** The root `AGENTS.md` holds one headline per fact; the
+full text lives in the path-scoped rule file for the fact's area, one
+file per area, not per fact; a fact triggered by an action rather than
+a file (a merge, a push, a retry) stays in the root in full. A new
+fact's change adds its headline, that change's review checks each fact
+has one headline and each headline its fact, and the wording may
+differ. No custom tool maintains the index. This closes the backlog
+item "Fact storage model" (Next 11) by decision, without the parity
+evaluation: a larger project's pre-run found one-fact-per-file paths
+missed the deciding fact in 6 of 10 tasks, and its area-file layout
+has been in real use since 2026-10-05 (both reported, unchecked here).
+This replaces D14's last two consequence sentences: the fact storage
+model "is not decided here", and a drift check "stays written
+guidance".
+
+**Consequences.** The kit ships no facts, so no behavior changes now;
+the placeholder comment in the starter's `AGENTS.md` grows by 11 words
+(to 1,317 words, 195 lines in all), and setup removes it. A seeded
+project's index is as large as its facts, and only each change's
+review keeps it true. Evidence: PR #5, which adds this entry.
 
 ## Format
 

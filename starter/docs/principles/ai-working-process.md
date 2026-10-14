@@ -290,11 +290,12 @@ definition, a skill, a setting it describes) updates `AGENTS.md` in
 the same change. **How:** a drift check, where the project has one,
 enforces the principles part mechanically (every principle heading
 linked exactly once); the reviewer checks the rest. The same holds for
-any always-loaded index of facts whose full text lives elsewhere:
-every headline reads the same, word for word, in the index and in the
-file holding its full text, occurs once in each, and changes in both
-places together. Hand-kept pairs drift, so propose a drift check of
-the same shape once the project has such an index.
+any always-loaded index of facts whose full text lives elsewhere: each
+fact has exactly one headline, added in the change that adds the fact,
+and that change's review checks the pairing. The wording may differ;
+only the one-to-one mapping matters. No custom tool maintains the
+fact index, and a list that nothing prompts anyone to update is
+dropped rather than kept.
 
 The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
 the one authority) are edited only by an architect session, by direct

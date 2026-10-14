@@ -37,8 +37,10 @@ anatomy in `../../docs/principles/ai-working-process.md`).
 Give a rule the narrowest path pattern that is its area (`ci/**`,
 `**/*.tf`, `docs/design/<topic>*`), never a list of single files (the
 next file of that kind is missed). A pattern that spans unrelated
-areas is a catch-all: with `docs/**`, every doc read loads the rule.
-The cost adds up across rules: four 20 KB rules all matching
+areas is a catch-all: with `docs/**`, every doc read loads the rule. A
+doc that names every area's terms, such as an architecture doc or a
+backlog, stays out of every rule's paths, or each read of it loads
+them all. The cost adds up across rules: four 20 KB rules all matching
 `docs/**` can put 80 KB into the context of a docs-only task (a sum
 of file sizes, so an upper bound).
 

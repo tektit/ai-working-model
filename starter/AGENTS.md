@@ -188,7 +188,8 @@ this is how they map per tool.
 
 ## Facts that bite
 
-<!-- This project's own accumulated operational gotchas go here, in
-     this file's style: terse, one bullet per fact, generalized enough
-     to still be true next month. Move a general platform lesson to
-     docs/principles/platform-notes/ instead. -->
+<!-- Operational gotchas, one headline per fact; full text in
+     `.claude/rules/<area>.md`, except a fact triggered by an action
+     (a merge, a push), kept here in full. A new fact's change adds its
+     headline; its review checks the pairing. General platform lessons
+     go to docs/principles/platform-notes/ instead. -->
