@@ -279,11 +279,12 @@ reviewer never fixes them itself.
   diff or, because CI on the merged result is what checks integration,
   a conflict-free merge of the trunk in which the trunk changed
   nothing the branch builds on. The author decides this by listing the
-  trunk's commits since the branch last merged it and judging each
-  against what the branch touches or calls; in doubt, the merge gets
-  the delta. Any other commit after the loop has ended, a NIT fix
-  excepted, gets a standard-tier delta review, a merge in which the
-  trunk changed something the branch builds on included.
+  trunk's commits since the branch last merged it or branched from it
+  and judging each against what the branch touches or calls; in
+  doubt, the merge gets a delta review. Any other commit after the
+  loop has ended, a NIT fix excepted, gets a standard-tier delta
+  review, a merge in which the trunk changed something the branch
+  builds on included.
 
 ## Docs completeness is part of being done
 

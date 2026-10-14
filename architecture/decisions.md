@@ -583,9 +583,9 @@ changed something the branch builds on [...], the merge gets a light
 review." (2026-10-14). The architect's reading: "a light review" is a
 standard-tier delta, and the elided clause pointed to a test this kit
 does not carry, so the principle states it: the author lists the
-trunk's commits since the branch last merged it and judges each
-against what the branch touches or calls; in doubt, the merge gets the
-delta.
+trunk's commits since the branch last merged it or branched from it
+and judges each against what the branch touches or calls; in doubt,
+the merge gets a delta review.
 
 **Decision.** Reviews are honest: a brief's focus items add to a
 review and never narrow it, and its constraints are context, not the
