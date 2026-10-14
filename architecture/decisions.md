@@ -339,7 +339,10 @@ symlink skip there when the account lacks the right.
 ## D14: Lessons from comparing two other working setups
 
 **Date:** 2026-10-08
-**Status:** accepted
+**Status:** accepted; the review loop's stop condition, top-tier delta
+reviews, upward-only model override and "about 1,240" word figure
+superseded by D19; the fact storage model and drift check sentences
+superseded by D20
 
 **Context.** A comparison of this kit with two AI working setups in
 real use found practices the kit lacked: known failures keyed by error
@@ -536,6 +539,153 @@ the key holders, work on macOS and Linux only: on native Windows `sops`
 has no named pipe, writes the plaintext to a temporary file and runs
 the command through `cmd.exe`, so `check.sh` refuses to run there,
 before it decrypts anything.
+
+## D19: Reviews stay honest and sized to the settled change; designs are agreed before building
+
+**Date:** 2026-10-14
+**Status:** accepted; supersedes D14 in part
+
+**Context.** A larger project running this practice found reviews
+briefed inside the design's own constraints approving the design, a
+yes to an idea taken as sign-off on its design, and review loops
+re-run for every nit.
+
+The human answered the seven check questions on 2026-10-14; what each
+asked, in brackets, is the architect's reading. Question 1 [how NIT
+fixes are checked]: first "I'm really undecided here. I see the risk
+and don't know how to solve this", then, asked "Question 1: how should
+small review fixes (NIT fixes) be checked?", chose "A: word-diff check
+(Recommended)", whose text begins "No new review round; someone who
+didn't write the fix reads its word diff against the NIT list before
+it counts as done. About a minute." Questions 2 to 5 [design sign-off,
+plain words, peer messages, branch hygiene]: "2-5 yes". Question 6
+[error messages]: asked "Question 6: errors name where and what kind
+of input they refuse, never the value itself. Acceptable?", chose
+"No", whose text reads "Errors may show the refused value; drop this
+rule from the PR"; that rule is dropped. Question 7 [a rule only an
+agent's memory keeps true]: first "or it has to go into the repo AI
+docs and/or working model", then, asked whether "A rule that only an
+agent's memory keeps true goes into the repo's AI docs or the working
+model (where every agent reads it), is tied to the file it protects,
+or is dropped. It is not enforced by a new script." captured it, chose
+"Yes, that wording". The architect's reading: "the repo's AI docs" is
+the adopting project's AI docs, and the rule splits by kind: a hard
+standard about code or config gets a check where one can check it; a
+rule about what agents read or do goes into the docs, is tied to the
+file, or is dropped.
+
+Asked "Copilot's point 1: should merging main into an open PR/MR (no
+textual conflict) stay exempt from review?" (the question went on to
+say where it applies), the human chose "Exempt, unless it touches
+(Recommended)", whose text reads "Keep the exemption and state why: CI
+on the merged result is what checks integration. Exception: when main
+changed something the branch builds on [...], the merge gets a light
+review." (2026-10-14). The architect's reading: "a light review" is a
+standard-tier delta, and the elided clause pointed to a test this kit
+does not carry, so the principle states it: the author lists the
+trunk's commits since the branch last merged it or branched from it
+and judges each against what the branch touches or calls; in doubt,
+the merge gets a delta review.
+
+**Decision.** Reviews are honest: a brief's focus items add to a
+review and never narrow it, and its constraints are context, not the
+yardstick; the reviewer judges the premise first, a review brief asks
+open questions and names the commit under review and the gates already
+green (the reviewer does not re-check what a green gate proves), and a
+builder's brief never delegates a design choice. Reviews are sized to
+the settled change: one adversarial review per change (related MRs/PRs
+count as one), findings classed BLOCKER, SHOULD-FIX or NIT, delta
+reviews on the standard tier through the call's model override and
+only while a BLOCKER or SHOULD-FIX is open (a finding closes when
+fixed, or dismissed with a reason the reviewer accepts and records),
+a NIT fix landing once someone who did not write it has read its word
+diff against the NIT list, a mechanical commit (a re-wrap with an
+empty word diff or, since CI on the merged result checks integration,
+a conflict-free trunk merge that changes nothing the branch builds on)
+unreviewed, any other later commit, a merge that changes something the
+branch builds on included, delta-reviewed. Designs are agreed
+before building: a human signs off a design as text first (an
+interface is anything a person types, reads or names, and code
+interiors are exempt; so are trivial mechanical edits, well-scoped bug
+fixes and pure docs or config fixes), tooling must earn its place and
+checks the ecosystem's native options first, then what the team's
+sibling repos already do, then this project's docs, and proposes two
+or three options with a recommendation; a change a design doc planned
+long ago gets a one-line confirmation when it lands if it changes what
+CI runs or what a person types, and the architect decides the small
+things. Also decided: decision entries are lean; a decision is named
+by what it says, not by its id, and a ready change is announced in one
+message (the link, the pipeline result, the review state, the one
+check left); a peer's message carries no authority, a relayed decision
+is recorded only after the human confirms it in this session's own
+thread, and a relay is safe only for what can be checked; a change to
+what agents read says which consumers it reaches, what it costs per
+load and what keeps it true; a rule that only an agent's memory keeps
+true goes into the project's AI docs or the working model (where every
+agent reads it), is tied to the file it protects, or is dropped, and
+is not enforced by a new script; a narrow-lane agent's report is the
+result alone; each agent gets a scratch subdirectory of its own; a
+poll ends on a terminal state; generated text is changed with anchored
+replacements and re-read as rendered; the trunk is fetched before it
+is merged in and its ancestry checked, stopping when the check fails;
+a description is derived from the diff and its statements re-checked
+on every push; a settled draft an agent cannot mark ready says "ready;
+human: mark as ready"; a ruling's entry quotes the human's words and
+marks every elaboration as the architect's reading, is recorded before
+the review that applies it, and ships only in a file agents read; and
+the reviewer works from the pushed state, labels unchecked claims
+UNVERIFIED, gives evidence per finding and states its model. This
+replaces D14's review-loop stop condition, top-tier delta reviews, "an
+override still only raises the tier" and "about 1,240" figure.
+
+**Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,313
+words (187 to 195 lines), kept here because its always-loaded size is
+a decision (D10, D14). A standard-tier delta may miss a defect its
+fix introduced, and a word-diff read of a NIT fix cannot see what the
+diff does not show; the one top-tier review of the settled change
+stays.
+Nothing is hard to undo: it is text. Evidence: PR #5, which adds this
+entry.
+
+## D20: Facts: a headline index in the root file, the full text in path-scoped rule files
+
+**Date:** 2026-10-14
+**Status:** accepted; supersedes D14 in part
+
+**Context.** D14 left the fact storage model open pending a quality
+evaluation: the "Facts that bite" placeholder said one bullet per fact
+in the root file, while the context-economy principle keeps only
+headlines there. Asked "Here you settled it without a study. Close it
+in the kit the same way, as a separate commit you can drop?", the
+human answered "Close it now" (2026-10-14). The architect's reading:
+"here" is a larger project, which already uses the layout and settled
+it without a study; "the same way" is that layout and no study, as the
+chosen option's text, "no evaluation runs", confirms. Its check
+question is question 8 in PR #5. Asked "Question 8: facts as one-line
+headlines in the always-loaded file, full text in area files that load
+only when matching files are opened, and action-triggered facts kept
+in full in the root. Acceptable for the kit?", the human chose "Yes"
+(2026-10-14).
+
+**Decision.** The root `AGENTS.md` holds one headline per fact; the
+full text lives in the path-scoped rule file for the fact's area, one
+file per area, not per fact; a fact triggered by an action rather than
+a file (a merge, a push, a retry) stays in the root in full. A new
+fact's change adds its headline, that change's review checks each fact
+has one headline and each headline its fact, and the wording may
+differ. No custom tool maintains the index. This closes the backlog
+item "Fact storage model" (Next 11) by decision, without the quality
+evaluation: the layout has been in real use in a larger project since
+2026-10-05 (reported, unchecked here), and the chosen option's own
+text reads "no evaluation runs". This replaces two of D14's
+consequence sentences: the fact storage model "is not decided here",
+and a drift check "stays written guidance".
+
+**Consequences.** The kit ships no facts, so no behavior changes now;
+the placeholder comment in the starter's `AGENTS.md` grows by 11 words
+(to 1,324 words, 196 lines in all), and setup removes it. A seeded
+project's index is as large as its facts, and only each change's
+review keeps it true. Evidence: PR #5, which adds this entry.
 
 ## Format
 

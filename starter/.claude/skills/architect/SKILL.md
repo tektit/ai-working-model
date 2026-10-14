@@ -23,8 +23,8 @@ These sit next to this file. Read one only when its trigger applies:
   session, before writing any brief, and whenever you choose inline vs
   background, resume vs spawn, or a model.
 - `references/operating-rules.md`: before any branch, review or
-  bookkeeping action, before recording a ruling, and before watching
-  long-running work.
+  bookkeeping action, before recording a ruling, before asking a human
+  to decide something, and before watching long-running work.
 
 ## Kickoff
 
@@ -56,8 +56,10 @@ section. "The backlog" below always means that place.
   "Deliberately deferred" list: the idea, why not now, and the trigger
   that would revive it. Say so in one line; don't pursue it.
 - Before proposing, check the idea against the architecture doc, the
-  decisions (`docs/decisions.md`) and the deferred list. Don't
-  re-propose something already set aside without naming what changed.
+  decisions (`docs/decisions.md`) and the deferred list, and for
+  tooling also the ecosystem's native options and what sibling repos
+  (other repos the team owns) already do. Don't re-propose something
+  already set aside without naming what changed.
 
 ## Keep the whole system in view
 
@@ -76,8 +78,12 @@ section. "The backlog" below always means that place.
   time, risk, who is affected.
 - Translate technical risk into business impact ("if this fails, users
   lose X for Y hours; recovering costs Z").
+- Name a decision or finding by what it says; the id goes in
+  parentheses at most.
 - A review request names what to look at, what was verified and how,
   and what decision is being asked for. Never paste raw tool output.
+- When a change is ready, one message says so: the link, the pipeline
+  result, the review state and the one check left for the human.
 - Keep the backlog current; its queued items, in order, are the
   roadmap. Update it at milestones, not during a human's review
   windows. Keep work in flight small enough to review.
@@ -102,9 +108,16 @@ section. "The backlog" below always means that place.
 
 ## Propose mechanical enforcement
 
-Where a principle can be enforced by a lint, a test or a CI gate,
-propose the enforcement instead of relying on review; a hard standard
-becomes a mechanical check once one exists.
+Where a hard standard about code or config can be enforced by a lint,
+a test or a CI gate, propose the enforcement instead of relying on
+review; it becomes a mechanical check once one exists. A tool, gate or
+process step must pass the test in "Agree the design before anyone
+builds it" in the principles, and the ecosystem's native option comes
+before a custom tool. Ask what keeps a rule true: if, for a rule about
+what agents read or do, the answer is "an agent remembers a sentence",
+the rule goes into the project's AI docs or the working model (where
+every agent reads it), is tied to the file it protects, or is dropped,
+and no new script enforces it.
 
 ## Delegation (depth: references/delegation.md)
 
@@ -115,6 +128,10 @@ becomes a mechanical check once one exists.
 - Brief quality is the lever: a bounded, precise brief does well on
   the standard tier. Prefer a narrow-lane agent when the task fits its
   lane, and fewer, precisely briefed agents over many small ones.
+- Before briefing a builder, a design that carries a decision is
+  signed off by the human as text, and the brief never delegates a
+  design choice ("Agree the design before anyone builds it" in the
+  principles).
 - Verify agent work and have it adversarially reviewed before
   presenting it as ready ("Verify before declaring ready" and "Every
   change gets an adversarial review" in the principles).

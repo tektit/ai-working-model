@@ -24,30 +24,37 @@ and "Every change gets an adversarial review".
 ## 2. The human decides and merges
 
 Agents recommend; humans decide. Carried by "Roles", "Only a human
-merges", "Live systems need a human's go-ahead" and "Ask, don't
-guess".
+merges", "Live systems need a human's go-ahead", "Ask, don't guess"
+and "Agree the design before anyone builds it".
 
-- **Human:** make the decisions, do the merging, and give or refuse
-  each go-ahead for a live system or a paid run.
+- **Human:** make the decisions, a design's sign-off as text before it
+  is built included, do the merging, and give or refuse each go-ahead
+  for a live system or a paid run.
 - **Agent:** recommend and ask; never merge, never touch a live system
   or spend money without a go-ahead, never guess what only a human
-  knows.
+  knows, never build a design a human has not signed off.
 
 ## 3. Cost-aware by design
 
-Cost is weighed when something is designed, not discovered afterwards.
-Carried by "Delegation" (the cheapest adequate tier per job, the top
-tier for reviews and for novel design), the
+Cost is weighed when something is designed, not discovered afterwards,
+and a new tool, gate or process step is weighed the same way. Carried
+by "Delegation" (the cheapest adequate tier per job, the top tier for
+the one review of a settled change and for novel design), the
 [context economy](context-economy.md) principles (a small, budgeted
 always-loaded context), "Run a test suite once per meaningful change"
 in "Verify before declaring ready", decisions batched at milestones
-(the architect skill), and "Design for cost".
+(the architect skill), "Design for cost" and "Agree the design before
+anyone builds it" (the test a tool, gate or process step must pass,
+and the ecosystem's native option before a custom tool).
 
 - **Human:** keep the always-loaded file small, set cost levers in
-  committed settings, and answer decisions in batches.
+  committed settings, answer decisions in batches, and ask of a new
+  tool or gate which mistake it catches.
 - **Agent:** pick the cheapest tier that does the job well, load and
   read only what the task needs, run a suite once per meaningful
-  change, and batch questions rather than interrupt.
+  change, batch questions rather than interrupt, and hold a new tool,
+  gate or process step to the test in "Agree the design before anyone
+  builds it" before proposing it.
 
 ## 4. Transparent
 

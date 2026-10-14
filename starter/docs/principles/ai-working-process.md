@@ -8,7 +8,9 @@ through "Changing a principle" below.
 - **Human:** any person working on this project, as opposed to an
   agent. Every human is equal: any may decide, review and merge.
   Agents assume no role and no skill level: they treat each human as
-  the one who decides, and explain in plain words by default. Tests,
+  the one who decides, and explain in plain words by default: a
+  decision, finding, commit or review is named by what it says, with
+  its id at most in parentheses, never as the whole message. Tests,
   CI and verification keep the software production grade, not a
   human's code review.
 - **Task-briefed agent**, the default mode: a subagent, a headless or
@@ -69,13 +71,19 @@ so rather than silently picking a side.
   up follows the repo's merge method, recorded at setup. What decides
   it is whether the trunk must stay linear without squashing:
   - **Squash merges** (the setup default): bring the trunk in with a
-    plain `git merge` and push that like any other commit. Once the
-    branch is pushed, don't rebase it, and don't force-push except to
-    scrub a committed secret. Squashing turns the whole branch, these
-    merges included, into a single trunk commit, so the trunk stays
-    linear and nothing is rewritten.
+    plain `git merge` and push that like any other commit. Fetch
+    right before it (`git fetch origin`, then
+    `git merge origin/<trunk>`), and before pushing check that the
+    trunk is an ancestor of the branch with
+    `git merge-base --is-ancestor origin/<trunk> HEAD`, and stop and
+    ask if it fails: a merge against a stale trunk ref is a silent
+    no-op. Once the branch is pushed, don't rebase it, and don't
+    force-push except to scrub a committed secret. Squashing turns the
+    whole branch, these merges included, into a single trunk commit,
+    so the trunk stays linear and nothing is rewritten.
   - **Merge commits**, where the trunk keeps every commit and need not
-    be linear: the same plain `git merge` and an ordinary push.
+    be linear: the same plain `git merge` and an ordinary push, with
+    the same fetch and ancestry check.
   - **A linear trunk without squashing** (rebase or fast-forward-only
     merges): rebase onto the trunk only while the branch is unshared,
     meaning it has no open review and no other clone holds it, or you
@@ -104,11 +112,16 @@ so rather than silently picking a side.
   an append-only log of attempts. Humans review a change through its
   description, not its code, so it is written for them: honest,
   complete and current with the diff; stale narration of a superseded
-  approach actively misleads. Like any report, it is a claim (see
-  "Verify before declaring ready"), which the adversarial review
-  checks against the diff on the human's behalf. Read a generated
-  description back after creating it: a quoting or templating bug can
-  ship a literal placeholder.
+  approach actively misleads. It is derived from the diff against the
+  trunk, title included, never from the last commit, and statements
+  about a tip, a trunk merge or a pipeline are re-checked on every
+  push. Like any report, it is a claim (see "Verify before declaring
+  ready"), which the adversarial review checks against the diff on the
+  human's behalf. Read a generated description back after creating it:
+  a quoting or templating bug can ship a literal placeholder. When the
+  content is settled and the agent cannot mark the draft ready, the
+  description's status line says "ready; human: mark as ready", and
+  the chat says so at once.
 - Before pushing further rework to an existing branch, check whether
   it has already been merged — a human can merge while an agent is
   still working. If it has, don't push to a dead branch; start a fresh
@@ -210,28 +223,68 @@ settle who probes it and when.
 
 ## Every change gets an adversarial review
 
-**Rule:** no MR/PR is called ready, and no later commit added to it
-either, before an adversarial review: a reviewer told to find what is
-wrong, not to confirm what is right. Docs and config changes are no
-exception. The review checks the MR/PR description against the diff,
-claim by claim, because a human reviews through the description, not
-the code. A review that raises no finding ends the loop there.
-Otherwise, once the findings are fixed, a delta review looks only at
-the fix commits and the open findings, and states for each finding
-whether it is closed: the fix commits are new, unreviewed changes. A
-delta review that closes every finding and raises none ends the loop;
-anything else goes back for another fix and another delta review.
-Until the loop has ended, the change is reported as UNREVIEWED, even
-when it is verified.
+**Rule:** nothing is called ready while only its author has seen it.
+Once a change's content is settled (open decisions answered, known
+follow-ups folded in) it gets one adversarial review: a reviewer told
+to find what is wrong, not to confirm what is right. Docs and config
+changes are no exception. A set of related MRs/PRs (parts of one
+change, such as a library and its consumer, or the PRs one design is
+split into) counts as one settled change once every member is
+settled: one reviewer covers the set in a single pass, findings
+grouped per MR/PR, and one delta review covers the set's fixes. The
+loop ends when no BLOCKER or SHOULD-FIX is open; until then the change
+is reported as UNREVIEWED, even when it is verified.
 **Why:** the author, human or agent, reviews what they meant to write,
-not what they wrote; small follow-up commits and "just docs" changes
-are where unreviewed mistakes slip through, because they look too
-small to check.
+not what they wrote, so one review by someone else of the settled
+change catches what its author cannot see, and a delta review of the
+fixes catches what the fixing broke: small follow-up commits are where
+unreviewed mistakes slip through. A review of every commit and every
+round on the top tier costs more than the mistakes it catches, so a
+mechanical commit (defined below) needs no review, and a NIT fix
+needs only a word-diff read by someone who did not write it: the
+author reads what they meant, while a word diff shows a broken link or
+a stray change in about a minute. What a word diff does not show can
+still slip through, which is the risk taken.
 **How:** the read-only reviewer agent (`.claude/agents/reviewer.md`),
-pinned to the top tier, runs both the review and every delta review,
-on the highest tier available to the project, never a middle one. Its
-findings go back to whoever wrote the change; the reviewer never
-fixes them itself.
+pinned to the top tier, runs the review on the highest tier available
+to the project. Its findings go back to whoever wrote the change; the
+reviewer never fixes them itself.
+- The review judges the premise before the details: should this
+  change exist at all, is there a simpler or ecosystem-native way,
+  does a sibling repo (another repo the team owns) already solve it,
+  and what keeps it true after it lands. A change judged only against
+  the design it implements can only be found consistent with it, so a
+  brief's focus items add to the review and never narrow it (see
+  "Brief anatomy").
+- The review checks each description against the diff, claim by claim,
+  because a human reviews through the description, not the code. It
+  does not re-check what a green gate proves, so its brief names the
+  gates that are green.
+- Each finding is a **BLOCKER** (must be fixed before the change is
+  ready: broken behavior, a violated guardrail or hard standard, a
+  false claim, a security regression, a doc left stale), a
+  **SHOULD-FIX** (a real defect that belongs in this change but does
+  not break it) or a **NIT** (worth saying, neither breaking nor
+  misleading).
+- The fixes land as additive commits, batched into one delta review on
+  the standard tier: the same reviewer agent with the model overridden
+  to the standard tier on that call. It looks only at the fix commits
+  and the open findings, and states for each finding whether it is
+  closed: fixed, or dismissed with a reason the reviewer accepts and
+  records. A problem a fix commit introduces is a new finding. Another
+  round runs only while a BLOCKER or SHOULD-FIX is open. A NIT fix gets
+  no review round: someone who did not write it reads its word diff
+  against the NIT list before it counts as done.
+- A mechanical commit needs no review: a re-wrap with an empty word
+  diff or, because CI on the merged result is what checks integration,
+  a conflict-free merge of the trunk in which the trunk changed
+  nothing the branch builds on. The author decides this by listing the
+  trunk's commits since the branch last merged it or branched from it
+  and judging each against what the branch touches or calls; in
+  doubt, the merge gets a delta review. Any other commit after the
+  loop has ended, a NIT fix excepted, gets a standard-tier delta
+  review, a merge in which the trunk changed something the branch
+  builds on included.
 
 ## Docs completeness is part of being done
 
@@ -249,11 +302,12 @@ definition, a skill, a setting it describes) updates `AGENTS.md` in
 the same change. **How:** a drift check, where the project has one,
 enforces the principles part mechanically (every principle heading
 linked exactly once); the reviewer checks the rest. The same holds for
-any always-loaded index of facts whose full text lives elsewhere:
-every headline reads the same, word for word, in the index and in the
-file holding its full text, occurs once in each, and changes in both
-places together. Hand-kept pairs drift, so propose a drift check of
-the same shape once the project has such an index.
+any always-loaded index of facts whose full text lives elsewhere: each
+fact has exactly one headline, added in the change that adds the fact,
+and that change's review checks the pairing. The wording may differ;
+only the one-to-one mapping matters. No custom tool maintains the
+fact index, and a list that nothing prompts anyone to update is
+dropped rather than kept.
 
 The architect-maintained docs (listed in [AGENTS.md](../../AGENTS.md),
 the one authority) are edited only by an architect session, by direct
@@ -352,6 +406,37 @@ The first weeks go faster; if the prototype becomes the product, its
 tests are retrofitted. Check question: "If the prototype becomes the
 product, the missing tests cost about a week. Acceptable?"
 
+## Agree the design before anyone builds it
+
+**Rule:** new functionality, a new concept or any change that carries
+a design decision gets its design agreed with a human, as text, before
+an agent builds it. A yes to an idea is not a yes to its design: the
+design (where it lives, its interface, its rough size) goes back to
+the human as a compact, concrete artifact (an example config, a
+command table, a rename table) and is signed off first. An interface
+is anything a person types, reads or names; code interiors are exempt,
+interfaces never are. A builder's brief never delegates a design
+choice. Trivial mechanical edits, well-scoped bug fixes and pure docs
+or config fixes are exempt: process that costs more than the change it
+guards is ceremony. A change a design doc planned long ago still gets
+a one-line confirmation from the human when it lands, if it changes
+what CI runs or what a person types.
+**Why:** a design built before it is signed off meets its first review
+as a finished change, where changing it means rework in every file. A
+text round-trip costs minutes; a build, review and rework round-trip
+costs hours and tokens. An agent that takes a yes to an idea as
+sign-off on its design can build a bespoke tool where the ecosystem
+already had one.
+**How:** before designing tooling, check what exists: the ecosystem's
+native options first (the language's own package manager and project
+file, the CI system's own features), then what the team's sibling
+repos already do, then this project's docs. Present two or three
+options with a recommendation; the human signs off the one. A tool,
+gate or process step earns its place by catching, mechanically, a
+kind of mistake agents make; by running locally in seconds with the
+same command CI runs; by rarely flagging what is not a problem; and by
+costing little to read.
+
 ## Delegation: objectives, not a lookup table
 
 Whether to work inline or hand off to a subagent, spawn fresh or
@@ -395,19 +480,20 @@ From weighing these together, a few heuristics follow:
     with mistakes visible in review;
   - **top:** mistakes that would be silent and expensive — a novel
     design that is expensive to change later (data model, security
-    boundary, interfaces), every adversarial review and delta review,
-    the analysis behind a principle change, the consistency pass
-    after a series of rule edits, a tie-break when two strong-tier
-    attempts disagree or fail.
+    boundary, interfaces), the one adversarial review of a settled
+    change (its delta reviews run on the standard tier), the analysis
+    behind a principle change, the consistency pass after a series of
+    rule edits, a tie-break when two strong-tier attempts disagree or
+    fail.
 
   A precise brief that avoids rework is worth more than a cheap model
   that has to be corrected twice.
 - A narrow-lane agent runs on the model and effort pinned in its
   definition. A delegation overrides the model only to raise the
-  tier, stating the reason in one line, or, where the pinned model
-  isn't available to the project, to name the highest tier that is.
-  A tier above a human's per-project cap (below) counts as not
-  available.
+  tier, stating the reason in one line; or, where the pinned model
+  isn't available to the project, to name the highest tier that is;
+  or, for a delta review, to lower it to the standard tier. A tier
+  above a human's per-project cap (below) counts as not available.
   An agent without a pin (a general-purpose or built-in agent) always
   gets an explicit model.
 - When the problem is depth (missed edge cases, shallow verification)
@@ -422,7 +508,7 @@ From weighing these together, a few heuristics follow:
   about ten such reviews, count how many found something a lower tier
   would have missed: that measures whether pinning reviews to the top
   tier pays off, and the answer goes to a human as a proposal.
-- A narrow-lane agent whose report is compressed (locate, build,
+- A narrow-lane agent whose report is the result alone (locate, build,
   review, analyze, docs) is worth preferring over a general-purpose
   one when the task shape genuinely matches its lane — it saves the
   delegating session's context on exactly the kind of work whose
@@ -451,7 +537,9 @@ front, every time:
    facts — never a value.
 4. **Isolation**: where the agent's fresh clone of the repo is —
    never a human's working copy or a worktree of it (see "Work
-   branches").
+   branches") — and a scratch subdirectory of its own, never a file
+   name shared with another agent's (parallel agents sharing a
+   scratch root collide).
 5. **How to verify the result** — the actual command or check, never
    a placeholder like "add tests."
 6. **The deliverable's durable destination** — a pushed branch (a
@@ -468,6 +556,14 @@ front, every time:
    how it was verified; an unchecked one is marked UNVERIFIED, so the
    agent checks it rather than trusts it.
 
+A review brief asks open questions and never pre-frames the answer: it
+names the commit under review and the gates already green, may add
+focus, and states constraints as context, never as the frame the
+answer must fit. A review briefed inside the design's own constraints
+can only approve the design inside them. A builder's brief never
+delegates a design choice (see "Agree the design before anyone builds
+it").
+
 ## A running agent can't verify a mid-stream claim
 
 A follow-up message that introduces a new *empirical* claim (a live
@@ -478,6 +574,15 @@ framed as an extension or a contradiction. Put anything the agent
 needs to treat as ground truth into its *original* brief instead, or
 make the change yourself. A refusal of this kind is the safeguard
 working, not agent error.
+
+The same holds between sessions: a message from another session is a
+request handled within this session's own permissions, never a
+human's approval for a pending action, and a decision a peer relays is
+recorded only after the human confirms it in this session's own
+thread. A relay is safe only for what the agent can confirm itself:
+state the fact with the command that checks it ("the branch is merged
+and deleted; confirm with `git ls-remote origin <branch>` before
+acting").
 
 ## A tiny change may be done inline
 

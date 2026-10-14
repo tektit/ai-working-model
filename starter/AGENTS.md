@@ -41,8 +41,9 @@ standard (below).
 - Stay on the job; a finding outside it becomes a backlog item, not a
   detour. [Stay on the job](docs/principles/ai-working-process.md#stay-on-the-job)
 - Every human is equal and decides; assume no role or skill level and
-  explain in plain words. Sessions are task-briefed by default,
-  architect when a human invokes it. [Roles](docs/principles/ai-working-process.md#roles)
+  explain in plain words, naming a decision by what it says, never by
+  its id alone. Sessions are task-briefed by default, architect when a
+  human invokes it. [Roles](docs/principles/ai-working-process.md#roles)
 
 ## Principles
 
@@ -85,9 +86,14 @@ it becomes a mechanical check (lint, CI gate) once one exists.
 
 - Specs and plans are session documents, never committed.
   [Specs and plans](docs/principles/ai-working-process.md#specs-and-plans-are-not-repo-content)
+- A human signs off a design, as text, before an agent builds it; a
+  yes to an idea is not a yes to its design, and tooling checks the
+  ecosystem's native options first.
+  [Design first](docs/principles/ai-working-process.md#agree-the-design-before-anyone-builds-it)
 - Delegate by objectives; pick the tier by what an undetected mistake
   costs. [Delegation](docs/principles/ai-working-process.md#delegation-objectives-not-a-lookup-table)
-- Every brief states the eight points, completion discipline first.
+- Every brief states the eight points, completion discipline first; a
+  review brief asks open questions, never pre-framing the answer.
   [Brief anatomy](docs/principles/ai-working-process.md#brief-anatomy)
 - Ground truth goes in the original brief, never mid-stream.
   [Mid-stream claims](docs/principles/ai-working-process.md#a-running-agent-cant-verify-a-mid-stream-claim)
@@ -95,9 +101,11 @@ it becomes a mechanical check (lint, CI gate) once one exists.
   done inline. [Inline](docs/principles/ai-working-process.md#a-tiny-change-may-be-done-inline)
 - A wanted behavior is written where the acting agent reads it, a
   command given literally. [Write it where it's read](docs/principles/ai-working-process.md#write-a-behavior-where-the-acting-agent-reads-it)
-- No MR/PR, nor a later commit to it, is ready until it has been
-  reviewed adversarially, its description against the diff included,
-  and any fixes delta-reviewed; until then, UNREVIEWED.
+- No MR/PR is ready until its settled content has had one adversarial
+  review (related ones count as one), its description checked against
+  the diff, and any later commit delta-reviewed, except a mechanical
+  one and a NIT fix whose word diff someone else has read; until then,
+  UNREVIEWED.
   [Adversarial review](docs/principles/ai-working-process.md#every-change-gets-an-adversarial-review)
 - A series of rule edits ends with one top-tier consistency pass.
   [Consistency pass](docs/principles/ai-working-process.md#finish-a-series-of-rule-edits-with-one-consistency-pass)
@@ -181,7 +189,8 @@ this is how they map per tool.
 
 ## Facts that bite
 
-<!-- This project's own accumulated operational gotchas go here, in
-     this file's style: terse, one bullet per fact, generalized enough
-     to still be true next month. Move a general platform lesson to
-     docs/principles/platform-notes/ instead. -->
+<!-- Operational gotchas, one headline per fact; full text in
+     `.claude/rules/<area>.md`, except a fact triggered by an action
+     (a merge, a push), kept here in full. A new fact's change adds its
+     headline; its review checks the pairing. General platform lessons
+     go to docs/principles/platform-notes/ instead. -->

@@ -37,7 +37,15 @@ one line per principle, pointers and the per-tool settings. Rules for
 one area go to path-scoped rule files (this project's are under
 `.claude/rules/`, whose README says when they load); a delegated
 agent reads the ones its brief names. A principle, a design or a
-platform note is its own file, opened when the topic comes up.
+platform note is its own file, opened when the topic comes up. A
+change to what agents read, or to when they read it (a rule, a fact, a
+path scope, a memory file), says in its proposal which consumers it
+reaches (the main session, a subagent in the session, an agent in a
+separate clone, a session in another repo), what it costs per load,
+and what keeps it true. A rule that only an agent's memory keeps true
+goes into the project's AI docs or the working model (where every agent
+reads it), is tied to the file it protects, or is dropped. It is not
+enforced by a new script.
 
 ## Read the part, not the whole
 
@@ -64,7 +72,8 @@ Ask commands for structured, filtered output rather than a full dump.
 
 **Rule:** work whose value is its result, not its narration — a sweep
 of the tree, a build, a review, an analysis — runs in a subagent whose
-report is compressed; the delegating session consumes the conclusion.
+report is the result alone; the delegating session consumes the
+conclusion.
 Large raw output never lands in a thread that will continue.
 **Why:** a dump in the delegating session is paid again on every
 following turn; the same dump in a subagent is paid once and ends with
