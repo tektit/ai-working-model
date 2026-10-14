@@ -543,7 +543,7 @@ before it decrypts anything.
 ## D19: Reviews stay honest and sized to the settled change; designs are agreed before building
 
 **Date:** 2026-10-14
-**Status:** proposed; supersedes D14 in part
+**Status:** accepted; supersedes D14 in part
 
 **Context.** A larger project running this practice found reviews
 briefed inside the design's own constraints approving the design, a
@@ -631,7 +631,7 @@ entry.
 ## D20: Facts: a headline index in the root file, the full text in path-scoped rule files
 
 **Date:** 2026-10-14
-**Status:** proposed; supersedes D14 in part
+**Status:** accepted; supersedes D14 in part
 
 **Context.** D14 left the fact storage model open pending a quality
 evaluation: the "Facts that bite" placeholder said one bullet per fact
