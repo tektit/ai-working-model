@@ -108,15 +108,16 @@ section. "The backlog" below always means that place.
 
 ## Propose mechanical enforcement
 
-Where a principle can be enforced by a lint, a test or a CI gate,
-propose the enforcement instead of relying on review; a hard standard
-becomes a mechanical check once one exists. A tool, gate or process
-step must pass the test in "Agree the design before anyone builds it"
-in the principles, and the ecosystem's native option comes before a
-custom tool. Ask what keeps a rule true: if the answer is "an agent
-remembers a sentence", the rule goes into the project's AI docs or the
-working model (where every agent reads it), is tied to the file it
-protects, or is dropped, and no new script enforces it.
+Where a hard standard about code or config can be enforced by a lint,
+a test or a CI gate, propose the enforcement instead of relying on
+review; it becomes a mechanical check once one exists. A tool, gate or
+process step must pass the test in "Agree the design before anyone
+builds it" in the principles, and the ecosystem's native option comes
+before a custom tool. Ask what keeps a rule true: if, for a rule about
+what agents read or do, the answer is "an agent remembers a sentence",
+the rule goes into the project's AI docs or the working model (where
+every agent reads it), is tied to the file it protects, or is dropped,
+and no new script enforces it.
 
 ## Delegation (depth: references/delegation.md)
 

@@ -583,7 +583,7 @@ reviews on the standard tier through the call's model override and
 only while a BLOCKER or SHOULD-FIX is open (a finding closes when
 fixed, or dismissed with a reason the reviewer accepts and records),
 a NIT fix landing once someone who did not write it has read its word
-diff against the findings, a commit git proves mechanical unreviewed,
+diff against the NIT list, a commit git proves mechanical unreviewed,
 any other later commit delta-reviewed. Designs are agreed before
 building: a human signs off a design as text first (an interface is
 anything a person types, reads or names, and code interiors are
@@ -602,22 +602,22 @@ only after the human confirms it in this session's own thread, and a
 relay is safe only for what can be checked; a change to what agents
 read says which consumers it reaches, what it costs per load and what
 keeps it true; a rule that only an agent's memory keeps true goes into
-the project's AI docs or the working model, is tied to the file it
-protects, or is dropped, and is not enforced by a new script; a
-narrow-lane agent's report is the result alone; each agent gets a
-scratch subdirectory of its own; a poll ends on a terminal state;
-generated text is changed with anchored replacements and re-read as
-rendered; the trunk is fetched before it is merged in and its ancestry
-checked, stopping when the check fails; a description is derived from
-the diff and its statements re-checked on every push; a settled draft
-an agent cannot mark ready says "ready; human: mark as ready"; a
-ruling's entry quotes the human's words and marks every elaboration as
-the architect's reading, is recorded before the review that applies
-it, and ships only in a file agents read; and the reviewer works from
-the pushed state, labels unchecked claims UNVERIFIED, gives evidence
-per finding and states its model. This replaces D14's review-loop stop
-condition, top-tier delta reviews, "an override still only raises the
-tier" and "about 1,240" figure.
+the project's AI docs or the working model (where every agent reads
+it), is tied to the file it protects, or is dropped, and is not
+enforced by a new script; a narrow-lane agent's report is the result
+alone; each agent gets a scratch subdirectory of its own; a poll ends
+on a terminal state; generated text is changed with anchored
+replacements and re-read as rendered; the trunk is fetched before it
+is merged in and its ancestry checked, stopping when the check fails;
+a description is derived from the diff and its statements re-checked
+on every push; a settled draft an agent cannot mark ready says "ready;
+human: mark as ready"; a ruling's entry quotes the human's words and
+marks every elaboration as the architect's reading, is recorded before
+the review that applies it, and ships only in a file agents read; and
+the reviewer works from the pushed state, labels unchecked claims
+UNVERIFIED, gives evidence per finding and states its model. This
+replaces D14's review-loop stop condition, top-tier delta reviews, "an
+override still only raises the tier" and "about 1,240" figure.
 
 **Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,313
 words (187 to 195 lines), kept here because its always-loaded size is

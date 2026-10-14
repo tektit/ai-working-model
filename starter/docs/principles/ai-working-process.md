@@ -274,7 +274,7 @@ reviewer never fixes them itself.
   records. A problem a fix commit introduces is a new finding. Another
   round runs only while a BLOCKER or SHOULD-FIX is open. A NIT fix gets
   no review round: someone who did not write it reads its word diff
-  against the findings before it counts as done.
+  against the NIT list before it counts as done.
 - A commit git proves mechanical (a conflict-free merge of the trunk,
   a re-wrap with an empty word diff) needs no review. Any other commit
   after the loop has ended, a NIT fix excepted, gets a standard-tier
