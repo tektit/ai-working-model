@@ -18,9 +18,7 @@ that gets fixed before it ships.
 **How:** check preconditions before doing work, not mid-way through.
 In shell this means `set -euo pipefail`; in any language it means no
 catch-all that continues, and errors to the error stream, not the
-output stream. An error names where and what kind of input it refuses
-(position, type, keys), never its content: the content may be a
-secret, and logs outlive the run.
+output stream.
 
 ## Trust the PATH
 

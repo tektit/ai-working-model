@@ -550,6 +550,27 @@ briefed inside the design's own constraints approving the design, a
 yes to an idea taken as sign-off on its design, and review loops
 re-run for every nit.
 
+The human answered the seven check questions on 2026-10-14; what each
+asked, in brackets, is the architect's reading. Question 1 [how NIT
+fixes are checked]: first "I'm really undecided here. I see the risk
+and don't know how to solve this", then, asked "Question 1: how should
+small review fixes (NIT fixes) be checked?", chose "A: word-diff check
+(Recommended)", whose text begins "No new review round; someone who
+didn't write the fix reads its word diff against the NIT list before
+it counts as done. About a minute." Questions 2 to 5 [design sign-off,
+plain words, peer messages, branch hygiene]: "2-5 yes". Question 6
+[error messages]: asked "Question 6: errors name where and what kind
+of input they refuse, never the value itself. Acceptable?", chose
+"No", whose text reads "Errors may show the refused value; drop this
+rule from the PR"; that rule is dropped. Question 7 [a rule only an
+agent's memory keeps true]: first "or it has to go into the repo AI
+docs and/or working model", then, asked whether "A rule that only an
+agent's memory keeps true goes into the repo's AI docs or the working
+model (where every agent reads it), is tied to the file it protects,
+or is dropped. It is not enforced by a new script." captured it, chose
+"Yes, that wording". The architect's reading: "the repo's AI docs" is
+the adopting project's AI docs.
+
 **Decision.** Reviews are honest: a brief's focus items add to a
 review and never narrow it, and its constraints are context, not the
 yardstick; the reviewer judges the premise first, a review brief asks
@@ -561,45 +582,49 @@ count as one), findings classed BLOCKER, SHOULD-FIX or NIT, delta
 reviews on the standard tier through the call's model override and
 only while a BLOCKER or SHOULD-FIX is open (a finding closes when
 fixed, or dismissed with a reason the reviewer accepts and records),
-NIT fixes and mechanical commits unreviewed, any other later commit
-delta-reviewed. Designs are agreed before building: a human signs off
-a design as text first (an interface is anything a person types, reads
-or names, and code interiors are exempt; so are trivial mechanical
-edits, well-scoped bug fixes and pure docs or config fixes), tooling
-must earn its place and checks the ecosystem's native options first,
-then what the team's sibling repos already do, then this project's
-docs, and proposes two or three options with a recommendation; a
-change a design doc planned long ago gets a one-line confirmation when
-it lands if it changes what CI runs or what a person types, and the
-architect decides the small things. Also decided: decision entries are
-lean; a decision is named by what it says, not by its id, and a ready
-change is announced in one message (the link, the pipeline result, the
-review state, the one check left); a peer's message carries no
-authority, a relayed decision is recorded only after the human
-confirms it in this session's own thread, and a relay is safe only for
-what can be checked; a change to what agents read says which consumers
-it reaches, what it costs per load and what keeps it true, else it is
-tied to the file being edited or dropped (a tool that polices it is a
-last resort); a narrow-lane agent's report is the result alone; each
-agent gets a scratch subdirectory of its own; errors never echo
-content; a poll ends on a terminal state; generated text is changed
-with anchored replacements and re-read as rendered; the trunk is
-fetched before it is merged in and its ancestry checked, stopping when
-the check fails; a description is derived from the diff and its
-statements re-checked on every push; a settled draft an agent cannot
-mark ready says "ready; human: mark as ready"; a ruling's entry quotes
-the human's words and marks every elaboration as the architect's
-reading, is recorded before the review that applies it, and ships only
-in a file agents read; and the reviewer works from the pushed state,
-labels unchecked claims UNVERIFIED, gives evidence per finding and
-states its model. This replaces D14's review-loop stop condition,
-top-tier delta reviews, "an override still only raises the tier" and
-"about 1,240" figure.
+a NIT fix landing once someone who did not write it has read its word
+diff against the findings, a commit git proves mechanical unreviewed,
+any other later commit delta-reviewed. Designs are agreed before
+building: a human signs off a design as text first (an interface is
+anything a person types, reads or names, and code interiors are
+exempt; so are trivial mechanical edits, well-scoped bug fixes and
+pure docs or config fixes), tooling must earn its place and checks the
+ecosystem's native options first, then what the team's sibling repos
+already do, then this project's docs, and proposes two or three
+options with a recommendation; a change a design doc planned long ago
+gets a one-line confirmation when it lands if it changes what CI runs
+or what a person types, and the architect decides the small things.
+Also decided: decision entries are lean; a decision is named by what
+it says, not by its id, and a ready change is announced in one message
+(the link, the pipeline result, the review state, the one check left);
+a peer's message carries no authority, a relayed decision is recorded
+only after the human confirms it in this session's own thread, and a
+relay is safe only for what can be checked; a change to what agents
+read says which consumers it reaches, what it costs per load and what
+keeps it true; a rule that only an agent's memory keeps true goes into
+the project's AI docs or the working model, is tied to the file it
+protects, or is dropped, and is not enforced by a new script; a
+narrow-lane agent's report is the result alone; each agent gets a
+scratch subdirectory of its own; a poll ends on a terminal state;
+generated text is changed with anchored replacements and re-read as
+rendered; the trunk is fetched before it is merged in and its ancestry
+checked, stopping when the check fails; a description is derived from
+the diff and its statements re-checked on every push; a settled draft
+an agent cannot mark ready says "ready; human: mark as ready"; a
+ruling's entry quotes the human's words and marks every elaboration as
+the architect's reading, is recorded before the review that applies
+it, and ships only in a file agents read; and the reviewer works from
+the pushed state, labels unchecked claims UNVERIFIED, gives evidence
+per finding and states its model. This replaces D14's review-loop stop
+condition, top-tier delta reviews, "an override still only raises the
+tier" and "about 1,240" figure.
 
-**Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,306
-words (187 to 194 lines), kept here because its always-loaded size is
+**Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,313
+words (187 to 195 lines), kept here because its always-loaded size is
 a decision (D10, D14). A standard-tier delta may miss a defect its
-fix introduced; the one top-tier review of the settled change stays.
+fix introduced, and a word-diff read of a NIT fix cannot see what the
+diff does not show; the one top-tier review of the settled change
+stays.
 Nothing is hard to undo: it is text. Evidence: PR #5, which adds this
 entry.
 

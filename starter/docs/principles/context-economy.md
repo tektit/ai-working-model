@@ -42,8 +42,10 @@ change to what agents read, or to when they read it (a rule, a fact, a
 path scope, a memory file), says in its proposal which consumers it
 reaches (the main session, a subagent in the session, an agent in a
 separate clone, a session in another repo), what it costs per load,
-and what keeps it true. If nothing does, tie it to the file being
-edited or drop it; a tool that polices it is a last resort.
+and what keeps it true. A rule that only an agent's memory keeps true
+goes into the project's AI docs or the working model (where every agent
+reads it), is tied to the file it protects, or is dropped. It is not
+enforced by a new script.
 
 ## Read the part, not the whole
 

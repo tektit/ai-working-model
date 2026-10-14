@@ -114,7 +114,9 @@ becomes a mechanical check once one exists. A tool, gate or process
 step must pass the test in "Agree the design before anyone builds it"
 in the principles, and the ecosystem's native option comes before a
 custom tool. Ask what keeps a rule true: if the answer is "an agent
-remembers a sentence", tie it to the file being edited or drop it.
+remembers a sentence", the rule goes into the project's AI docs or the
+working model (where every agent reads it), is tied to the file it
+protects, or is dropped, and no new script enforces it.
 
 ## Delegation (depth: references/delegation.md)
 

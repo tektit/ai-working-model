@@ -240,7 +240,11 @@ change catches what its author cannot see, and a delta review of the
 fixes catches what the fixing broke: small follow-up commits are where
 unreviewed mistakes slip through. A review of every commit and every
 round on the top tier costs more than the mistakes it catches, so a
-NIT fix and a commit git proves mechanical land without one.
+commit git proves mechanical needs no review, and a NIT fix needs only
+a word-diff read by someone who did not write it: the author reads what
+they meant, while a word diff shows a broken link or a stray change in
+about a minute. What a word diff does not show can still slip through,
+which is the risk taken.
 **How:** the read-only reviewer agent (`.claude/agents/reviewer.md`),
 pinned to the top tier, runs the review on the highest tier available
 to the project. Its findings go back to whoever wrote the change; the
@@ -268,8 +272,9 @@ reviewer never fixes them itself.
   and the open findings, and states for each finding whether it is
   closed: fixed, or dismissed with a reason the reviewer accepts and
   records. A problem a fix commit introduces is a new finding. Another
-  round runs only while a BLOCKER or SHOULD-FIX is open; NIT fixes
-  land without a delta review.
+  round runs only while a BLOCKER or SHOULD-FIX is open. A NIT fix gets
+  no review round: someone who did not write it reads its word diff
+  against the findings before it counts as done.
 - A commit git proves mechanical (a conflict-free merge of the trunk,
   a re-wrap with an empty word diff) needs no review. Any other commit
   after the loop has ended, a NIT fix excepted, gets a standard-tier
