@@ -40,9 +40,9 @@ file adds how to apply them.
   depth, recommend `/effort high` or `xhigh`. For depth on one open
   question without changing the session's effort, delegate to analyst.
 - **Prefer a narrow-lane agent when the task shape fits.** Locate,
-  build, review, docs and analysis agents with compressed reports save
-  the delegating session's context on work whose value is the result,
-  not the narration. Fall back to a general-purpose agent the moment
+  build, review, docs and analysis agents with result-only reports
+  save the delegating session's context on work whose value is the
+  result, not the narration. Fall back to a general-purpose agent the moment
   the task needs judgment outside the lane; narrow agents refuse
   out-of-lane scope by design.
 - **Fewer, precisely briefed agents over many small ones.** Rework is

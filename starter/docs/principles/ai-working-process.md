@@ -75,14 +75,15 @@ so rather than silently picking a side.
     right before it (`git fetch origin`, then
     `git merge origin/<trunk>`), and before pushing check that the
     trunk is an ancestor of the branch with
-    `git merge-base --is-ancestor origin/<trunk> HEAD`: a merge
-    against a stale trunk ref is a silent no-op. Once the branch is
-    pushed, don't rebase it, and don't force-push except to scrub a
-    committed secret. Squashing turns the whole branch, these merges
-    included, into a single trunk commit, so the trunk stays linear
-    and nothing is rewritten.
+    `git merge-base --is-ancestor origin/<trunk> HEAD`, and stop and
+    ask if it fails: a merge against a stale trunk ref is a silent
+    no-op. Once the branch is pushed, don't rebase it, and don't
+    force-push except to scrub a committed secret. Squashing turns the
+    whole branch, these merges included, into a single trunk commit,
+    so the trunk stays linear and nothing is rewritten.
   - **Merge commits**, where the trunk keeps every commit and need not
-    be linear: the same plain `git merge` and an ordinary push.
+    be linear: the same plain `git merge` and an ordinary push, with
+    the same fetch and ancestry check.
   - **A linear trunk without squashing** (rebase or fast-forward-only
     merges): rebase onto the trunk only while the branch is unshared,
     meaning it has no open review and no other clone holds it, or you
@@ -420,8 +421,10 @@ native options first (the language's own package manager and project
 file, the CI system's own features), then what the team's sibling
 repos already do, then this project's docs. Present two or three
 options with a recommendation; the human signs off the one. A tool,
-gate or process step must also pass the test in "Cost-aware by design"
-in [design-goals.md](design-goals.md).
+gate, doc or process step earns its place by catching, mechanically, a
+kind of mistake agents make; by running locally in seconds with the
+same command CI runs; by rarely flagging what is not a problem; and by
+costing little to read.
 
 ## Delegation: objectives, not a lookup table
 
@@ -494,7 +497,7 @@ From weighing these together, a few heuristics follow:
   about ten such reviews, count how many found something a lower tier
   would have missed: that measures whether pinning reviews to the top
   tier pays off, and the answer goes to a human as a proposal.
-- A narrow-lane agent whose report is compressed (locate, build,
+- A narrow-lane agent whose report is the result alone (locate, build,
   review, analyze, docs) is worth preferring over a general-purpose
   one when the task shape genuinely matches its lane — it saves the
   delegating session's context on exactly the kind of work whose

@@ -551,20 +551,37 @@ yes to an idea taken as sign-off on its design, and review loops
 re-run for every nit.
 
 **Decision.** Reviews are honest: a brief's focus items add to a
-review and never narrow it, and the reviewer judges the premise first.
-Reviews are sized to the settled change: one adversarial review per
-change (related MRs/PRs count as one), findings classed BLOCKER,
-SHOULD-FIX or NIT, delta reviews on the standard tier and only while a
-BLOCKER or SHOULD-FIX is open. Designs are agreed before building: a
-human signs off a design as text first, and a builder's brief never
-delegates a design choice. Folded in: lean decision records, plain
-words, peer messages carry no authority, reviewer discipline, and the
-smaller rules listed in the PR. This replaces D14's review-loop stop
+review and never narrow it, the reviewer judges the premise first, a
+review brief asks open questions, and a builder's brief never
+delegates a design choice. Reviews are sized to the settled change:
+one adversarial review per change (related MRs/PRs count as one),
+findings classed BLOCKER, SHOULD-FIX or NIT, delta reviews on the
+standard tier and only while a BLOCKER or SHOULD-FIX is open, NIT
+fixes and mechanical commits unreviewed. Designs are agreed before
+building: a human signs off a design as text first, tooling checks the
+ecosystem's native options first and must earn its place, a change a
+design doc planned long ago gets a one-line confirmation when it lands
+if it changes what CI runs or what a person types, and the architect
+decides the small things. Also decided: decision entries are lean; a
+decision is named by what it says, not by its id; a peer's message
+carries no authority and a relay is safe only for what can be
+checked; a change to what agents read says which consumers it
+reaches, what it costs per load and what keeps it true; each agent
+gets a scratch subdirectory of its own; errors never echo content; a
+poll ends on a terminal state; generated text is changed with
+anchored replacements and re-read as rendered; the trunk is fetched
+before it is merged in and its ancestry checked; a description is
+derived from the diff; a ruling's entry quotes the human's words and
+ships only in a file agents read; a settled draft an agent cannot mark
+ready says "ready; human: mark as ready"; and the reviewer works from
+the pushed state, labels unchecked claims UNVERIFIED, gives evidence
+per finding and states its model. This replaces D14's review-loop stop
 condition, top-tier delta reviews, "an override still only raises the
 tier" and "about 1,240" figure.
 
 **Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,306
-words (187 to 194 lines). A standard-tier delta may miss a defect its
+words (187 to 194 lines), kept here because its always-loaded size is
+a decision (D10, D14). A standard-tier delta may miss a defect its
 fix introduced; the one top-tier review of the settled change stays.
 Nothing is hard to undo: it is text. Evidence: PR #5, which adds this
 entry.

@@ -70,7 +70,8 @@ Ask commands for structured, filtered output rather than a full dump.
 
 **Rule:** work whose value is its result, not its narration — a sweep
 of the tree, a build, a review, an analysis — runs in a subagent whose
-report is compressed; the delegating session consumes the conclusion.
+report is the result alone; the delegating session consumes the
+conclusion.
 Large raw output never lands in a thread that will continue.
 **Why:** a dump in the delegating session is paid again on every
 following turn; the same dump in a subagent is paid once and ends with

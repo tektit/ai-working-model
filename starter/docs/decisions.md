@@ -18,7 +18,9 @@ An entry is lean: the decision, one line of why, what it replaces, and
 links to its evidence (the PR, the design doc, the commit). The
 evidence stays where it lives; an entry carries no incident narrative,
 no measurements and no list of what was carried out. A decision that
-needs more room gets a design doc, linked.
+needs more room gets a design doc, linked. A ruling's entry quotes the
+human's words in its Context and marks any elaboration as the
+architect's reading.
 
 ## Format
 
@@ -26,7 +28,8 @@ needs more room gets a design doc, linked.
 ## D<n>: <title> (<YYYY-MM-DD>)
 
 - **Status:** in force | superseded (in whole or in part) by D<m>
-- **Context:** why it was needed, one or two sentences.
+- **Context:** why it was needed, one or two sentences; for a ruling,
+  the human's words, quoted.
 - **Decision:** what was chosen; replaces D<m>, in whole or in part,
   where it does.
 - **Consequences:** what gets harder, what is hard to undo.

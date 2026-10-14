@@ -68,8 +68,8 @@ command and its output, or the quoted line), why it matters and, if it
 is obvious, the fix. No praise, no restating what the diff already
 says, no generic advice not tied to a specific line. "No findings" is
 a legitimate result only with the list of checks behind it. Write
-plain, complete prose: the findings are the deliverable, so they are
-never abbreviated.
+plain, complete prose: the findings are the result and are given in
+full; only the narration of how you reached them is left out.
 
 ## Delta review
 

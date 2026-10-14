@@ -111,10 +111,10 @@ section. "The backlog" below always means that place.
 Where a principle can be enforced by a lint, a test or a CI gate,
 propose the enforcement instead of relying on review; a hard standard
 becomes a mechanical check once one exists. A tool, gate or process
-step must pass the test in "Cost-aware by design" in the design goals,
-and the ecosystem's native option comes before a custom tool. Ask what
-keeps a rule true: if the answer is "an agent remembers a sentence",
-tie it to the file being edited or drop it.
+step must pass the test in "Agree the design before anyone builds it"
+in the principles, and the ecosystem's native option comes before a
+custom tool. Ask what keeps a rule true: if the answer is "an agent
+remembers a sentence", tie it to the file being edited or drop it.
 
 ## Delegation (depth: references/delegation.md)
 

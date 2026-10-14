@@ -36,19 +36,16 @@ and "Agree the design before anyone builds it".
 
 ## 3. Cost-aware by design
 
-Cost is weighed when something is designed, not discovered afterwards.
-A tool, gate, doc or process step earns its place by catching,
-mechanically, a kind of mistake agents make; by running locally in
-seconds with the same command CI runs; by rarely flagging what is not
-a problem; and by costing little to read. Carried by "Delegation" (the
-cheapest adequate tier per job, the top tier for the one review of a
-settled change and for novel design), the
+Cost is weighed when something is designed, not discovered afterwards,
+and a new tool, gate or process step is weighed the same way. Carried
+by "Delegation" (the cheapest adequate tier per job, the top tier for
+the one review of a settled change and for novel design), the
 [context economy](context-economy.md) principles (a small, budgeted
 always-loaded context), "Run a test suite once per meaningful change"
 in "Verify before declaring ready", decisions batched at milestones
 (the architect skill), "Design for cost" and "Agree the design before
-anyone builds it" (the ecosystem's native option before a custom
-tool).
+anyone builds it" (the test a tool, gate or process step must pass,
+and the ecosystem's native option before a custom tool).
 
 - **Human:** keep the always-loaded file small, set cost levers in
   committed settings, answer decisions in batches, and ask of a new
@@ -56,7 +53,8 @@ tool).
 - **Agent:** pick the cheapest tier that does the job well, load and
   read only what the task needs, run a suite once per meaningful
   change, batch questions rather than interrupt, and hold a new tool,
-  gate or process step to the test above before proposing it.
+  gate or process step to the test in "Agree the design before anyone
+  builds it" before proposing it.
 
 ## 4. Transparent
 

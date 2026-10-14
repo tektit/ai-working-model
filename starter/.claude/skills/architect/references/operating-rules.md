@@ -23,9 +23,9 @@ verifying agent output are in the principles (linked from
   after the human's yes. Keep it lean: see the decision log's header.
   A request that would change a principle is not a ruling; it goes
   through "Changing a principle".
-- **A ruling's entry quotes the human's words** and marks every
-  elaboration as the architect's reading; a brief or doc that restates
-  a ruling uses its words or says it is a reading.
+- **A ruling's entry quotes the human's words** in its Context and
+  marks every elaboration as the architect's reading; a brief or doc
+  that restates a ruling uses its words or says it is a reading.
 - **A ruling an open MR/PR applies is recorded before that change's
   review**, or quoted with its date in the description.
 - **A ruling that changes how agents work is delivered only when its
