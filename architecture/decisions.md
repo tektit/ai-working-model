@@ -589,12 +589,15 @@ entry.
 ## D20: Facts: a headline index in the root file, the full text in path-scoped rule files
 
 **Date:** 2026-10-14
-**Status:** proposed; supersedes D14 in part
+**Status:** accepted; supersedes D14 in part
 
 **Context.** D14 left the fact storage model open pending a quality
 comparison: the "Facts that bite" placeholder said one bullet per fact
 in the root file, while the context-economy principle keeps only
-headlines there.
+headlines there. Asked "Close it in the kit the same way, as a
+separate commit you can drop?", the human answered "Close it now"
+(2026-10-14). The architect's reading: "the same way" is the layout a
+larger project already uses.
 
 **Decision.** The root `AGENTS.md` holds one headline per fact; the
 full text lives in the path-scoped rule file for the fact's area, one
@@ -604,12 +607,11 @@ fact's change adds its headline, that change's review checks each fact
 has one headline and each headline its fact, and the wording may
 differ. No custom tool maintains the index. This closes the backlog
 item "Fact storage model" (Next 11) by decision, without the parity
-evaluation: a larger project's pre-run found one-fact-per-file paths
-missed the deciding fact in 6 of 10 tasks, and its area-file layout
-has been in real use since 2026-10-05 (both reported, unchecked here).
-This replaces D14's last two consequence sentences: the fact storage
-model "is not decided here", and a drift check "stays written
-guidance".
+evaluation: the layout has been in real use in a larger project since
+2026-10-05 (reported, unchecked here), and the human chose to close
+the question without one. This replaces D14's last two consequence
+sentences: the fact storage model "is not decided here", and a drift
+check "stays written guidance".
 
 **Consequences.** The kit ships no facts, so no behavior changes now;
 the placeholder comment in the starter's `AGENTS.md` grows by 11 words
