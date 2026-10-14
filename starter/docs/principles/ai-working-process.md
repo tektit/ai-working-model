@@ -428,7 +428,7 @@ native options first (the language's own package manager and project
 file, the CI system's own features), then what the team's sibling
 repos already do, then this project's docs. Present two or three
 options with a recommendation; the human signs off the one. A tool,
-gate, doc or process step earns its place by catching, mechanically, a
+gate or process step earns its place by catching, mechanically, a
 kind of mistake agents make; by running locally in seconds with the
 same command CI runs; by rarely flagging what is not a problem; and by
 costing little to read.
