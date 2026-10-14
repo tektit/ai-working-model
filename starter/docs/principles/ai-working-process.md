@@ -240,11 +240,11 @@ change catches what its author cannot see, and a delta review of the
 fixes catches what the fixing broke: small follow-up commits are where
 unreviewed mistakes slip through. A review of every commit and every
 round on the top tier costs more than the mistakes it catches, so a
-mechanical commit needs no review, and a NIT fix needs only
-a word-diff read by someone who did not write it: the author reads what
-they meant, while a word diff shows a broken link or a stray change in
-about a minute. What a word diff does not show can still slip through,
-which is the risk taken.
+mechanical commit (defined below) needs no review, and a NIT fix
+needs only a word-diff read by someone who did not write it: the
+author reads what they meant, while a word diff shows a broken link or
+a stray change in about a minute. What a word diff does not show can
+still slip through, which is the risk taken.
 **How:** the read-only reviewer agent (`.claude/agents/reviewer.md`),
 pinned to the top tier, runs the review on the highest tier available
 to the project. Its findings go back to whoever wrote the change; the
@@ -276,11 +276,14 @@ reviewer never fixes them itself.
   no review round: someone who did not write it reads its word diff
   against the NIT list before it counts as done.
 - A mechanical commit needs no review: a re-wrap with an empty word
-  diff, or a conflict-free merge of the trunk in which the trunk
-  changed nothing the branch builds on, because CI on the merged result
-  is what checks integration. Any other commit after the loop has
-  ended, a NIT fix excepted, gets a standard-tier delta review, a merge
-  in which the trunk changed something the branch builds on included.
+  diff or, because CI on the merged result is what checks integration,
+  a conflict-free merge of the trunk in which the trunk changed
+  nothing the branch builds on. The author decides this by listing the
+  trunk's commits since the branch last merged it and judging each
+  against what the branch touches or calls; in doubt, the merge gets
+  the delta. Any other commit after the loop has ended, a NIT fix
+  excepted, gets a standard-tier delta review, a merge in which the
+  trunk changed something the branch builds on included.
 
 ## Docs completeness is part of being done
 

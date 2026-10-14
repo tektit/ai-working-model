@@ -581,7 +581,11 @@ say where it applies), the human chose "Exempt, unless it touches
 on the merged result is what checks integration. Exception: when main
 changed something the branch builds on [...], the merge gets a light
 review." (2026-10-14). The architect's reading: "a light review" is a
-standard-tier delta.
+standard-tier delta, and the elided clause pointed to a test this kit
+does not carry, so the principle states it: the author lists the
+trunk's commits since the branch last merged it and judges each
+against what the branch touches or calls; in doubt, the merge gets the
+delta.
 
 **Decision.** Reviews are honest: a brief's focus items add to a
 review and never narrow it, and its constraints are context, not the
@@ -596,11 +600,11 @@ only while a BLOCKER or SHOULD-FIX is open (a finding closes when
 fixed, or dismissed with a reason the reviewer accepts and records),
 a NIT fix landing once someone who did not write it has read its word
 diff against the NIT list, a mechanical commit (a re-wrap with an
-empty word diff, or a conflict-free trunk merge that changes nothing
-the branch builds on, since CI on the merged result checks
-integration) unreviewed, any other later commit, a merge that changes
-something the branch builds on included, delta-reviewed. Designs are
-agreed before building: a human signs off a design as text first (an
+empty word diff or, since CI on the merged result checks integration,
+a conflict-free trunk merge that changes nothing the branch builds on)
+unreviewed, any other later commit, a merge that changes something the
+branch builds on included, delta-reviewed. Designs are agreed
+before building: a human signs off a design as text first (an
 interface is anything a person types, reads or names, and code
 interiors are exempt; so are trivial mechanical edits, well-scoped bug
 fixes and pure docs or config fixes), tooling must earn its place and
