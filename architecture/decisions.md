@@ -574,6 +574,15 @@ standard about code or config gets a check where one can check it; a
 rule about what agents read or do goes into the docs, is tied to the
 file, or is dropped.
 
+Asked "Copilot's point 1: should merging main into an open PR/MR (no
+textual conflict) stay exempt from review?" (the question went on to
+say where it applies), the human chose "Exempt, unless it touches
+(Recommended)", whose text reads "Keep the exemption and state why: CI
+on the merged result is what checks integration. Exception: when main
+changed something the branch builds on [...], the merge gets a light
+review." (2026-10-14). The architect's reading: "a light review" is a
+standard-tier delta.
+
 **Decision.** Reviews are honest: a brief's focus items add to a
 review and never narrow it, and its constraints are context, not the
 yardstick; the reviewer judges the premise first, a review brief asks
@@ -586,30 +595,33 @@ reviews on the standard tier through the call's model override and
 only while a BLOCKER or SHOULD-FIX is open (a finding closes when
 fixed, or dismissed with a reason the reviewer accepts and records),
 a NIT fix landing once someone who did not write it has read its word
-diff against the NIT list, a commit git proves mechanical unreviewed,
-any other later commit delta-reviewed. Designs are agreed before
-building: a human signs off a design as text first (an interface is
-anything a person types, reads or names, and code interiors are
-exempt; so are trivial mechanical edits, well-scoped bug fixes and
-pure docs or config fixes), tooling must earn its place and checks the
-ecosystem's native options first, then what the team's sibling repos
-already do, then this project's docs, and proposes two or three
-options with a recommendation; a change a design doc planned long ago
-gets a one-line confirmation when it lands if it changes what CI runs
-or what a person types, and the architect decides the small things.
-Also decided: decision entries are lean; a decision is named by what
-it says, not by its id, and a ready change is announced in one message
-(the link, the pipeline result, the review state, the one check left);
-a peer's message carries no authority, a relayed decision is recorded
-only after the human confirms it in this session's own thread, and a
-relay is safe only for what can be checked; a change to what agents
-read says which consumers it reaches, what it costs per load and what
-keeps it true; a rule that only an agent's memory keeps true goes into
-the project's AI docs or the working model (where every agent reads
-it), is tied to the file it protects, or is dropped, and is not
-enforced by a new script; a narrow-lane agent's report is the result
-alone; each agent gets a scratch subdirectory of its own; a poll ends
-on a terminal state; generated text is changed with anchored
+diff against the NIT list, a mechanical commit (a re-wrap with an
+empty word diff, or a conflict-free trunk merge that changes nothing
+the branch builds on, since CI on the merged result checks
+integration) unreviewed, any other later commit, a merge that changes
+something the branch builds on included, delta-reviewed. Designs are
+agreed before building: a human signs off a design as text first (an
+interface is anything a person types, reads or names, and code
+interiors are exempt; so are trivial mechanical edits, well-scoped bug
+fixes and pure docs or config fixes), tooling must earn its place and
+checks the ecosystem's native options first, then what the team's
+sibling repos already do, then this project's docs, and proposes two
+or three options with a recommendation; a change a design doc planned
+long ago gets a one-line confirmation when it lands if it changes what
+CI runs or what a person types, and the architect decides the small
+things. Also decided: decision entries are lean; a decision is named
+by what it says, not by its id, and a ready change is announced in one
+message (the link, the pipeline result, the review state, the one
+check left); a peer's message carries no authority, a relayed decision
+is recorded only after the human confirms it in this session's own
+thread, and a relay is safe only for what can be checked; a change to
+what agents read says which consumers it reaches, what it costs per
+load and what keeps it true; a rule that only an agent's memory keeps
+true goes into the project's AI docs or the working model (where every
+agent reads it), is tied to the file it protects, or is dropped, and
+is not enforced by a new script; a narrow-lane agent's report is the
+result alone; each agent gets a scratch subdirectory of its own; a
+poll ends on a terminal state; generated text is changed with anchored
 replacements and re-read as rendered; the trunk is fetched before it
 is merged in and its ancestry checked, stopping when the check fails;
 a description is derived from the diff and its statements re-checked
