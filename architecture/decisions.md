@@ -613,9 +613,8 @@ in the root file, while the context-economy principle keeps only
 headlines there. Asked "Close it in the kit the same way, as a
 separate commit you can drop?", the human answered "Close it now"
 (2026-10-14). The architect's reading: "the same way" is the layout a
-larger project already uses. The check question for this decision
-(question 8 in PR #5) is put to the human with D19's; both are
-flipped to accepted in one final commit after the human's yes.
+larger project already uses. Its check question is question 8 in
+PR #5.
 
 **Decision.** The root `AGENTS.md` holds one headline per fact; the
 full text lives in the path-scoped rule file for the fact's area, one
@@ -626,10 +625,10 @@ has one headline and each headline its fact, and the wording may
 differ. No custom tool maintains the index. This closes the backlog
 item "Fact storage model" (Next 11) by decision, without the parity
 evaluation: the layout has been in real use in a larger project since
-2026-10-05 (reported, unchecked here), and the human chose to close
-the question without one. This replaces D14's last two consequence
-sentences: the fact storage model "is not decided here", and a drift
-check "stays written guidance".
+2026-10-05 (reported, unchecked here), and the chosen option's own
+text reads "no evaluation runs". This replaces D14's last two
+consequence sentences: the fact storage model "is not decided here",
+and a drift check "stays written guidance".
 
 **Consequences.** The kit ships no facts, so no behavior changes now;
 the placeholder comment in the starter's `AGENTS.md` grows by 11 words
