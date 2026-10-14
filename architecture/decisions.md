@@ -569,7 +569,10 @@ agent's memory keeps true goes into the repo's AI docs or the working
 model (where every agent reads it), is tied to the file it protects,
 or is dropped. It is not enforced by a new script." captured it, chose
 "Yes, that wording". The architect's reading: "the repo's AI docs" is
-the adopting project's AI docs.
+the adopting project's AI docs, and the rule splits by kind: a hard
+standard about code or config gets a check where one can check it; a
+rule about what agents read or do goes into the docs, is tied to the
+file, or is dropped.
 
 **Decision.** Reviews are honest: a brief's focus items add to a
 review and never narrow it, and its constraints are context, not the
