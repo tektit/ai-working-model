@@ -14,14 +14,21 @@ on purpose) is a decision too: its entry gives the reason, so a later
 session doesn't add it back as a fix, and any count or list that would
 include it says so ("four of five, see D<n>").
 
+An entry is lean: the decision, one line of why, what it replaces, and
+links to its evidence (the PR, the design doc, the commit). The
+evidence stays where it lives; an entry carries no incident narrative,
+no measurements and no list of what was carried out. A decision that
+needs more room gets a design doc, linked.
+
 ## Format
 
 ```markdown
 ## D<n>: <title> (<YYYY-MM-DD>)
 
-- **Status:** in force | superseded by D<m>
-- **Context:** what forced the decision, in a sentence or two.
-- **Decision:** what was chosen.
-- **Consequences:** what follows from it, what gets harder, what is
-  hard to undo.
+- **Status:** in force | superseded (in whole or in part) by D<m>
+- **Context:** why it was needed, one or two sentences.
+- **Decision:** what was chosen; replaces D<m>, in whole or in part,
+  where it does.
+- **Consequences:** what gets harder, what is hard to undo.
+- **Evidence:** links to the PR, the design doc, the commit.
 ```

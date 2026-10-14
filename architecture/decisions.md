@@ -339,7 +339,9 @@ symlink skip there when the account lacks the right.
 ## D14: Lessons from comparing two other working setups
 
 **Date:** 2026-10-08
-**Status:** accepted
+**Status:** accepted; the review loop's stop condition, top-tier delta
+reviews, upward-only model override and "about 1,240" word figure
+superseded by D19
 
 **Context.** A comparison of this kit with two AI working setups in
 real use found practices the kit lacked: known failures keyed by error
@@ -536,6 +538,35 @@ the key holders, work on macOS and Linux only: on native Windows `sops`
 has no named pipe, writes the plaintext to a temporary file and runs
 the command through `cmd.exe`, so `check.sh` refuses to run there,
 before it decrypts anything.
+
+## D19: Reviews stay honest and sized to the settled change; designs are agreed before building
+
+**Date:** 2026-10-14
+**Status:** proposed; supersedes D14 in part
+
+**Context.** A larger project running this practice found reviews
+briefed inside the design's own constraints approving the design, a
+yes to an idea taken as sign-off on its design, and review loops
+re-run for every nit.
+
+**Decision.** Reviews are honest: a brief's focus items add to a
+review and never narrow it, and the reviewer judges the premise first.
+Reviews are sized to the settled change: one adversarial review per
+change (related MRs/PRs count as one), findings classed BLOCKER,
+SHOULD-FIX or NIT, delta reviews on the standard tier and only while a
+BLOCKER or SHOULD-FIX is open. Designs are agreed before building: a
+human signs off a design as text first, and a builder's brief never
+delegates a design choice. Folded in: lean decision records, plain
+words, peer messages carry no authority, reviewer discipline, and the
+smaller rules listed in the PR. This replaces D14's review-loop stop
+condition, top-tier delta reviews, "an override still only raises the
+tier" and "about 1,240" figure.
+
+**Consequences.** The starter's `AGENTS.md` grows from 1,237 to 1,306
+words (187 to 194 lines). A standard-tier delta may miss a defect its
+fix introduced; the one top-tier review of the settled change stays.
+Nothing is hard to undo: it is text. Evidence: PR #5, which adds this
+entry.
 
 ## Format
 

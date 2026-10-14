@@ -15,8 +15,10 @@ decision was reached (the decision itself gets a dated entry in
 
 Before writing a new design doc, check whether an existing one already
 covers the territory — including one that was deferred rather than
-rejected. Reviving and amending an existing doc is the default over
-starting a parallel one.
+rejected — and, for tooling, what the ecosystem's native options and
+the team's sibling repos (other repos the team owns) already offer.
+Reviving and amending an existing doc is the default over starting a
+parallel one.
 
 Suggested shape for a new design doc:
 

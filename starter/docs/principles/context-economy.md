@@ -37,7 +37,13 @@ one line per principle, pointers and the per-tool settings. Rules for
 one area go to path-scoped rule files (this project's are under
 `.claude/rules/`, whose README says when they load); a delegated
 agent reads the ones its brief names. A principle, a design or a
-platform note is its own file, opened when the topic comes up.
+platform note is its own file, opened when the topic comes up. A
+change to what agents read, or to when they read it (a rule, a fact, a
+path scope, a memory file), says in its proposal which consumers it
+reaches (the main session, a subagent in the session, an agent in a
+separate clone, a session in another repo), what it costs per load,
+and what keeps it true. If nothing does, tie it to the file being
+edited or drop it; a tool that polices it is a last resort.
 
 ## Read the part, not the whole
 
