@@ -642,7 +642,11 @@ human answered "Close it now" (2026-10-14). The architect's reading:
 "here" is a larger project, which already uses the layout and settled
 it without a study; "the same way" is that layout and no study, as the
 chosen option's text, "no evaluation runs", confirms. Its check
-question is question 8 in PR #5.
+question is question 8 in PR #5. Asked "Question 8: facts as one-line
+headlines in the always-loaded file, full text in area files that load
+only when matching files are opened, and action-triggered facts kept
+in full in the root. Acceptable for the kit?", the human chose "Yes"
+(2026-10-14).
 
 **Decision.** The root `AGENTS.md` holds one headline per fact; the
 full text lives in the path-scoped rule file for the fact's area, one
@@ -660,7 +664,7 @@ and a drift check "stays written guidance".
 
 **Consequences.** The kit ships no facts, so no behavior changes now;
 the placeholder comment in the starter's `AGENTS.md` grows by 11 words
-(to 1,317 words, 195 lines in all), and setup removes it. A seeded
+(to 1,324 words, 196 lines in all), and setup removes it. A seeded
 project's index is as large as its facts, and only each change's
 review keeps it true. Evidence: PR #5, which adds this entry.
 
