@@ -601,7 +601,7 @@ entry.
 ## D20: Facts: a headline index in the root file, the full text in path-scoped rule files
 
 **Date:** 2026-10-14
-**Status:** accepted; supersedes D14 in part
+**Status:** proposed; supersedes D14 in part
 
 **Context.** D14 left the fact storage model open pending a quality
 comparison: the "Facts that bite" placeholder said one bullet per fact
@@ -609,7 +609,9 @@ in the root file, while the context-economy principle keeps only
 headlines there. Asked "Close it in the kit the same way, as a
 separate commit you can drop?", the human answered "Close it now"
 (2026-10-14). The architect's reading: "the same way" is the layout a
-larger project already uses.
+larger project already uses. The check question for this decision
+(question 8 in PR #5) is put to the human with D19's; both are
+flipped to accepted in one final commit after the human's yes.
 
 **Decision.** The root `AGENTS.md` holds one headline per fact; the
 full text lives in the path-scoped rule file for the fact's area, one
