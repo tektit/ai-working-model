@@ -1,13 +1,14 @@
 ---
 name: setup
-description: "Project setup: ask a human a few plain-language questions, then fit the copied docs to the project. Run once in a freshly copied repo, or again when the setup changes. Use only when a human explicitly asks."
+description: "Project setup: ask a human a few plain-language questions, then fit the starter to the project. Works in a freshly copied repo, in an existing repo (with or without AI docs of its own, keeping what is there), and again when the setup changes. Use only when a human explicitly asks."
 disable-model-invocation: true
 ---
 
 # Project setup
 
-You set up a freshly copied project so every later session works the
-same way. You ask, recommend and draft; the human answers, approves
+You set up a project (a freshly copied starter, or an existing repo
+the starter is brought into) so every later session works the same
+way. You ask, recommend and draft; the human answers, approves
 and merges. Assume no skill level: explain in plain words.
 
 ## How to talk
@@ -20,11 +21,47 @@ and merges. Assume no skill level: explain in plain words.
   sessions work the same way, and it takes a handful of questions.
 - Keep each message short. No tool output, no file dumps.
 
+## Where you are
+
+Resolve this skill's own folder with `realpath` (it may sit behind a
+symlinked `.claude`); the starter tree is three levels up from
+`.claude/skills/setup`. Compare it with the root of the git repository
+you run in (`git rev-parse --show-toplevel`):
+
+1. Same folder: the starter is already copied here. First run or
+   re-run, as below.
+2. The starter tree is outside this repo: seed mode. The starter gets
+   copied in as part of the approved change (see "Propose, approve,
+   write").
+3. The starter tree is inside this repo but not its root: this is the
+   starter's source repo. Do not set it up. Ask for the target repo's
+   path, give the human the launch instructions for the CLI
+   (`cd <target> && claude --add-dir <path-to-the-starter's-source>/starter`,
+   then `/setup`) and for Claude Desktop (Code tab: start a session in
+   the target repo's folder, click **+** next to the prompt box, choose
+   **Add folder**, pick the `starter` folder of the starter's source, then
+   type `/setup`; or a saved environment that lists both folders under
+   **Folders**; if the target already has a skill named `setup`, this
+   one runs as `/starter:setup`), and stop.
+
+Not inside a git repository: stop, say setup runs inside the target
+repo, and ask the human to open the session there (or make the folder
+a git repository first).
+
+Seed mode in a repo whose `AGENTS.md` already has a "Project setup"
+section: it was set up before. Updating it from a newer starter isn't
+supported yet: say so, name the recorded starter version, and stop; a
+re-run uses the repo's own copy of setup.
+
 ## Observe, then ask
 
 - Facts you can observe, read yourself and confirm in one line instead
   of asking: the git remote and trunk, pipeline files that exist, an
   existing README.
+- The survey's results (below) turn questions into confirmations
+  ("Your README says ...; is that still the purpose?"). Purpose,
+  people, organization rules and anything else not observable are
+  still asked.
 - Everything else is asked ("Ask, don't guess" in the principles): the
   purpose, the people, the tracker, what deploys where, the
   organization's rules, how credentials reach a command.
@@ -33,19 +70,28 @@ and merges. Assume no skill level: explain in plain words.
 
 ## Before the first question
 
-1. Read the root instruction file (`AGENTS.md`), `docs/architecture.md`,
-   the headers of `backlog.md`, and `docs/glossary.md`.
+1. Read the root instruction file (`AGENTS.md`) and the docs it maps:
+   the architecture doc, the headers of the backlog, and the glossary.
+   In seed mode, read the target repo's own files instead.
 2. If `AGENTS.md` already has a "Project setup" section, this is a
    re-run: show the recorded answers in a few lines, ask what changed,
    and ask only about that.
-3. Observe what you can (above) so your questions confirm rather than
+3. Survey: unless the repo holds nothing but the starter's own files,
+   delegate the survey (its brief is in `references/absorb.md`) to the
+   `locator` agent; if the project already has its own agent named
+   `locator`, use a general-purpose agent on the standard tier with the
+   same brief. Then read `references/absorb.md`.
+4. Observe what you can (above) so your questions confirm rather than
    interrogate.
-4. Check for personal skills or commands that share a name with the
-   project's: `ls ~/.claude/skills ~/.claude/commands 2>/dev/null`,
-   compared with the names under `.claude/skills/` (`architect`,
-   `setup` and any other; a command's name is its file name without
-   `.md`). If one matches, tell the human it silently
-   shadows the project's and suggest renaming the personal one.
+5. Check for skills, agents or commands that share a name with the
+   starter's: personal ones (`ls ~/.claude/skills ~/.claude/commands
+   2>/dev/null`) and the project's own (`.claude/skills/`,
+   `.claude/agents/`, `.claude/commands/`), compared with the starter's
+   names (skills `architect` and `setup`, the agents under the
+   starter's `.claude/agents/`; a command's name is its file name
+   without `.md`). A personal one that matches silently shadows the
+   starter's: tell the human and suggest renaming the personal one. A
+   project one that matches is asked, per `references/absorb.md`.
 
 ## The questions, in this order
 
@@ -83,9 +129,15 @@ principles. Only the human can say so; don't suggest deviations.
 1. Draft every change first. Read `references/edits.md` for what goes
    where in each file.
 2. Show the human a summary: one line per file, what changes, in plain
-   language, plus anything recorded as "not known yet". Ask for approval
-   or corrections. Write nothing before they approve.
-3. Apply the approved changes to:
+   language, plus anything recorded as "not known yet". In seed mode it
+   also lists the starter files to be copied and each one merged
+   instead of copied. For every existing file absorbed, it says where
+   its content went. Ask for approval or corrections. Write nothing
+   before they approve.
+3. In seed mode, copy the starter in now, only after approval and never
+   overwriting: a destination that exists is merged per
+   `references/absorb.md`.
+4. Apply the approved changes to:
    - `AGENTS.md`: the purpose line and a "Project setup" record section;
    - `docs/architecture.md`: purpose, stakeholders, decisions in force;
    - `docs/decisions.md`: one dated entry per decision in force;
@@ -93,19 +145,26 @@ principles. Only the human can say so; don't suggest deviations.
      chosen tracker instead;
    - `docs/glossary.md`: initial terms;
    - `.claude/settings.json`: `attribution`, only when the attribution
-     answer is not the default.
-4. Remove every template comment (`<!-- ... -->`) in the files you
+     answer is not the default;
+   - the content absorbed from existing files, per `references/absorb.md`.
+
+   A doc role mapped to an existing place gets no starter template
+   (seed mode) or has its unfilled template removed (copied mode), and
+   every link to the role's default path is repointed (search the whole
+   tree).
+5. Remove every template comment (`<!-- ... -->`) in the files you
    touched, the architect-maintained markers included, and every
    template section the project doesn't use. Filled content stays.
-5. A deviation the human stated is a principle change: follow
+6. A deviation the human stated is a principle change: follow
    "Changing a principle" in `docs/principles/ai-working-process.md`
    (the principle, its line in `AGENTS.md` and an entry in
    `docs/decisions.md`, in one change).
-6. Check your own result: every relative link in the changed files
+7. Check your own result: every relative link in the changed files
    resolves, `grep -rn '<!--' AGENTS.md docs/` (plus `backlog.md` if
-   it stays) finds nothing, and no answer appears that the human did
-   not give.
-7. If the repo has a remote, the changes go on a branch for review and
+   it stays) finds nothing, no answer appears that the human did
+   not give, and nothing existing was overwritten or deleted without
+   the human's yes.
+8. If the repo has a remote, the changes go on a branch for review and
    a human merges. In a repo with no remote yet, they become the first
    commit, made only after approval.
 
@@ -114,3 +173,5 @@ principles. Only the human can say so; don't suggest deviations.
 Report in under 10 lines: what was recorded, what is still "not known
 yet" and who could answer it, and the next step. The next step is
 usually an architect session, which works from what you recorded.
+Add anything flagged for the human: committed session artifacts, other
+tools' instruction files, conflicting instructions.

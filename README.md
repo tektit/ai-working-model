@@ -58,37 +58,52 @@ for how this repo itself is organized.
 
 | Path | Contents |
 |---|---|
-| `starter/` | The exact tree a user copies into a new repo — everything below is inside it. |
+| `starter/` | The exact tree a user brings into a new or existing repo — everything below is inside it. |
 | `starter/docs/principles/design-goals.md` | The six design goals the principles serve, each with what it asks of a human and of an agent. |
 | `starter/docs/principles/engineering.md` | Engineering principles: fail loudly, trust the PATH, credentials as pure injection, test first, and the rest — one rule, one reason, one way to apply it. |
 | `starter/docs/principles/ai-working-process.md` | The AI working process: roles, work branches, merging, verification, adversarial review, design sign-off, delegation, briefing, and the lessons that shaped them. |
 | `starter/docs/principles/context-economy.md` | Why always-loaded context, reads, dumps and long sessions drive cost, with the measured effect of each lever, and why auto-memory stays personal. |
 | `starter/docs/principles/platform-notes/*.md` | Terse, reusable lessons and tool choices scoped to one platform (bash, containers, GitLab CI, Kubernetes/ArgoCD, Python, Terraform, test harnesses) — generalized past any one incident. |
-| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect and setup skills, and `docs/` skeletons including the decision log `docs/decisions.md` and the troubleshooting page `docs/troubleshooting.md` — everything a new repo needs to begin on this foundation. |
+| `starter/AGENTS.md`, `starter/CLAUDE.md`, `starter/.claude/`, `starter/docs/` | A root instruction file with the guardrails and one line per principle, subagent definitions, the architect skill, the setup skill (which also brings the starter into an existing repo, keeping what is there), and `docs/` skeletons including the decision log `docs/decisions.md` and the troubleshooting page `docs/troubleshooting.md` — everything a new repo needs to begin on this foundation. |
 | `architecture/decisions.md` | This repo's own decision log (D1 onwards): why the starter is shaped the way it is. |
 | `tools/` | The two check tools: `neutrality` (no client or private identifiers) and `starter-check` (`starter/` stays generic and its links resolve). Not part of the distilled model. |
 
-## How to seed a new repo
+## How to seed a repo
 
-1. Copy the whole `starter/` tree's contents into the new repo's root
-   (`AGENTS.md`, `CLAUDE.md`, `backlog.md`, `docs/`, `.claude/`) and
-   run the setup skill to fill in the project-specific parts. `AGENTS.md`
-   stays small by design — the guardrails and one line per principle,
-   each linking the full rule — so keep it that way rather than
-   inlining content back into it.
-2. Keep `.claude/agents/` and `.claude/skills/architect/` as-is; adjust
-   an agent's lane only if the project genuinely needs a different
-   one.
-3. Fill in the `docs/` skeletons: `architecture.md` and `backlog.md`
-   (architect-maintained, direct-push, never via a work branch — see
-   `docs/principles/ai-working-process.md`), the append-only
-   `decisions.md`, `glossary.md`, and `design/README.md`. Every
-   decision in force in `architecture.md` cites its dated entry in
-   `decisions.md`. `troubleshooting.md` starts empty and grows by one
-   entry per verified fix, keyed by the exact error text.
-4. Use `.claude/rules/README.md`'s path-scoped rules for anything
-   that applies to one area of the tree, instead of growing the root
-   file.
+New or existing; an existing repo keeps everything it has.
+
+1. Clone this repo once (pull to update).
+2. Open a session in the TARGET repo with this repo's `starter/` folder
+   added, then run `/setup`:
+   - CLI: `cd <target> && claude --add-dir <path-to-this-repo>/starter`,
+     then `/setup`.
+   - Claude Desktop (Code tab): start a session in the target repo's
+     folder, click **+** next to the prompt box, choose **Add folder**,
+     pick `<path-to-this-repo>/starter`, then type `/setup`.
+     Alternatively, a saved environment that lists both folders under
+     **Folders**.
+   - If the target already has a skill named `setup`, ours runs as
+     `/starter:setup`.
+   - Why this way round: the session's own instructions, memory and
+     history belong to the target; an added folder contributes its
+     skills and agents but not its `CLAUDE.md`/`AGENTS.md`, so this
+     repo's working rules stay out of the target's session.
+3. Setup copies the starter in (merging with what is there, never
+   overwriting), absorbs existing docs, asks its questions, shows one
+   summary, and writes only after approval, on a branch for review.
+   `AGENTS.md` stays small by design (the guardrails and one line per
+   principle, each linking the full rule), so keep it that way rather
+   than inlining content back into it.
+4. Running `/setup` inside this repo itself makes it ask for the target
+   and print these steps.
+5. Manual alternative: copy `starter/`'s contents into the repo root
+   and run `/setup` there.
+
+Afterwards, keep `.claude/agents/` and `.claude/skills/architect/`
+as-is; adjust an agent's lane only if the project genuinely needs a
+different one. Use `.claude/rules/README.md`'s path-scoped rules for
+anything that applies to one area of the tree, instead of growing the
+root file.
 
 None of this is copied once and forgotten — see below.
 
