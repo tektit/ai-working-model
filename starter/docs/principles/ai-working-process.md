@@ -202,8 +202,9 @@ settle who probes it and when.
   end rather than keyword-searching it.
 - Before forming a novel hypothesis, search first: grep the project's
   own docs for the symptom, starting with the exact error text in
-  [docs/troubleshooting.md](../troubleshooting.md), and name the
-  nearest working instance of the same thing to diff against. A
+  the troubleshooting log
+  ([docs/troubleshooting.md](../troubleshooting.md) unless `AGENTS.md`
+  maps it elsewhere), and name the nearest working instance of the same thing to diff against. A
   recorded, already-solved case outranks a fresh theory every time.
 - **"Nothing found" needs proof that the search could find
   something.** A scope the agent can't reach or isn't authorized for
@@ -320,7 +321,8 @@ copy can't be avoided, every copy is identical and changes with the
 list in the same change, since a copy that drifts leaves one agent
 free to edit a file another treats as protected.
 
-[docs/decisions.md](../decisions.md) is append-only: an entry is
+The decisions log ([docs/decisions.md](../decisions.md) unless
+`AGENTS.md` maps it elsewhere) is append-only: an entry is
 written after a human's yes, in the same change as what it records
 (a principle edit on its work branch, a ruling, a decision an
 architect session records).
@@ -364,9 +366,9 @@ anyway means the repo starts lying to the next reader.
 
 What genuinely survives a change goes to one of three places instead:
 
-- A lasting architectural decision → an entry in
-  [docs/decisions.md](../decisions.md), and a design doc if it needs
-  more room — not a spec repurposed.
+- A lasting architectural decision → an entry in the decisions log
+  ([docs/decisions.md](../decisions.md)), and a design doc if it
+  needs more room — not a spec repurposed.
 - The task breakdown and how each task was verified → the review
   artifact's description, which "Work branches" already requires to
   stay current.
@@ -391,12 +393,13 @@ Then one check question built on a concrete scenario, so the human
 confirms the consequence, not just the wording. Only after their yes
 is the principle edited, on a work branch, in one change that also
 updates the principle's line in [AGENTS.md](../../AGENTS.md) and
-appends a dated entry to [docs/decisions.md](../decisions.md).
+appends a dated entry to the decisions log
+([docs/decisions.md](../decisions.md)).
 
 A **ruling** is a human's decision on how a principle applies here,
-without changing it. It gets a dated entry appended to
-[docs/decisions.md](../decisions.md) and applies project-wide, not
-only where it was raised.
+without changing it. It gets a dated entry appended to the decisions
+log ([docs/decisions.md](../decisions.md)) and applies project-wide,
+not only where it was raised.
 
 Example: the human wants no test-first for a prototype. Now, per
 "Test first" in [engineering.md](engineering.md), every behavior

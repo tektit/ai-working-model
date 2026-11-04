@@ -130,24 +130,28 @@ it becomes a mechanical check (lint, CI gate) once one exists.
 
 ## Where things are
 
+Each doc role's line names its path; setup may map a role to a file or
+folder the project already had. Agents find each role here.
+
 - `README.md` (write one if it doesn't exist yet): what this project
   is, concepts and naming, worked examples of the common moves.
-- [docs/architecture.md](docs/architecture.md): current state and the
-  decisions in force; read it FIRST before a structural change.
-- [docs/decisions.md](docs/decisions.md): dated decisions and rulings,
-  superseded ones kept.
-- [backlog.md](backlog.md): skim the headers; read "Deliberately
+- Architecture doc, [docs/architecture.md](docs/architecture.md):
+  current state and the decisions in force; read it FIRST before a
+  structural change.
+- Decisions log, [docs/decisions.md](docs/decisions.md): dated
+  decisions and rulings, superseded ones kept.
+- Backlog, [backlog.md](backlog.md): skim the headers; read "Deliberately
   deferred" in full before reopening something.
 - Architect-maintained (this list is the authority), edited only by
-  an architect session or by setup's seeding change:
-  `docs/architecture.md`, `backlog.md`. `docs/decisions.md` is
-  append-only, written in the change it records.
-- [docs/glossary.md](docs/glossary.md): terms defined once.
-- [docs/troubleshooting.md](docs/troubleshooting.md): known failures
-  keyed by their exact error text; search it first when something
-  fails.
-- [docs/design/](docs/design/): one doc per subsystem or cross-cutting
-  decision.
+  an architect session or by setup's seeding change: the architecture
+  doc and the backlog. The decisions log is append-only, written in
+  the change it records.
+- Glossary, [docs/glossary.md](docs/glossary.md): terms defined once.
+- Troubleshooting log, [docs/troubleshooting.md](docs/troubleshooting.md):
+  known failures keyed by their exact error text; search it first
+  when something fails.
+- Design docs, [docs/design/](docs/design/): one doc per subsystem or
+  cross-cutting decision.
 - The principles in full:
   [engineering.md](docs/principles/engineering.md),
   [ai-working-process.md](docs/principles/ai-working-process.md),

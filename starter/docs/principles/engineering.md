@@ -148,7 +148,8 @@ synonyms, and don't reuse a taken word for a second meaning.
 **Why:** a synonym reads as a *different* concept until proven
 otherwise, forcing every reader to check; a reused word reads as the
 *same* concept until proven otherwise, which is worse.
-**How:** the glossary (`docs/glossary.md`) is the authority; check it
+**How:** the glossary (`docs/glossary.md` unless `AGENTS.md` maps it
+elsewhere) is the authority; check it
 before naming something new.
 
 ## Respect deliberate patterns; open decisions stay open

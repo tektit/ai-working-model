@@ -1,6 +1,6 @@
 # Decisions
 
-Decision log for this repo's own structure and content — not a
+Decisions log for this repo's own structure and content — not a
 project's decisions (those live in that project's own
 `docs/decisions.md`, seeded from `starter/docs/decisions.md`).
 
@@ -686,6 +686,68 @@ the placeholder comment in the starter's `AGENTS.md` grows by 11 words
 (to 1,324 words, 196 lines in all), and setup removes it. A seeded
 project's index is as large as its facts, and only each change's
 review keeps it true. Evidence: PR #5, which adds this entry.
+
+## D21: Setup runs in the target repo, maps existing docs in place, and records the starter version
+
+**Date:** 2026-11-04
+**Status:** accepted
+
+**Context.** Setup assumed a freshly copied repo; the first field
+adoption ran it on an existing one, and the backlog collected what
+that missed (Next 5(b), 6 and 9(b), and the deferred "Setup's open
+questions" 2). The human asked to "improve the way how we apply our ai
+working model to existing repos", including "understanding what it
+does and behaving intelligently based on the local context",
+"absorbing existing readme, cloude.md/agents.md, architecture or other
+docs etc." and a "workflow for setup into a target repo, e.g. checkout
+ai-working-model and add a secondary repo as folder and run /setup
+which will then realize what is going on, or ask for a target repo if
+missing", and later added "it needs to also work for "dumb" repos
+without any AI docs" (2026-11-04). The architect proposed the reverse
+orientation (the session opened in the target, the starter folder
+added), because an added folder contributes its skills and agents but
+not its `CLAUDE.md` or `AGENTS.md` (Claude Code docs, read raw
+2026-11-04): opened in this repo, this repo's working rules would be
+in force and the target's own instructions would not load, and
+auto-memory and transcripts would sit under this public repo. Asked
+to decide (1) that orientation, (2) existing docs staying in place and
+mapped rather than moved into the starter's layout, and (3) a starter
+version line in the "Project setup" record, the human answered "1 -
+yes, we can do that but need to explain how for claude desktop, not
+only claude CLI", "2 - yes", "3 - yes" (2026-11-04).
+
+**Decision.** Setup runs in a session opened in the target repo with
+the starter folder added (`claude --add-dir <this repo>/starter`, or
+Claude Desktop's **Add folder**), and the README explains both. Setup
+finds where it runs from its own resolved folder: in an already
+copied repo it works as before; with the starter outside the repo it
+copies the starter in, merging and never overwriting; in the
+starter's source repo it asks for the target and prints the launch
+steps. A read-only survey of the repo comes before the questions, so
+they confirm what it found; a repo without any AI docs is the common
+case. Existing docs stay where they are: `AGENTS.md` "Where things
+are" maps each doc role (architecture doc, decisions log, backlog,
+glossary, troubleshooting log, design docs) to its real path, the
+starter's templates fill only the roles nothing plays, and the
+starter's agents, skills and principles name the role with its
+default path instead of the path alone. The "Project setup" record
+gains a starter version line. An existing README is never edited.
+Asked whether setup should draft a README, purpose and concepts only,
+when a repo has none ("Setup's open questions" 2), the human answered
+"Yes, agree" (2026-11-04).
+
+**Consequences.** Next 5(b), 6 and 9(b) and "Setup's open questions"
+2 close; question 1 (no remote) stays open. Next 6 lands in a
+different form than queued ("moved, links fixed", "ADRs become
+`decisions.md` entries"): existing docs and decision records keep
+their place and format. A seeded project's docs may follow its own
+layout, so every agent finds them through the map in `AGENTS.md`.
+Updating an already set-up repo from a newer starter is not supported
+yet; the version line makes that possible later. Desktop's **Add
+folder** loads the starter's skills, but its `/` menu lists them only
+once the session has started (the human's test run, 2026-11-04: "after
+"hi" setup did load as skill"), so the Desktop steps send a first
+message before `/setup`. Evidence: the PR that adds this entry.
 
 ## Format
 

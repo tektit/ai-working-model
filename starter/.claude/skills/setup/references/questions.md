@@ -8,6 +8,9 @@ and where the answer goes (details in `edits.md`).
 
 - **Ask:** "In a sentence or two: what should this do, and for whom?
   How will you know it works well?"
+- **Observe first:** the README's description. When there is one, ask
+  it as a confirmation ("Your README says ...; is that still the
+  purpose?").
 - **Default:** none. This one is always the human's words. Offer to
   tighten their wording, and confirm the result.
 - **Goes to:** `AGENTS.md` purpose line; `docs/architecture.md` title
@@ -30,7 +33,8 @@ The trunk is the repository's default branch: the version of the code
 that counts. Explain that once, then say "trunk".
 
 - **Observe first:** the configured remote and its default branch;
-  where you can read it, the merge methods the host allows.
+  where you can read it, the merge methods the host allows; the merge
+  style in the trunk's history (from the survey).
 - **Ask:** "Your code lives on <host>, and <branch> is the version that
   counts. Is that right?" With no remote: "Where does your team keep
   code (for example GitHub, GitLab, or a company server)?" Then: "When
@@ -51,19 +55,25 @@ that counts. Explain that once, then say "trunk".
 
 - **Observe first:** pipeline files in the repo.
 - **Ask:** "When a change is merged, what happens automatically? Is
-  anything tested, and is anything deployed, and where?"
+  anything tested, and is anything deployed, and where?" Also: "Who
+  may register pipelines and edit branch policies on the git host?"
+  The first pipeline change can stall on a permission the human's own
+  account lacks.
 - **Say plainly** whether merging to the trunk deploys. If it does,
   every merge is a release.
 - **Default:** if there is no pipeline, one that runs the tests on
   every change before anything deploys automatically. Tests gate
   everything; no skill level is assumed of whoever reviews.
-- **Goes to:** `AGENTS.md` "Project setup"; `docs/architecture.md`
-  decisions.
+- **Goes to:** `AGENTS.md` "Project setup" (the Pipeline line,
+  including who may register pipelines and edit branch policies);
+  `docs/architecture.md` decisions.
 
 ## 5. Where work and project management lives
 
 This matters most: from now on "the backlog" means this place.
 
+- **Observe first:** tracker hints from the survey (issue keys, issue
+  numbers, tracker URLs in commits and branch names).
 - **Ask:** "Where do you and your team keep track of what's planned and
   in progress?"
 - **Recommend by situation:**
@@ -90,6 +100,8 @@ This matters most: from now on "the backlog" means this place.
 
 ## 6. Environments
 
+- **Observe first:** environment names in config and infrastructure
+  code (from the survey).
 - **Ask:** "Where does this run? Only on your computer, on a shared
   server, or in separate test and live versions?"
 - **Default:** a tool used by one person can start with one.
@@ -130,14 +142,17 @@ This matters most: from now on "the backlog" means this place.
 
 ## 9. Commit attribution
 
+- **Observe first:** an `attribution` key the project's
+  `.claude/settings.json` already has; say what it does, so the
+  question confirms or changes it.
 - **Ask:** "Should commits and merge requests written by an AI say
   so?"
 - **Default:** yes: each such commit names the model as co-author, and
   each merge request carries a generated-with line. Anyone reading
   the history can tell which changes an agent wrote; the cost is a
   line per commit.
-- **Goes to:** `AGENTS.md` "Project setup"; the tool's setting when
-  the answer is not the default (`edits.md`).
+- **Goes to:** `AGENTS.md` "Project setup"; the tool's setting, made
+  to match the answer (`edits.md`).
 
 ## 10. Time zone
 
@@ -152,7 +167,16 @@ This matters most: from now on "the backlog" means this place.
 - **Ask:** "The project starts with a set of engineering and working
   principles. Is there anything your organization does differently on
   purpose?"
+- **Also ask:** each conflicting instruction found while absorbing
+  existing files, quoted (`absorb.md`, "Conflicting instructions").
 - **Default:** no deviations. Don't suggest any.
 - **Goes to:** `docs/principles/`, its line in `AGENTS.md` and an
   entry in `docs/decisions.md`, after "Changing a principle"
-  (SKILL.md step 5).
+  (SKILL.md step 7).
+
+## Running the tests
+
+Not a question to the human by default. Fill `AGENTS.md` "Running the
+tests" from the commands the survey observed. Ask "May I run
+`<command>` once to check it works?" only when the command touches
+nothing live. Mark the entry UNVERIFIED unless it ran and passed.

@@ -1,12 +1,13 @@
 # Setup edits: what goes where
 
 Read before drafting. Each file keeps its existing structure; fill it,
-don't redesign it. Then remove every template comment (`<!-- ... -->`)
-in the files you touch, the architect-maintained markers included (the
-list in `AGENTS.md` is the one authority on which files are
-architect-maintained), and every template section the project doesn't
-use; a section it will fill later keeps its heading. All of setup is
-one seeding change.
+don't redesign it. Then remove every template comment (`<!-- ... -->`:
+the starter's instruction to whoever fills the file), the
+architect-maintained markers included (the list in `AGENTS.md` is the
+one authority on which files are architect-maintained), and every
+template section the project doesn't use; a section it will fill
+later keeps its heading. The project's own comments stay. All of
+setup is one seeding change.
 
 ## `AGENTS.md`
 
@@ -18,6 +19,9 @@ one seeding change.
 
   Recorded by the setup skill; re-run it when any of this changes.
 
+  - **Starter:** <tag or commit of the starter's source, from `git -C
+    <starter tree> describe --tags --always --dirty` | not known>, set
+    up <date>.
   - **Git:** <host and repository>, trunk `<branch>`; <squash merges |
     merge commits | linear trunk without squash>, so a branch catches
     up by <merging the trunk in | rebasing while unshared>.
@@ -28,7 +32,8 @@ one seeding change.
     policy>.
   - **Time zone:** <zone>, stated with every time shown to people.
   - **Pipeline:** <what runs on each change>; merging to `<branch>`
-    <deploys to X | deploys nothing>.
+    <deploys to X | deploys nothing>. Who may register pipelines and
+    edit branch policies: <who | not known>.
   - **Backlog:** <backlog.md | the tracker and project>. Mapping:
     <next-session pointer, in flight, queued, deliberately deferred,
     done>. Access: <how it reaches a command, never a value>.
@@ -37,13 +42,22 @@ one seeding change.
     "Changing a principle", with an entry in `docs/decisions.md`.
   ```
 
+- In copied mode the starter's source is usually not known: ask once,
+  and record "not known" otherwise.
+- "Where things are" maps each doc role (architecture doc, decisions
+  log, backlog, glossary, troubleshooting log, design docs) to its
+  path: the default, or the existing place (`absorb.md`, "Doc roles").
+- "Running the tests" and "Facts that bite": filled from the observed
+  commands and the absorbed instructions (`absorb.md`; questions.md,
+  "Running the tests").
 - If the backlog is a tracker, change every mention of `backlog.md` in
   this file to point to it.
-- Whenever setup writes `attribution` (`.claude/settings.json`,
-  below), replace the "`attribution` stays unset" sentence in the
-  Claude Code part of this file with the recorded policy, and keep its
-  pointer to why only managed settings or a CI trailer check enforce
-  it.
+- The Claude Code part of this file says what `attribution`
+  (`.claude/settings.json`, below) holds: the "`attribution` stays
+  unset" sentence while the key is unset, the recorded policy while it
+  is set. Whenever setup changes the key, update that sentence, and
+  keep its pointer to why only managed settings or a CI trailer check
+  enforce it.
 - Anything "not known yet" stays in the record as exactly that.
 
 ## `docs/architecture.md`
@@ -56,6 +70,9 @@ one seeding change.
   and each organization constraint that shapes the design. State what
   was chosen and why, in a sentence, citing its entry in
   `docs/decisions.md`.
+- A mapped architecture doc (`absorb.md`): append the missing sections
+  (purpose, stakeholders, decisions in force) at its end; existing text
+  is not rewritten.
 - If the backlog is a tracker, point the table row and the "Open
   questions" section at it instead of `backlog.md`.
 
@@ -64,9 +81,13 @@ one seeding change.
 - One entry per decision in force, D1 onwards, dated today, in the
   file's Format: status "in force", the context from the answer, the
   decision, its consequences.
+- A mapped decisions log in another format (`absorb.md`): the new
+  entries follow that format and numbering.
 
 ## `backlog.md`
 
+- Items absorbed from risk lists, TODO or roadmap files, known issues
+  and go-live gates are added (`absorb.md`, "Plans and lists").
 - If it stays: write "Next session starts here" (setup done, the
   recommended first job), and add every "not known yet" to "Queued" as a
   question naming who could answer it.
@@ -86,9 +107,16 @@ one seeding change.
 
 ## `.claude/settings.json`
 
-- Only when the attribution answer is not the default: set
-  `attribution` to the chosen text. To hide attribution entirely, set
-  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it.
+- An existing file is merged key by key, never overwritten: lists
+  unioned, objects merged, hooks kept, and a value both define
+  differently asked (the existing value stays until answered). A repo
+  that already commits `.claude/settings.json` or `.claude/hooks/` is
+  handled this way (`absorb.md`, "Existing `.claude/`").
+- `attribution` matches the attribution answer. Not the default: set
+  it to the chosen text; to hide attribution entirely, set
+  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it. The
+  default: leave it unset, and remove an `attribution` the project
+  already had (the human's answer is the yes to that).
 - Why the default leaves it unset: while `attribution` is unset,
   Claude Code adds a co-author trailer naming the model in use to each
   commit and a generated-with line to each MR/PR description, and a
@@ -102,8 +130,12 @@ one seeding change.
 
 ## Not touched
 
+- The README (unless none exists, `absorb.md`), other AI tools'
+  instruction files, committed session artifacts, and nested
+  `CLAUDE.md` files: they stay as they are and are listed for the
+  human.
 - `docs/principles/`: edited only for a deviation the human stated,
-  through "Changing a principle" (SKILL.md step 5).
+  through "Changing a principle" (SKILL.md step 7).
 - Code, pipeline files and settings, except `attribution` above: setup
   records what exists; changing them is later work for an architect
   session.
