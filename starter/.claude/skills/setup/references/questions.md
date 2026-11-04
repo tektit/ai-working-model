@@ -142,14 +142,17 @@ This matters most: from now on "the backlog" means this place.
 
 ## 9. Commit attribution
 
+- **Observe first:** an `attribution` key the project's
+  `.claude/settings.json` already has; say what it does, so the
+  question confirms or changes it.
 - **Ask:** "Should commits and merge requests written by an AI say
   so?"
 - **Default:** yes: each such commit names the model as co-author, and
   each merge request carries a generated-with line. Anyone reading
   the history can tell which changes an agent wrote; the cost is a
   line per commit.
-- **Goes to:** `AGENTS.md` "Project setup"; the tool's setting when
-  the answer is not the default (`edits.md`).
+- **Goes to:** `AGENTS.md` "Project setup"; the tool's setting, made
+  to match the answer (`edits.md`).
 
 ## 10. Time zone
 

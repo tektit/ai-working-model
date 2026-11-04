@@ -1,12 +1,13 @@
 # Setup edits: what goes where
 
 Read before drafting. Each file keeps its existing structure; fill it,
-don't redesign it. Then remove every template comment (`<!-- ... -->`)
-in the files you touch, the architect-maintained markers included (the
-list in `AGENTS.md` is the one authority on which files are
-architect-maintained), and every template section the project doesn't
-use; a section it will fill later keeps its heading. All of setup is
-one seeding change.
+don't redesign it. Then remove every template comment (`<!-- ... -->`:
+the starter's instruction to whoever fills the file), the
+architect-maintained markers included (the list in `AGENTS.md` is the
+one authority on which files are architect-maintained), and every
+template section the project doesn't use; a section it will fill
+later keeps its heading. The project's own comments stay. All of
+setup is one seeding change.
 
 ## `AGENTS.md`
 
@@ -51,11 +52,12 @@ one seeding change.
   "Running the tests").
 - If the backlog is a tracker, change every mention of `backlog.md` in
   this file to point to it.
-- Whenever setup writes `attribution` (`.claude/settings.json`,
-  below), replace the "`attribution` stays unset" sentence in the
-  Claude Code part of this file with the recorded policy, and keep its
-  pointer to why only managed settings or a CI trailer check enforce
-  it.
+- The Claude Code part of this file says what `attribution`
+  (`.claude/settings.json`, below) holds: the "`attribution` stays
+  unset" sentence while the key is unset, the recorded policy while it
+  is set. Whenever setup changes the key, update that sentence, and
+  keep its pointer to why only managed settings or a CI trailer check
+  enforce it.
 - Anything "not known yet" stays in the record as exactly that.
 
 ## `docs/architecture.md`
@@ -110,9 +112,11 @@ one seeding change.
   differently asked (the existing value stays until answered). A repo
   that already commits `.claude/settings.json` or `.claude/hooks/` is
   handled this way (`absorb.md`, "Existing `.claude/`").
-- Only when the attribution answer is not the default: set
-  `attribution` to the chosen text. To hide attribution entirely, set
-  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it.
+- `attribution` matches the attribution answer. Not the default: set
+  it to the chosen text; to hide attribution entirely, set
+  `"commit": ""`, `"pr": ""` and `"sessionUrl": false` under it. The
+  default: leave it unset, and remove an `attribution` the project
+  already had (the human's answer is the yes to that).
 - Why the default leaves it unset: while `attribution` is unset,
   Claude Code adds a co-author trailer naming the model in use to each
   commit and a generated-with line to each MR/PR description, and a

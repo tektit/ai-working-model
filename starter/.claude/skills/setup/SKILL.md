@@ -98,9 +98,11 @@ re-run uses the repo's own copy of setup.
    matches can silently shadow the starter's: tell the human and
    suggest renaming the personal one.
    Personal agents are not checked, because a project agent beats a
-   personal one. The project's own skills, agents and commands
-   (`.claude/skills/`, `.claude/agents/`, `.claude/commands/`) are
-   checked too; a match is asked, per `references/absorb.md`.
+   personal one. In seed mode, the project's own skills, agents and
+   commands (`.claude/skills/`, `.claude/agents/`, `.claude/commands/`)
+   are checked too; a match is asked, per `references/absorb.md`. In
+   copied mode, a definition with a starter name there is the
+   starter's own file.
 
 ## The questions, in this order
 
@@ -158,25 +160,29 @@ principles. Only the human can say so; don't suggest deviations.
    - `backlog.md`: seeded, or removed with every link pointing to the
      chosen tracker instead;
    - `docs/glossary.md`: initial terms;
-   - `.claude/settings.json`: `attribution`, only when the attribution
-     answer is not the default;
+   - `.claude/settings.json`: `attribution`, made to match the
+     attribution answer (`references/edits.md`);
    - the content absorbed from existing files, per `references/absorb.md`.
 
    In copied mode, a doc role mapped to an existing place has its
    unfilled template removed. In both modes, every link to a mapped
    role's default path is repointed (search the whole tree).
-6. Remove every template comment (`<!-- ... -->`) in the files you
-   touched, the architect-maintained markers included, and every
-   template section the project doesn't use. Filled content stays.
+6. Remove every template comment (`<!-- ... -->`: the starter's
+   instruction to whoever fills the file, such as a `Fill in:` line),
+   the architect-maintained markers included, and every template
+   section the project doesn't use. Filled content stays, and so do
+   the project's own comments.
 7. A deviation the human stated is a principle change: follow
    "Changing a principle" in `docs/principles/ai-working-process.md`
    (the principle, its line in `AGENTS.md` and an entry in
    `docs/decisions.md`, in one change).
 8. Check your own result: every relative link in the changed files
-   resolves, `grep -rn '<!--' AGENTS.md docs/` (plus `backlog.md` if
-   it stays) finds nothing, no answer appears that the human did
-   not give, and nothing existing was overwritten or deleted without
-   the human's yes.
+   resolves; in `AGENTS.md`, `backlog.md` if it stays, and each file
+   under `docs/` this change created or changed, every comment
+   `grep -n '<!--'` finds is the project's own, none a template
+   comment; no answer appears that the human did not give;
+   and nothing existing was overwritten or deleted without the
+   human's yes.
 9. Commit the change on that branch. Push it and open a draft MR/PR
    only at the write level chosen in question 8; otherwise tell the
    human it is committed and waiting for their push.

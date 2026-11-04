@@ -108,7 +108,8 @@ listed for the human, who may later replace them with a pointer to
 
 - `settings.json` is merged key by key: lists are unioned, objects are
   merged, and a value both define differently is asked (the existing
-  value stays until answered). Hooks are kept.
+  value stays until answered). Hooks are kept. An existing
+  `attribution` follows the attribution answer (`edits.md`).
 - A clash between an existing agent, skill or command name and the
   starter's is asked. Recommended answer: rename the project's own one,
   because the working model's docs call its agents and skills by name.
