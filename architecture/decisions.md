@@ -1,6 +1,6 @@
 # Decisions
 
-Decision log for this repo's own structure and content — not a
+Decisions log for this repo's own structure and content — not a
 project's decisions (those live in that project's own
 `docs/decisions.md`, seeded from `starter/docs/decisions.md`).
 

@@ -91,10 +91,11 @@ re-run uses the repo's own copy of setup.
    interrogate.
 5. Check for names shared with the starter's (skills `architect` and
    `setup`, the agents under the starter's `.claude/agents/`; a
-   command's name is its file name without `.md`). Personal skills and
-   commands (`ls ~/.claude/skills ~/.claude/commands 2>/dev/null`)
-   beat the project's, so one that matches silently shadows the
-   starter's: tell the human and suggest renaming the personal one.
+   command's name is its file name without `.md`). A personal skill
+   beats the project's, and a personal command may too (`ls
+   ~/.claude/skills ~/.claude/commands 2>/dev/null`), so one that
+   matches can silently shadow the starter's: tell the human and
+   suggest renaming the personal one.
    Personal agents are not checked, because a project agent beats a
    personal one. The project's own skills, agents and commands
    (`.claude/skills/`, `.claude/agents/`, `.claude/commands/`) are
@@ -147,7 +148,8 @@ principles. Only the human can say so; don't suggest deviations.
    commits yet: there the change becomes the first commit, made only
    after approval.
 4. In seed mode, copy the starter in now, never overwriting: a
-   destination that exists is merged per `references/absorb.md`.
+   destination that exists is merged per `references/absorb.md`, and
+   a doc role mapped to an existing place gets no starter template.
 5. Apply the approved changes to:
    - `AGENTS.md`: the purpose line and a "Project setup" record section;
    - `docs/architecture.md`: purpose, stakeholders, decisions in force;
@@ -159,10 +161,9 @@ principles. Only the human can say so; don't suggest deviations.
      answer is not the default;
    - the content absorbed from existing files, per `references/absorb.md`.
 
-   A doc role mapped to an existing place gets no starter template
-   (seed mode) or has its unfilled template removed (copied mode), and
-   every link to the role's default path is repointed (search the whole
-   tree).
+   In copied mode, a doc role mapped to an existing place has its
+   unfilled template removed. In both modes, every link to a mapped
+   role's default path is repointed (search the whole tree).
 6. Remove every template comment (`<!-- ... -->`) in the files you
    touched, the architect-maintained markers included, and every
    template section the project doesn't use. Filled content stays.

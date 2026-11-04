@@ -82,9 +82,11 @@ root. An instruction a guardrail or principle already covers is not
 repeated; the summary names what covers it. The starter's Guardrails
 and Principles sections stay verbatim.
 A convention for one area of the tree goes to that area's rule file in
-`.claude/rules/`. A repo-wide convention (for example "run `make fmt`
-before committing") stays in the root under "Facts that bite", in
-full, like an action-triggered fact. The root `CLAUDE.md` becomes the
+`.claude/rules/`. A short repo-wide convention (for example "run
+`make fmt` before committing") stays in the root under "Facts that
+bite", in full, like an action-triggered fact; a long one (a style
+guide) stays a doc of its own, listed in "Where things are", so the
+always-loaded file stays small. The root `CLAUDE.md` becomes the
 starter's (`@AGENTS.md`). Nested `CLAUDE.md` files in subdirectories
 and `CLAUDE.local.md` stay where they are and are listed.
 
@@ -113,11 +115,15 @@ listed for the human, who may later replace them with a pointer to
 
 ## Other files at the same path
 
-When the project already has a file the starter would copy (for example
-its own `docs/principles/`, `.claude/rules/README.md` or
-`docs/design/README.md`), the project's file stays and the starter's is
-not copied. The file is listed for the human with what the starter's
-version would add, and the human is asked whether to merge it.
+This applies file by file. When the project already has a file at a
+path the starter would copy to (for example its own
+`.claude/rules/README.md`, `docs/design/README.md` or a file in
+`docs/principles/`), the project's file stays and the starter's is not
+copied; the starter's other files in that folder are still copied. The
+file is listed for the human with what the starter's version would
+add, and the human is asked whether to merge it. If `AGENTS.md` links
+to that path (the principles do), the link now leads to the project's
+file: say so in the same item.
 
 ## Plans and lists
 
