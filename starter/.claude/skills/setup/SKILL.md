@@ -41,9 +41,10 @@ you run in (`git rev-parse --show-toplevel`):
      `/setup`.
    - Claude Desktop (Code tab): start a session in the target repo's
      folder, click **+** next to the prompt box, choose **Add
-     folder**, pick the starter tree, then type `/setup`; or start
-     from a saved environment that lists both folders under
-     **Folders**.
+     folder**, and pick the starter tree (or start from a saved
+     environment that lists both folders under **Folders**). Send
+     any first message, then type `/setup`: until the session has
+     started, the `/` menu lists only the main folder's skills.
    - If the target already has a skill named `setup`, this one runs
      as `/<starter tree's folder name>:setup` (needs Claude Code
      v2.1.309 or later).

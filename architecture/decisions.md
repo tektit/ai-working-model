@@ -742,10 +742,11 @@ different form than queued ("moved, links fixed", "ADRs become
 their place and format. A seeded project's docs may follow its own
 layout, so every agent finds them through the map in `AGENTS.md`.
 Updating an already set-up repo from a newer starter is not supported
-yet; the version line makes that possible later. Whether Desktop's
-**Add folder** loads the starter's skills exactly as `--add-dir` does
-is UNVERIFIED until the first run there. Evidence: the PR that adds
-this entry.
+yet; the version line makes that possible later. Desktop's **Add
+folder** loads the starter's skills, but its `/` menu lists them only
+once the session has started (the human's test run, 2026-11-04: "after
+"hi" setup did load as skill"), so the Desktop steps send a first
+message before `/setup`. Evidence: the PR that adds this entry.
 
 ## Format
 

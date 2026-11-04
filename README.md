@@ -79,9 +79,10 @@ New or existing; an existing repo keeps everything it has.
      then `/setup`.
    - Claude Desktop (Code tab): start a session in the target repo's
      folder, click **+** next to the prompt box, choose **Add folder**,
-     pick `<path-to-this-repo>/starter`, then type `/setup`.
-     Alternatively, a saved environment that lists both folders under
-     **Folders**.
+     and pick `<path-to-this-repo>/starter` (or start from a saved
+     environment that lists both folders under **Folders**). Send any
+     first message, then type `/setup`: until the session has started,
+     the `/` menu lists only the main folder's skills.
    - If the target already has a skill named `setup`, ours runs as
      `/starter:setup` (needs Claude Code v2.1.309 or later).
    - Why this way round: the session's own instructions, memory and
