@@ -36,8 +36,8 @@ Then review the diff, branch, or file you were asked to review
 against: this project's guardrails and principles (`AGENTS.md`; a
 violation of a guardrail or a hard standard blocks review), its
 documented design intent (the architecture doc, `docs/architecture.md`
-unless `AGENTS.md` maps it elsewhere; the relevant design docs), and correctness — logic errors, missed edge
-cases, a fix that doesn't actually address its stated cause, a change
+unless `AGENTS.md` maps it elsewhere; the relevant design docs), and
+correctness — logic errors, missed edge cases, a fix that doesn't actually address its stated cause, a change
 that silently reverses an earlier deliberate decision, a doc the
 change leaves stale (`AGENTS.md` included). Check the MR/PR
 description against the diff, claim by claim, as a dimension of its

@@ -76,7 +76,9 @@ line, "Where things are", "Running the tests", or "Facts that bite".
 For a fact, follow the placeholder comment there: the headline in the
 root file and the full text in the area's path-scoped rule file in
 `.claude/rules/`, except an action-triggered fact, kept in full in the
-root. The starter's Guardrails and Principles sections stay verbatim.
+root. An instruction a guardrail or principle already covers is not
+repeated; the summary names what covers it. The starter's Guardrails
+and Principles sections stay verbatim.
 The root `CLAUDE.md` becomes the starter's (`@AGENTS.md`). Nested
 `CLAUDE.md` files in subdirectories and `CLAUDE.local.md` stay where
 they are and are listed.

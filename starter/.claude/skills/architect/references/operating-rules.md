@@ -19,9 +19,9 @@ verifying agent output are in the principles (linked from
 - **Generated text (a description, a decision entry) is changed with
   anchored replacements**, then the changed section is re-read as
   rendered: comparing bytes proves the upload, not the content.
-- **Every ruling gets a dated entry appended to the decisions log** (`docs/decisions.md`
-  unless `AGENTS.md` maps it elsewhere),
-  after the human's yes. Keep it lean: see the decisions log's header.
+- **Every ruling gets a dated entry appended to the decisions log**
+  (`docs/decisions.md` unless `AGENTS.md` maps it elsewhere), after
+  the human's yes. Keep it lean: see the decisions log's header.
   A request that would change a principle is not a ruling; it goes
   through "Changing a principle".
 - **A ruling's entry quotes the human's words** in its Context and

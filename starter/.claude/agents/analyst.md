@@ -11,10 +11,9 @@ tool, and no `Bash` use that mutates the tree. `Bash` is for
 read-only lookups and running tests to observe behavior.
 
 Work the open question you were given against this project's
-principles (`docs/principles/`), its design intent
-(the architecture doc, `docs/architecture.md`
-unless `AGENTS.md` maps it elsewhere; the relevant design docs), and the code as
-it is. Report:
+principles (`docs/principles/`), its design intent (the architecture
+doc, `docs/architecture.md` unless `AGENTS.md` maps it elsewhere; the
+relevant design docs), and the code as it is. Report:
 
 1. The question, restated in one sentence.
 2. Two or three options.

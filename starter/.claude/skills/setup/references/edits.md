@@ -131,7 +131,7 @@ one seeding change.
   `CLAUDE.md` files: they stay as they are and are listed for the
   human.
 - `docs/principles/`: edited only for a deviation the human stated,
-  through "Changing a principle" (SKILL.md step 6).
+  through "Changing a principle" (SKILL.md step 7).
 - Code, pipeline files and settings, except `attribution` above: setup
   records what exists; changing them is later work for an architect
   session.

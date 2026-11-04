@@ -169,7 +169,7 @@ This matters most: from now on "the backlog" means this place.
 - **Default:** no deviations. Don't suggest any.
 - **Goes to:** `docs/principles/`, its line in `AGENTS.md` and an
   entry in `docs/decisions.md`, after "Changing a principle"
-  (SKILL.md step 6).
+  (SKILL.md step 7).
 
 ## Running the tests
 

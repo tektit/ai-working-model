@@ -148,10 +148,10 @@ folder the project already had. Agents find each role here.
   the change it records.
 - Glossary, [docs/glossary.md](docs/glossary.md): terms defined once.
 - Troubleshooting log, [docs/troubleshooting.md](docs/troubleshooting.md):
-  known failures keyed by their exact error text; search it first when something
-  fails.
-- Design docs, [docs/design/](docs/design/): one doc per subsystem or cross-cutting
-  decision.
+  known failures keyed by their exact error text; search it first
+  when something fails.
+- Design docs, [docs/design/](docs/design/): one doc per subsystem or
+  cross-cutting decision.
 - The principles in full:
   [engineering.md](docs/principles/engineering.md),
   [ai-working-process.md](docs/principles/ai-working-process.md),

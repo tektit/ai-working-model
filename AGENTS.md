@@ -1,9 +1,9 @@
 # AGENTS.md
 
 Tektit Consulting's AI working model. This repo has two jobs: it is
-the **product** — the starter kit teams bring into new or existing repos — and it
-is its own **working area**, where that kit is built, measured and
-dogfooded before it ships.
+the **product** — the starter kit teams bring into new or existing
+repos — and it is its own **working area**, where that kit is built,
+measured and dogfooded before it ships.
 
 This repo follows its own starter: its engineering and AI-collaboration
 principles are [starter/docs/principles/](starter/docs/principles/),
@@ -14,9 +14,9 @@ settings a seeded project would. On Windows, see the README's
 
 ## Layout
 
-- `starter/` — the exact tree a user brings into a new or existing repo. Read
-  [README.md](README.md) for what's inside and how to seed a repo
-  with it.
+- `starter/` — the exact tree a user brings into a new or existing
+  repo. Read [README.md](README.md) for what's inside and how to seed
+  a repo with it.
 - `architecture/decisions.md` — this repo's own decision log (not a
   seeded project's; those get their own).
 - `tools/` — check instruments (`neutrality`, `starter-check`), each

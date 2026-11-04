@@ -35,14 +35,17 @@ you run in (`git rev-parse --show-toplevel`):
    write").
 3. The starter tree is inside this repo but not its root: this is the
    starter's source repo. Do not set it up. Ask for the target repo's
-   path, give the human the launch instructions for the CLI
-   (`cd <target> && claude --add-dir <path-to-the-starter's-source>/starter`,
-   then `/setup`) and for Claude Desktop (Code tab: start a session in
-   the target repo's folder, click **+** next to the prompt box, choose
-   **Add folder**, pick the `starter` folder of the starter's source, then
-   type `/setup`; or a saved environment that lists both folders under
-   **Folders**; if the target already has a skill named `setup`, this
-   one runs as `/starter:setup`), and stop.
+   path, then give the human the launch steps with both real paths
+   filled in, and stop:
+   - CLI: `cd <target> && claude --add-dir <starter tree>`, then
+     `/setup`.
+   - Claude Desktop (Code tab): start a session in the target repo's
+     folder, click **+** next to the prompt box, choose **Add
+     folder**, pick the starter tree, then type `/setup`; or start
+     from a saved environment that lists both folders under
+     **Folders**.
+   - If the target already has a skill named `setup`, this one runs
+     as `/<starter tree's folder name>:setup`.
 
 Not inside a git repository: stop, say setup runs inside the target
 repo, and ask the human to open the session there (or make the folder
@@ -57,11 +60,9 @@ re-run uses the repo's own copy of setup.
 
 - Facts you can observe, read yourself and confirm in one line instead
   of asking: the git remote and trunk, pipeline files that exist, an
-  existing README.
-- The survey's results (below) turn questions into confirmations
-  ("Your README says ...; is that still the purpose?"). Purpose,
-  people, organization rules and anything else not observable are
-  still asked.
+  existing README, and the survey's results (below). They turn
+  questions into confirmations ("Your README says ...; is that still
+  the purpose?").
 - Everything else is asked ("Ask, don't guess" in the principles): the
   purpose, the people, the tracker, what deploys where, the
   organization's rules, how credentials reach a command.
@@ -134,10 +135,13 @@ principles. Only the human can say so; don't suggest deviations.
    instead of copied. For every existing file absorbed, it says where
    its content went. Ask for approval or corrections. Write nothing
    before they approve.
-3. In seed mode, copy the starter in now, only after approval and never
-   overwriting: a destination that exists is merged per
-   `references/absorb.md`.
-4. Apply the approved changes to:
+3. Before writing anything: if the repo has a remote, switch to a new
+   work branch (unless the session already runs on one), so the whole
+   change goes to review and a human merges. In a repo with no remote
+   yet, the change becomes the first commit, made only after approval.
+4. In seed mode, copy the starter in now, never overwriting: a
+   destination that exists is merged per `references/absorb.md`.
+5. Apply the approved changes to:
    - `AGENTS.md`: the purpose line and a "Project setup" record section;
    - `docs/architecture.md`: purpose, stakeholders, decisions in force;
    - `docs/decisions.md`: one dated entry per decision in force;
@@ -152,21 +156,21 @@ principles. Only the human can say so; don't suggest deviations.
    (seed mode) or has its unfilled template removed (copied mode), and
    every link to the role's default path is repointed (search the whole
    tree).
-5. Remove every template comment (`<!-- ... -->`) in the files you
+6. Remove every template comment (`<!-- ... -->`) in the files you
    touched, the architect-maintained markers included, and every
    template section the project doesn't use. Filled content stays.
-6. A deviation the human stated is a principle change: follow
+7. A deviation the human stated is a principle change: follow
    "Changing a principle" in `docs/principles/ai-working-process.md`
    (the principle, its line in `AGENTS.md` and an entry in
    `docs/decisions.md`, in one change).
-7. Check your own result: every relative link in the changed files
+8. Check your own result: every relative link in the changed files
    resolves, `grep -rn '<!--' AGENTS.md docs/` (plus `backlog.md` if
    it stays) finds nothing, no answer appears that the human did
    not give, and nothing existing was overwritten or deleted without
    the human's yes.
-8. If the repo has a remote, the changes go on a branch for review and
-   a human merges. In a repo with no remote yet, they become the first
-   commit, made only after approval.
+9. Commit the change. Push it and open a draft MR/PR only at the write
+   level the human chose (question 8); otherwise tell them it is
+   committed and waiting for their push.
 
 ## Finish
 
