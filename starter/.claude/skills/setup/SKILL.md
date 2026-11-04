@@ -79,9 +79,9 @@ re-run uses the repo's own copy of setup.
    are) before the survey: absorbing compares every existing
    instruction against them, and an added folder's `AGENTS.md` is never
    loaded on its own.
-2. If `AGENTS.md` already has a "Project setup" section in copied mode,
-   this is a re-run: show the recorded answers in a few lines, ask what changed,
-   and ask only about that.
+2. If `AGENTS.md` already has a "Project setup" section in copied
+   mode, this is a re-run: show the recorded answers in a few lines,
+   ask what changed, and ask only about that.
 3. Survey: unless the repo holds nothing but the starter's own files,
    read `references/absorb.md` first, then delegate the survey with
    the brief in it to the `locator` agent; if the project already has

@@ -89,8 +89,9 @@ New or existing; an existing repo keeps everything it has.
      skills and agents but not its `CLAUDE.md`/`AGENTS.md`, so this
      repo's working rules stay out of the target's session.
 3. Setup copies the starter in (merging with what is there,
-   `.claude/settings.json` and hooks key by key, never overwriting), absorbs existing docs, asks its questions, shows one
-   summary, and writes only after approval, on a branch for review.
+   `.claude/settings.json` and hooks key by key, never overwriting),
+   absorbs existing docs, asks its questions, shows one summary, and
+   writes only after approval, on a branch for review.
    `AGENTS.md` stays small by design (the guardrails and one line per
    principle, each linking the full rule), so keep it that way rather
    than inlining content back into it.

@@ -85,9 +85,8 @@ A convention for one area of the tree goes to that area's rule file in
 `.claude/rules/`. A repo-wide convention (for example "run `make fmt`
 before committing") stays in the root under "Facts that bite", in
 full, like an action-triggered fact. The root `CLAUDE.md` becomes the
-starter's (`@AGENTS.md`). Nested
-`CLAUDE.md` files in subdirectories and `CLAUDE.local.md` stay where
-they are and are listed.
+starter's (`@AGENTS.md`). Nested `CLAUDE.md` files in subdirectories
+and `CLAUDE.local.md` stay where they are and are listed.
 
 ## Conflicting instructions
 
