@@ -61,7 +61,7 @@ and the ecosystem's native option before a custom tool).
 Anyone can see who or what made a change, and why. Humans review a
 change through its MR/PR description rather than its code, so the
 description's honesty and quality are key. Carried by the append-only
-[decision log](../decisions.md), MR/PR descriptions written as the
+[decisions log](../decisions.md), MR/PR descriptions written as the
 human's review surface and attribution of agent-written work ("Work
 branches"), the review of each description against its diff ("Every
 change gets an adversarial review"), and evidence labels ("Verify

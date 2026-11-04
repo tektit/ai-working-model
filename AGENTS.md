@@ -17,7 +17,7 @@ settings a seeded project would. On Windows, see the README's
 - `starter/` — the exact tree a user brings into a new or existing
   repo. Read [README.md](README.md) for what's inside and how to seed
   a repo with it.
-- `architecture/decisions.md` — this repo's own decision log (not a
+- `architecture/decisions.md` — this repo's own decisions log (not a
   seeded project's; those get their own).
 - `tools/` — check instruments (`neutrality`, `starter-check`), each
   its own `uv` project.

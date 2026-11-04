@@ -1,6 +1,7 @@
 # Absorb existing content
 
-Read after the survey, before asking the first question. The rule: the
+Read before the survey: it holds the survey's brief, and how existing
+content is absorbed once the survey is back. The rule: the
 project's existing layout wins and the starter fills the gaps. Nothing
 is overwritten or deleted without the human's yes, and every absorbed
 file appears in the summary with where its content went.
@@ -51,7 +52,8 @@ troubleshooting log, design docs.
 
 - An existing file or folder that plays a role is mapped in `AGENTS.md`
   "Where things are" with its path and, for the decisions log, its
-  format. No duplicate is created.
+  format. No duplicate is created: in seed mode the starter's template
+  is not copied, in copied mode its unfilled template is removed.
 - Existing decision records in another format (for example one file
   per decision) stay the decisions log; setup's new entries follow that
   format and numbering.
@@ -79,7 +81,11 @@ root file and the full text in the area's path-scoped rule file in
 root. An instruction a guardrail or principle already covers is not
 repeated; the summary names what covers it. The starter's Guardrails
 and Principles sections stay verbatim.
-The root `CLAUDE.md` becomes the starter's (`@AGENTS.md`). Nested
+A convention for one area of the tree goes to that area's rule file in
+`.claude/rules/`. A repo-wide convention (for example "run `make fmt`
+before committing") stays in the root under "Facts that bite", in
+full, like an action-triggered fact. The root `CLAUDE.md` becomes the
+starter's (`@AGENTS.md`). Nested
 `CLAUDE.md` files in subdirectories and `CLAUDE.local.md` stay where
 they are and are listed.
 
@@ -105,6 +111,14 @@ listed for the human, who may later replace them with a pointer to
 - A clash between an existing agent, skill or command name and the
   starter's is asked. Recommended answer: rename the project's own one,
   because the working model's docs call its agents and skills by name.
+
+## Other files at the same path
+
+When the project already has a file the starter would copy (for example
+its own `docs/principles/`, `.claude/rules/README.md` or
+`docs/design/README.md`), the project's file stays and the starter's is
+not copied. The file is listed for the human with what the starter's
+version would add, and the human is asked whether to merge it.
 
 ## Plans and lists
 

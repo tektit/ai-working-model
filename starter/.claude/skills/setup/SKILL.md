@@ -23,13 +23,13 @@ and merges. Assume no skill level: explain in plain words.
 
 ## Where you are
 
-Resolve this skill's own folder with `realpath` (it may sit behind a
-symlinked `.claude`); the starter tree is three levels up from
+Resolve this skill's own folder with `realpath "${CLAUDE_SKILL_DIR}"`
+(`.claude` may be a symlink); the starter tree is three levels up from
 `.claude/skills/setup`. Compare it with the root of the git repository
 you run in (`git rev-parse --show-toplevel`):
 
-1. Same folder: the starter is already copied here. First run or
-   re-run, as below.
+1. Same folder: copied mode. The starter is already copied here. First
+   run or re-run, as below.
 2. The starter tree is outside this repo: seed mode. The starter gets
    copied in as part of the approved change (see "Propose, approve,
    write").
@@ -45,7 +45,8 @@ you run in (`git rev-parse --show-toplevel`):
      from a saved environment that lists both folders under
      **Folders**.
    - If the target already has a skill named `setup`, this one runs
-     as `/<starter tree's folder name>:setup`.
+     as `/<starter tree's folder name>:setup` (needs Claude Code
+     v2.1.309 or later).
 
 Not inside a git repository: stop, say setup runs inside the target
 repo, and ask the human to open the session there (or make the folder
@@ -73,26 +74,31 @@ re-run uses the repo's own copy of setup.
 
 1. Read the root instruction file (`AGENTS.md`) and the docs it maps:
    the architecture doc, the headers of the backlog, and the glossary.
-   In seed mode, read the target repo's own files instead.
-2. If `AGENTS.md` already has a "Project setup" section, this is a
-   re-run: show the recorded answers in a few lines, ask what changed,
+   In seed mode, read the target repo's own files instead, and read
+   `<starter tree>/AGENTS.md` (Guardrails, Principles, Where things
+   are) before the survey: absorbing compares every existing
+   instruction against them, and an added folder's `AGENTS.md` is never
+   loaded on its own.
+2. If `AGENTS.md` already has a "Project setup" section in copied mode,
+   this is a re-run: show the recorded answers in a few lines, ask what changed,
    and ask only about that.
 3. Survey: unless the repo holds nothing but the starter's own files,
-   delegate the survey (its brief is in `references/absorb.md`) to the
-   `locator` agent; if the project already has its own agent named
-   `locator`, use a general-purpose agent on the standard tier with the
-   same brief. Then read `references/absorb.md`.
+   read `references/absorb.md` first, then delegate the survey with
+   the brief in it to the `locator` agent; if the project already has
+   its own agent named `locator`, use a general-purpose agent on the
+   standard tier with the same brief.
 4. Observe what you can (above) so your questions confirm rather than
    interrogate.
-5. Check for skills, agents or commands that share a name with the
-   starter's: personal ones (`ls ~/.claude/skills ~/.claude/commands
-   2>/dev/null`) and the project's own (`.claude/skills/`,
-   `.claude/agents/`, `.claude/commands/`), compared with the starter's
-   names (skills `architect` and `setup`, the agents under the
-   starter's `.claude/agents/`; a command's name is its file name
-   without `.md`). A personal one that matches silently shadows the
-   starter's: tell the human and suggest renaming the personal one. A
-   project one that matches is asked, per `references/absorb.md`.
+5. Check for names shared with the starter's (skills `architect` and
+   `setup`, the agents under the starter's `.claude/agents/`; a
+   command's name is its file name without `.md`). Personal skills and
+   commands (`ls ~/.claude/skills ~/.claude/commands 2>/dev/null`)
+   beat the project's, so one that matches silently shadows the
+   starter's: tell the human and suggest renaming the personal one.
+   Personal agents are not checked, because a project agent beats a
+   personal one. The project's own skills, agents and commands
+   (`.claude/skills/`, `.claude/agents/`, `.claude/commands/`) are
+   checked too; a match is asked, per `references/absorb.md`.
 
 ## The questions, in this order
 
@@ -135,10 +141,11 @@ principles. Only the human can say so; don't suggest deviations.
    instead of copied. For every existing file absorbed, it says where
    its content went. Ask for approval or corrections. Write nothing
    before they approve.
-3. Before writing anything: if the repo has a remote, switch to a new
-   work branch (unless the session already runs on one), so the whole
-   change goes to review and a human merges. In a repo with no remote
-   yet, the change becomes the first commit, made only after approval.
+3. Before writing anything, switch to a new work branch, unless the
+   session already runs on one. Without a remote, the branch stays
+   local for the human to merge. The one exception is a repo with no
+   commits yet: there the change becomes the first commit, made only
+   after approval.
 4. In seed mode, copy the starter in now, never overwriting: a
    destination that exists is merged per `references/absorb.md`.
 5. Apply the approved changes to:
@@ -168,9 +175,9 @@ principles. Only the human can say so; don't suggest deviations.
    it stays) finds nothing, no answer appears that the human did
    not give, and nothing existing was overwritten or deleted without
    the human's yes.
-9. Commit the change. Push it and open a draft MR/PR only at the write
-   level the human chose (question 8); otherwise tell them it is
-   committed and waiting for their push.
+9. Commit the change on that branch. Push it and open a draft MR/PR
+   only at the write level chosen in question 8; otherwise tell the
+   human it is committed and waiting for their push.
 
 ## Finish
 
