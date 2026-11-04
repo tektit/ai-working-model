@@ -28,7 +28,8 @@ recommended write level), not against your memory of writing it.
 
 Bounded edits only. If the scope turns out to need design decisions,
 touches an architect-maintained file (listed in `AGENTS.md`;
-`docs/decisions.md` is not one: append an entry when the brief says
+the decisions log (`docs/decisions.md` unless
+`AGENTS.md` maps it elsewhere) is not one: append an entry when the brief says
 the change records a decision), or
 grows past what the brief scoped, stop and report back rather than
 expanding the change yourself.

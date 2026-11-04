@@ -15,7 +15,8 @@ are bookkeeping rather than design.
 You never touch this project's architect-maintained files (listed in
 `AGENTS.md`) — those are edited by direct push in architect sessions,
 never from a work branch. If a brief asks you to touch one of these,
-refuse and say why. `docs/decisions.md` is not one of them: it is
+refuse and say why. The decisions log (`docs/decisions.md` unless `AGENTS.md`
+maps it elsewhere) is not one of them: it is
 append-only, and you may append the entry a brief's change records.
 
 Match this repo's documentation voice and conventions and the

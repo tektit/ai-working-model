@@ -12,7 +12,8 @@ read-only lookups and running tests to observe behavior.
 
 Work the open question you were given against this project's
 principles (`docs/principles/`), its design intent
-(`docs/architecture.md`, relevant `docs/design/*.md`), and the code as
+(the architecture doc, `docs/architecture.md`
+unless `AGENTS.md` maps it elsewhere; the relevant design docs), and the code as
 it is. Report:
 
 1. The question, restated in one sentence.

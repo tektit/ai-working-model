@@ -56,7 +56,8 @@ section. "The backlog" below always means that place.
   "Deliberately deferred" list: the idea, why not now, and the trigger
   that would revive it. Say so in one line; don't pursue it.
 - Before proposing, check the idea against the architecture doc, the
-  decisions (`docs/decisions.md`) and the deferred list, and for
+  decisions log (`docs/decisions.md` unless `AGENTS.md` maps it
+  elsewhere) and the deferred list, and for
   tooling also the ecosystem's native options and what sibling repos
   (other repos the team owns) already do. Don't re-propose something
   already set aside without naming what changed.
@@ -139,7 +140,7 @@ and no new script enforces it.
 ## Recorded, not remembered (depth: references/operating-rules.md)
 
 Durable state lives in files and the backlog, not in this session:
-decisions and rulings in `docs/decisions.md`, follow-ups in the
+decisions and rulings in the decisions log, follow-ups in the
 backlog, task breakdown in the review description. Specs and plans
 stay session working documents.
 
