@@ -731,12 +731,13 @@ glossary, troubleshooting log, design docs) to its real path, the
 starter's templates fill only the roles nothing plays, and the
 starter's agents, skills and principles name the role with its
 default path instead of the path alone. The "Project setup" record
-gains a starter version line. The architect's reading: the human's
-sign-off of the design also settles "Setup's open questions" 2 as
-recommended there — setup writes a README only when none exists, and
-then only purpose and concepts.
+gains a starter version line. An existing README is never edited.
+Asked whether setup should draft a README, purpose and concepts only,
+when a repo has none ("Setup's open questions" 2), the human answered
+"Yes, agree" (2026-11-04).
 
-**Consequences.** Next 5(b), 6 and 9(b) close; Next 6 lands in a
+**Consequences.** Next 5(b), 6 and 9(b) and "Setup's open questions"
+2 close; question 1 (no remote) stays open. Next 6 lands in a
 different form than queued ("moved, links fixed", "ADRs become
 `decisions.md` entries"): existing docs and decision records keep
 their place and format. A seeded project's docs may follow its own
